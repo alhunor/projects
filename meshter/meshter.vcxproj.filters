@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="lm">
+      <UniqueIdentifier>{45e1ce23-342c-40fb-a7dd-2cd406e8dd9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core">
+      <UniqueIdentifier>{892ec7ef-4374-4e10-b03c-7fe779d3aa69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\Mesh">
+      <UniqueIdentifier>{6b0c1fbc-15ae-45b4-8db0-db626e4fb9cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\Geometry">
+      <UniqueIdentifier>{70e1774b-ae61-48d6-be47-28e5639c9c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\System">
+      <UniqueIdentifier>{223f1cce-61cb-4cbf-9b98-d41a80130953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\IO">
+      <UniqueIdentifier>{b538cee9-879f-4288-a1e8-97dc8fbe636e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\IO\exporter">
+      <UniqueIdentifier>{3e4b8a44-dc01-450d-9a53-76425c64084d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\IO\importer">
+      <UniqueIdentifier>{fe884be1-bf18-4c0e-8acc-292ed7bbf136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\Utils">
+      <UniqueIdentifier>{587bfa79-6712-412c-a5e6-52dc9995f4ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\IO\reader">
+      <UniqueIdentifier>{73e1d87a-c40c-4415-8c46-130b1d81d37e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\IO\writer">
+      <UniqueIdentifier>{0bb6bcdd-8f9d-45e8-8807-a09415686bbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="triangle">
+      <UniqueIdentifier>{dc16e62d-f031-482f-aa32-9beebacd34f2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meshUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="holefiller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="polygon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="levdemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lm.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\Axb.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmbc.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmblec.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmbleic.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmlec.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp">
+      <Filter>lm</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\ArrayKernel.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\ArrayKernelT.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\BaseKernel.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\PolyConnectivity.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\PolyMeshT.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\TriConnectivity.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Mesh\TriMeshT.cc">
+      <Filter>Openmesh-Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Geometry\NormalConeT.cc">
+      <Filter>Openmesh-Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Utils\BaseProperty.cc">
+      <Filter>Openmesh-Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Utils\Endian.cc">
+      <Filter>Openmesh-Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Utils\RandomNumberGenerator.cc">
+      <Filter>Openmesh-Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\Utils\SingletonT.cc">
+      <Filter>Openmesh-Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\System\omstream.cc">
+      <Filter>Openmesh-Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\reader\OFFReader.cc">
+      <Filter>Openmesh-Core\IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\reader\BaseReader.cc">
+      <Filter>Openmesh-Core\IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\reader\OBJReader.cc">
+      <Filter>Openmesh-Core\IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\reader\PLYReader.cc">
+      <Filter>Openmesh-Core\IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\reader\STLReader.cc">
+      <Filter>Openmesh-Core\IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\BaseWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\OBJWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\OFFWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\OMWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\PLYWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\STLWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\writer\VTKWriter.cc">
+      <Filter>Openmesh-Core\IO\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\BinaryHelper.cc">
+      <Filter>Openmesh-Core\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\IOManager.cc">
+      <Filter>Openmesh-Core\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\OMFormat.cc">
+      <Filter>Openmesh-Core\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\OMFormatT.cc">
+      <Filter>Openmesh-Core\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Core\IO\reader\OMReader.cc">
+      <Filter>Openmesh-Core\IO\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle.cpp">
+      <Filter>triangle</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="holefiller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="meshUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cgal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="polygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quadtree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle.h">
+      <Filter>triangle</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
