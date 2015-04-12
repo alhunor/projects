@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{f07b5f32-bc23-49fa-b0f6-31779fec7ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\xlw">
+      <UniqueIdentifier>{893d2387-cbf8-4d34-a98a-b8458656cd0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\gsl">
+      <UniqueIdentifier>{ea02f2d9-6d02-4bf9-9f95-7a6928a35dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\dSFMT">
+      <UniqueIdentifier>{18a50ffc-f6d2-4803-9a10-36f525d0b1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Infrastructure">
+      <UniqueIdentifier>{ea921098-8ae4-48a3-bcec-667967bf49eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MarketAnalyser">
+      <UniqueIdentifier>{09c1d867-5c5e-4d5a-8a71-e509a3a30c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documents">
+      <UniqueIdentifier>{997ff4a2-8e24-46be-abb3-35d112c8eb64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mathematics">
+      <UniqueIdentifier>{7d401275-ca73-474f-8bf5-b74e52b3fcc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Images">
+      <UniqueIdentifier>{48e05fe4-2504-467d-a0c7-4457c4cd39bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Miscelleneous">
+      <UniqueIdentifier>{98e6959f-4b93-4498-8e19-4ef2e8a03f27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\mystuff">
+      <UniqueIdentifier>{35b5dc53-53c7-4331-9c42-3bdca39a808a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Infrastructure\xlw">
+      <UniqueIdentifier>{8b51be6a-22e2-4ebd-9ba9-3513ae6e0dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ArrayFunctions">
+      <UniqueIdentifier>{ce6befb4-0b84-4288-ac26-cedb0bc7d66f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\lm">
+      <UniqueIdentifier>{2f2f0514-2c3a-43b3-a9b2-56ade54f74e1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\3rdparty\dSFMT\dSFMT.cpp">
+      <Filter>3rdParty\dSFMT</Filter>
+    </ClCompile>
+    <ClCompile Include="dataStructures.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelConversions.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExports.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExportsImages.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExportsTrader.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="matrix.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="myError.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="xlwExample.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="backTesting.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="market.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="marketAnalyserMain.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="statistics.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="strategies.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="timeseries.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="trader.cpp">
+      <Filter>MarketAnalyser</Filter>
+    </ClCompile>
+    <ClCompile Include="cholesky_test.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearAlgebra.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="mathProbability.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageProcessing.cpp">
+      <Filter>Images</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScholes.cpp" />
+    <ClCompile Include="..\myStuff\dates.cpp">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\myStuff\filesystems.cpp">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\myStuff\hftimer.cpp">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\myStuff\optimizer.cpp">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\xlcall.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfRef.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\ArgList.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\Dispatcher.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\DoubleOrNothing.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\FileConverter.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\HiResTimer.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\MJCellMatrix.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\NCmatrices.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\PascalStringConversions.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\PathUpdater.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\TempMemory.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\Win32StreamBuf.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfAbstractCmdDesc.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfArgDesc.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfArgDescList.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfCmdDesc.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfExcel.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfFuncDesc.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfOperImpl.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfOperProperties.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlfServices.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlFunctionRegistration.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="xlw\XlOpenClose.cpp">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExportsArrayFunctions.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\md5.cpp">
+      <Filter>3rdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\editDistance.cpp">
+      <Filter>Miscelleneous</Filter>
+    </ClCompile>
+    <ClCompile Include="randomNumbers.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\Axb.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lm.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmbc.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmblec.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmbleic.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmlec.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp">
+      <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgList.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgListFactory.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgListFactoryHelper.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\CellMatrix.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\DoubleOrNothing.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ERR_Macros.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\EXCEL32_API.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\macros.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\MJmatrices.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\MyContainers.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\Win32StreamBuf.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\wrapper.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlarray.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlcall32.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfAbstractCmdDesc.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfArgDesc.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfArgDescList.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfCmdDesc.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfExcel.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfException.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfFuncDesc.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfMutex.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOper.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOper12.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOper4.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOperImpl.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOperImpl12.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOperImpl4.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfRef.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfStr.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlFunctionRegistration.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlOpenClose.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlw.h">
+      <Filter>3rdParty\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\dSFMT\dSFMT.h">
+      <Filter>3rdParty\dSFMT</Filter>
+    </ClInclude>
+    <ClInclude Include="dataStructures.h">
+      <Filter>Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="ExcelConversions.h">
+      <Filter>Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="myError.h">
+      <Filter>Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="backTesting.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="market.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="parameters.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="statistics.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="strategies.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="timeseries.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="trader.h">
+      <Filter>MarketAnalyser</Filter>
+    </ClInclude>
+    <ClInclude Include="cholesky.hpp">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearAlgebra.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="mathProbability.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcessing.h">
+      <Filter>Images</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScholes.h" />
+    <ClInclude Include="..\myStuff\dates.h">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\myStuff\filesystems.h">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\myStuff\MotherOfAllBaseObjects.h">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\myStuff\optimizer.h">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\CellMatrix.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\EXCEL32_API.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\macros.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\MJmatrices.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\MyContainers.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\xlcall32.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfExcel.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfException.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfOper.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfOper4.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfOper12.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfOperImpl.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfOperImpl4.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfOperImpl12.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfRef.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlfStr.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\XlFunctionRegistration.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="xlw\xlw.h">
+      <Filter>Infrastructure\xlw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\md5.h">
+      <Filter>3rdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\editDistance.h">
+      <Filter>Miscelleneous</Filter>
+    </ClInclude>
+    <ClInclude Include="randomNumbers.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="deprecated.txt">
+      <Filter>MarketAnalyser</Filter>
+    </None>
+    <None Include="Documentations\TGA.txt">
+      <Filter>Documents</Filter>
+    </None>
+    <None Include="ZAZA.csv">
+      <Filter>Documents</Filter>
+    </None>
+    <None Include="..\myStuff\hfimer.doc">
+      <Filter>3rdParty\mystuff</Filter>
+    </None>
+  </ItemGroup>
+</Project>

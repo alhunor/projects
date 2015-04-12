@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>Finlib</ProjectName>
+    <ProjectGuid>{15F2EBE8-BD3A-43A3-B11D-7BE769F5FABB}</ProjectGuid>
+    <RootNamespace>Example</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\$(Configuration)\obj\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\boost_1_55_0;l:\Projects\myStuff;l:\Projects\3rdparty\gsl\win32\include;.\;l:\Projects\3rdparty;L:\Projects\3rdParty\levmar-2.6;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\gsl\win32\lib;l:\Projects\3rdparty\boost_1_55_0\lib;l:\Projects\3rdparty\xlw5\xlw\lib;L:\Projects\3rdParty\lapack;$(LibraryPath)</LibraryPath>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.xll</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">finlib</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\$(Configuration)/$(SolutionName).tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XLWVISIO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\$(Configuration)/</AssemblerListingLocation>
+      <ObjectFileName>.\$(Configuration)/</ObjectFileName>
+      <ProgramDataBaseFileName>.\$(Configuration)/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>cblas_mtd.lib;gsl_mtd.lib;lapack_win32_MTd.lib;blas_win32_MTd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/ExampleAutogenerated.pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>
+      </ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/$(SolutionName)tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>$(XLW)\xlw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XLWVISIO_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\$(Configuration)/</AssemblerListingLocation>
+      <ObjectFileName>.\$(Configuration)/</ObjectFileName>
+      <ProgramDataBaseFileName>.\$(Configuration)/</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>xlw-vc90-mt-4_0_0f0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\$(Configuration)\$(SolutionName).xll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(XLW)\xlw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ProgramDatabaseFile>.\Release/ExampleAutogenerated.pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>.\$(Configuration)/$(SolutionName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\3rdparty\dSFMT\dSFMT.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\Axb.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\lm.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmbc.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmblec.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmbleic.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\lmlec.cpp" />
+    <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp" />
+    <ClCompile Include="..\myStuff\dates.cpp" />
+    <ClCompile Include="..\mystuff\editDistance.cpp" />
+    <ClCompile Include="..\myStuff\filesystems.cpp" />
+    <ClCompile Include="..\myStuff\hftimer.cpp" />
+    <ClCompile Include="..\mystuff\md5.cpp" />
+    <ClCompile Include="..\myStuff\optimizer.cpp" />
+    <ClCompile Include="dataStructures.cpp" />
+    <ClCompile Include="ExcelConversions.cpp" />
+    <ClCompile Include="ExcelExports.cpp" />
+    <ClCompile Include="ExcelExportsArrayFunctions.cpp" />
+    <ClCompile Include="ExcelExportsImages.cpp" />
+    <ClCompile Include="ExcelExportsTrader.cpp" />
+    <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="myError.cpp" />
+    <ClCompile Include="randomNumbers.cpp" />
+    <ClCompile Include="xlwExample.cpp" />
+    <ClCompile Include="backTesting.cpp" />
+    <ClCompile Include="ipc.cpp" />
+    <ClCompile Include="market.cpp" />
+    <ClCompile Include="marketAnalyserMain.cpp" />
+    <ClCompile Include="statistics.cpp" />
+    <ClCompile Include="strategies.cpp" />
+    <ClCompile Include="timeseries.cpp" />
+    <ClCompile Include="trader.cpp" />
+    <ClCompile Include="cholesky_test.cpp" />
+    <ClCompile Include="LinearAlgebra.cpp" />
+    <ClCompile Include="mathProbability.cpp" />
+    <ClCompile Include="ImageProcessing.cpp" />
+    <ClCompile Include="BlackScholes.cpp" />
+    <ClCompile Include="xlw\ArgList.cpp" />
+    <ClCompile Include="xlw\Dispatcher.cpp" />
+    <ClCompile Include="xlw\DoubleOrNothing.cpp" />
+    <ClCompile Include="xlw\FileConverter.cpp" />
+    <ClCompile Include="xlw\HiResTimer.cpp" />
+    <ClCompile Include="xlw\MJCellMatrix.cpp" />
+    <ClCompile Include="xlw\NCmatrices.cpp" />
+    <ClCompile Include="xlw\PascalStringConversions.cpp" />
+    <ClCompile Include="xlw\PathUpdater.cpp" />
+    <ClCompile Include="xlw\TempMemory.cpp" />
+    <ClCompile Include="xlw\Win32StreamBuf.cpp" />
+    <ClCompile Include="xlw\xlcall.cpp" />
+    <ClCompile Include="xlw\XlfAbstractCmdDesc.cpp" />
+    <ClCompile Include="xlw\XlfArgDesc.cpp" />
+    <ClCompile Include="xlw\XlfArgDescList.cpp" />
+    <ClCompile Include="xlw\XlfCmdDesc.cpp" />
+    <ClCompile Include="xlw\XlfExcel.cpp" />
+    <ClCompile Include="xlw\XlfFuncDesc.cpp" />
+    <ClCompile Include="xlw\XlfOperImpl.cpp" />
+    <ClCompile Include="xlw\XlfOperProperties.cpp" />
+    <ClCompile Include="xlw\XlfRef.cpp" />
+    <ClCompile Include="xlw\XlfServices.cpp" />
+    <ClCompile Include="xlw\XlFunctionRegistration.cpp" />
+    <ClCompile Include="xlw\XlOpenClose.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgList.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgListFactory.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgListFactoryHelper.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\CellMatrix.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\DoubleOrNothing.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ERR_Macros.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\EXCEL32_API.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\macros.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\MJmatrices.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\MyContainers.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\Win32StreamBuf.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\wrapper.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlarray.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlcall32.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfAbstractCmdDesc.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfArgDesc.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfArgDescList.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfCmdDesc.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfExcel.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfException.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfFuncDesc.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfMutex.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOper.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOper12.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOper4.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOperImpl.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOperImpl12.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfOperImpl4.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfRef.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlfStr.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlFunctionRegistration.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlOpenClose.h" />
+    <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlw.h" />
+    <ClInclude Include="..\3rdparty\dSFMT\dSFMT.h" />
+    <ClInclude Include="..\myStuff\dates.h" />
+    <ClInclude Include="..\mystuff\editDistance.h" />
+    <ClInclude Include="..\myStuff\filesystems.h" />
+    <ClInclude Include="..\mystuff\md5.h" />
+    <ClInclude Include="..\myStuff\MotherOfAllBaseObjects.h" />
+    <ClInclude Include="..\myStuff\optimizer.h" />
+    <ClInclude Include="dataStructures.h" />
+    <ClInclude Include="ExcelConversions.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="myError.h" />
+    <ClInclude Include="backTesting.h" />
+    <ClInclude Include="ipc.h" />
+    <ClInclude Include="market.h" />
+    <ClInclude Include="parameters.h" />
+    <ClInclude Include="randomNumbers.h" />
+    <ClInclude Include="statistics.h" />
+    <ClInclude Include="strategies.h" />
+    <ClInclude Include="timeseries.h" />
+    <ClInclude Include="trader.h" />
+    <ClInclude Include="cholesky.hpp" />
+    <ClInclude Include="LinearAlgebra.h" />
+    <ClInclude Include="mathProbability.h" />
+    <ClInclude Include="ImageProcessing.h" />
+    <ClInclude Include="BlackScholes.h" />
+    <ClInclude Include="xlw\CellMatrix.h" />
+    <ClInclude Include="xlw\EXCEL32_API.h" />
+    <ClInclude Include="xlw\macros.h" />
+    <ClInclude Include="xlw\MJmatrices.h" />
+    <ClInclude Include="xlw\MyContainers.h" />
+    <ClInclude Include="xlw\xlcall32.h" />
+    <ClInclude Include="xlw\XlfExcel.h" />
+    <ClInclude Include="xlw\XlfException.h" />
+    <ClInclude Include="xlw\XlfOper.h" />
+    <ClInclude Include="xlw\XlfOper12.h" />
+    <ClInclude Include="xlw\XlfOper4.h" />
+    <ClInclude Include="xlw\XlfOperImpl.h" />
+    <ClInclude Include="xlw\XlfOperImpl12.h" />
+    <ClInclude Include="xlw\XlfOperImpl4.h" />
+    <ClInclude Include="xlw\XlfRef.h" />
+    <ClInclude Include="xlw\XlfStr.h" />
+    <ClInclude Include="xlw\XlFunctionRegistration.h" />
+    <ClInclude Include="xlw\xlw.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\myStuff\hfimer.doc" />
+    <None Include="deprecated.txt" />
+    <None Include="Documentations\TGA.txt" />
+    <None Include="ZAZA.csv" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
