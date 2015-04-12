@@ -1,0 +1,199 @@
+
+<!-- saved from url=(0060)http://faculty.cs.niu.edu/~freedman/340/340notes/340heap.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Heaps</title>
+</head>
+<body>
+
+<h1>Heaps</h1>
+
+<p>A <b>heap</b> or <b>max heap</b> is a binary tree that satisifies the
+following properties:</p>
+
+<ol>
+  <li><p>it is complete</p></li>
+
+  <li><p>the data item stored in each node is greater than or equal to
+  the data items stored in its children (this is known as the <b>heap-order 
+  property</b>)</p></li>
+</ol>
+
+<p>A <b>min heap</b> is a binary tree that satisifies the following
+properties:</p>
+
+<ol>
+  <li><p>it is complete</p></li>
+
+  <li><p>the data item stored in each node is less than the data items
+  stored in its children</p></li>
+</ol>
+
+<p>Heaps are typically stored in arrays or vectors when they are implemented in 
+a program. However, it's easier to "see" the heap properties when it's drawn as 
+a tree.)</p>
+
+<p><img border="0" src="./Heaps_files/340heap2.gif" width="579" height="267"></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><img border="0" src="./Heaps_files/340heap3.gif" width="579" height="267"></p>
+
+<h2>Basic Heap Operations</h2>
+
+<h3>Basic Calculations</h3>
+
+<p>Assuming that values are stored starting at subscript 1, then</p>
+
+<ul>
+  <li>Root of the heap is located at [1]</li>
+  <li>Left child is located at [2 * parent's position]</li>
+  <li>Right child is located at [2 * parent's position + 1]</li>
+  <li>Parent is located at either child's position / 2</li>
+  <li>Next free location is [number of elements + 1]</li>
+</ul>
+
+<h3>Heapifying a complete binary tree</h3>
+
+<p>Starting with the last node that is not a leaf node, compare it with
+its left and right children. Interchange the node with the larger of its
+two children. Continue this process with the node until it becomes a leaf node 
+or until the heap property is restored. This is known as the <b>percolate down</b> process.</p>
+
+<p>Move to the preceding node that is not a leaf and repeat the <b>percolate
+down</b> process. Continue this process until the root is reached.</p>
+
+<p><img border="0" src="./Heaps_files/340heap1.gif" width="651" height="267"></p>
+
+<p>There are two basic operations that can be performed on a heap:</p>
+
+<ol>
+  <li><p>Inserting an item into a heap</p></li>
+  <li><p>Finding and removing the maximum item from the heap</p></li>
+</ol>
+
+<p>Conceptually, both operations are fairly simple. But as with AVL 
+trees, either of the operations can cause the heap properties to be violated. 
+The nice thing about a heap? It's much easier to fix the violations!</p>
+
+<h3>Inserting into a max heap</h3>
+
+<p>Step 1: Insert the node in the first available level order position.</p>
+
+<p>Step 2: Compare the newly inserted node with its parent. If the newly 
+inserted node is larger, swap it with its parent.</p>
+
+<p>Step 3: Continue step 2 until the heap order property is restored.</p>
+
+<p>Steps 2 and 3 are known as the <b>percolate up</b> process.</p>
+
+<p><img border="0" src="./Heaps_files/340heap4.gif" width="579" height="267"></p>
+
+<h3>Deleting from a max heap</h3>
+
+<p>Step 1: Find the maximum node.</p>
+
+<p>Step 2: Replace the maximum node with the last leaf node in level order.</p>
+
+<p>Step 3: Compare the replacement against its children. If one of the children 
+is larger, swap the replacement with the largest child.</p>
+
+<p>Step 4: Repeat step 3 until the heap order property is restored.</p>
+
+<p>Does this process seem familiar?</p>
+
+<p><img border="0" src="./Heaps_files/340heap4.gif" width="579" height="267"></p>
+
+<h2>Pseudocode</h2>
+
+<h3>percolate down pseudocode</h3>
+<pre>perc_down(r, n)
+  r = subscript of the root of subtree where the process will begin
+  c = subscript of the left child
+  n = number of elements in the entire array
+  
+  c = 2 * r   // add + 1 if the heap is stored using 0 based subscripts
+  
+  while (c &lt; n)
+    if (c &lt; n-1 AND array[c] &lt; array[c+1])
+      increment c by 1
+    endif
+    
+    if array[r] &lt; array[c]
+      swap array[r] and array[c]
+      r = c
+      c = 2 * c
+    else
+      break out of loop
+    endif
+    increment c by 1
+  endwhile
+</pre>
+
+<h3>percolate up pseudocode</h3>
+<pre>perc_up(h, size)
+  h = subscript of where the item will be inserted
+  size = size of the heap BEFORE inserting
+
+  increase size by 1
+  set h = size  
+  
+  while ( h &gt; 1 AND insertionItem &gt; array[h/2] )
+    array[h] = array[h/2]
+    h = h / 2
+  endwhile
+  
+  array[h] = insertItem
+</pre>
+
+<h4>heapify pseudocode</h4>
+
+<pre>r = subscript of the root of subtree where the process will begin
+n = number of elements in the entire array
+
+r = (n / 2)    // add - 1 if the heap is stored using 0 based subscripts
+
+while (r &gt;= 0)
+  perc_down(r, n)
+  decrement r by 1
+endwhile
+</pre>
+
+<h2>Heap Sort</h2>
+
+<p>The heap sort first heapifies the list of numbers. The element at the
+beginning of the list is then swapped with the element at the end of the
+list. The list is made 1 element shorter.  The new list is heapified.
+The element at the beginning is swapped with the element at the end. The 
+list is made 1 element shorter. The process continues until the entire
+list is sorted.</p>
+
+<h4>heap sort pseudocode</h4>
+
+<pre>heapify the array
+
+i = n - 1
+while (i &gt; 0)
+  swap array[0] and array[i]
+  perc_down(0, i)
+  decrement i by 1
+endwhile
+</pre>
+
+<table border="" cellspacing="1" cellpadding="7" width="450">
+  <tbody><tr>
+    <td width="7%" valign="top"><center>13</center></td>
+    <td width="7%" valign="top"><center>3 </center></td>
+    <td width="7%" valign="top"><center>4 </center></td>
+    <td width="7%" valign="top"><center>12</center></td>
+    <td width="7%" valign="top"><center>14</center></td>
+    <td width="7%" valign="top"><center>10</center></td>
+    <td width="7%" valign="top"><center>5 </center></td>
+    <td width="7%" valign="top"><center>1 </center></td>
+    <td width="7%" valign="top"><center>8 </center></td>
+  </tr>
+</tbody></table>
+
+
+</body></html>
