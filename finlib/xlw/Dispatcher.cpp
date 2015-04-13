@@ -14,7 +14,7 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
-#include <clw/Dispatcher.h>
+#include <xlw/Dispatcher.h>
 
 #include <xlw/ArgList.h>
 
