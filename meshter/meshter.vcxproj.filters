@@ -45,6 +45,18 @@
     <Filter Include="triangle">
       <UniqueIdentifier>{dc16e62d-f031-482f-aa32-9beebacd34f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Viewer">
+      <UniqueIdentifier>{cc372ec4-4b7a-479a-80f2-a0e9fa2d037f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Openmesh-Core\Math">
+      <UniqueIdentifier>{3fee5b5f-d76b-435d-ab4c-2f7352a7eadc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenMesh-Tools">
+      <UniqueIdentifier>{526b1bfd-8242-471b-9eeb-8b07b770a582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenMesh-Tools\Utils">
+      <UniqueIdentifier>{5b67f25e-b301-4d0b-b4da-c2f5ce5270e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -179,6 +191,36 @@
     <ClCompile Include="triangle.cpp">
       <Filter>triangle</Filter>
     </ClCompile>
+    <ClCompile Include="GlutExaminer.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="GlutViewer.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshViewer.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="ValenceViewer.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Tools\Utils\conio.cc">
+      <Filter>OpenMesh-Tools\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Tools\Utils\Timer.cc">
+      <Filter>OpenMesh-Tools\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Tools\Utils\getopt.c">
+      <Filter>OpenMesh-Tools\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Tools\Utils\Gnuplot.cc">
+      <Filter>OpenMesh-Tools\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Tools\Utils\MeshCheckerT.cc">
+      <Filter>OpenMesh-Tools\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenMesh\Tools\Utils\StripifierT.cc">
+      <Filter>OpenMesh-Tools\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="holefiller.h">
@@ -202,5 +244,34 @@
     <ClInclude Include="triangle.h">
       <Filter>triangle</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gl.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="GlutExaminer.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="GlutViewer.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="MeshViewer.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="ValenceViewer.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="OpenMesh\Math\LoopSchemeMaskT.hh">
+      <Filter>Openmesh-Core\Math</Filter>
+    </None>
+    <None Include="OpenMesh\Math\MathDefs.hh">
+      <Filter>Openmesh-Core\Math</Filter>
+    </None>
+    <None Include="OpenMesh\Math\VectorT.hh">
+      <Filter>Openmesh-Core\Math</Filter>
+    </None>
+    <None Include="OpenMesh\Math\VectorT_inc.hh">
+      <Filter>Openmesh-Core\Math</Filter>
+    </None>
   </ItemGroup>
 </Project>

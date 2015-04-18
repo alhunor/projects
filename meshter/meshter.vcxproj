@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>.;L:\Projects\3rdParty;L:\Projects\3rdParty\mpfr;L:\Projects\3rdParty\mpir;L:\Projects\3rdParty\cgal-4.4\include;L:\Projects\mystuff;L:\Projects\3rdParty\boost_1_55_0;L:\Projects\3rdParty\levmar-2.6;$(IncludePath)</IncludePath>
-    <LibraryPath>L:\Projects\3rdParty\cgal-4.4\lib;L:\Projects\3rdParty\lapack;L:\Projects\3rdParty\gsl\win32\lib;L:\Projects\3rdParty\boost_1_55_0\lib;L:\Projects\3rdparty\cgal-4.4\auxiliary\gmp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>L:\Projects\3rdParty\cgal-4.4\lib;L:\Projects\3rdParty\lapack;L:\Projects\3rdParty\gsl\win32\lib;L:\Projects\3rdParty\boost_1_55_0\lib;L:\Projects\3rdparty\cgal-4.4\auxiliary\gmp\lib;L:\Projects\meshter\GL;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -84,10 +84,13 @@
     <ClCompile Include="..\3rdParty\levmar-2.6\lmbleic.cpp" />
     <ClCompile Include="..\3rdParty\levmar-2.6\lmlec.cpp" />
     <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp" />
+    <ClCompile Include="GlutExaminer.cc" />
+    <ClCompile Include="GlutViewer.cc" />
     <ClCompile Include="holefiller.cpp" />
     <ClCompile Include="levdemo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="meshUtil.cpp" />
+    <ClCompile Include="MeshViewer.cc" />
     <ClCompile Include="OpenMesh\Core\Geometry\NormalConeT.cc" />
     <ClCompile Include="OpenMesh\Core\IO\BinaryHelper.cc" />
     <ClCompile Include="OpenMesh\Core\IO\IOManager.cc" />
@@ -118,9 +121,16 @@
     <ClCompile Include="OpenMesh\Core\Utils\Endian.cc" />
     <ClCompile Include="OpenMesh\Core\Utils\RandomNumberGenerator.cc" />
     <ClCompile Include="OpenMesh\Core\Utils\SingletonT.cc" />
+    <ClCompile Include="OpenMesh\Tools\Utils\conio.cc" />
+    <ClCompile Include="OpenMesh\Tools\Utils\getopt.c" />
+    <ClCompile Include="OpenMesh\Tools\Utils\Gnuplot.cc" />
+    <ClCompile Include="OpenMesh\Tools\Utils\MeshCheckerT.cc" />
+    <ClCompile Include="OpenMesh\Tools\Utils\StripifierT.cc" />
+    <ClCompile Include="OpenMesh\Tools\Utils\Timer.cc" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="triangle.cpp" />
+    <ClCompile Include="ValenceViewer.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cgal.h" />
@@ -130,6 +140,17 @@
     <ClInclude Include="polygon.h" />
     <ClInclude Include="quadtree.h" />
     <ClInclude Include="triangle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gl.hh" />
+    <None Include="GlutExaminer.hh" />
+    <None Include="GlutViewer.hh" />
+    <None Include="MeshViewer.hh" />
+    <None Include="OpenMesh\Math\LoopSchemeMaskT.hh" />
+    <None Include="OpenMesh\Math\MathDefs.hh" />
+    <None Include="OpenMesh\Math\VectorT.hh" />
+    <None Include="OpenMesh\Math\VectorT_inc.hh" />
+    <None Include="ValenceViewer.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,6 @@
 #pragma  warning (disable:4305) // truncation from 'double' to 'const float'
 #pragma  warning (disable:4996) // 
 
-
 /*
 OpenMesh::Vec3f x,y,n,crossproductXY;
 ...
@@ -17,6 +16,7 @@ crossProductXY = x % y;
 #define _USE_MATH_DEFINES
 #endif
 
+#include <list>
 #include <iostream>
 #include <fstream>
 #include <levmar.h>
@@ -40,6 +40,8 @@ const double M_1_SQRT2PI = 0.398942280401433; // 1/sqrt(2pi)
 #define IM IMATH_INTERNAL_NAMESPACE
 typedef IM::Matrix33<PRECISION> Mat3;
 
+#include "ValenceViewer.hh"
+
 
 /* _USE_MATH_DEFINES are as below
 M_E			e			2.718281828
@@ -62,7 +64,7 @@ M_SQRT1_2	1/sqrt(2)	0.707106781
 
 using namespace std;
 //typedef OpenMesh::TriMesh_ArrayKernelT<MyTraits> TriMesh;
-//typedef OpenMesh::PolyMesh_ArrayKernelT<>  PolyMesh;
+
 
 Mat3 pointsToMat(OpenMesh::Vec3f& A, OpenMesh::Vec3f& B, OpenMesh::Vec3f& C)
 {
@@ -385,9 +387,88 @@ void testMyPolyTriangulation()
 } // void testPolyTriangulation()
 
 
+int epoch = 123;
+
+class ring
+{
+public:	
+	ring(TriMesh _mesh) : mesh(_mesh), initialised(false) {}
+	~ring() { if (initialised) mesh.remove_property(epochs);}
+	bool init();
+	LightVector<TriMesh::VertexHandle> getRing(TriMesh::VertexHandle _vh, int k);
+
+private:
+	TriMesh mesh;
+	bool initialised;
+	OpenMesh::VPropHandleT<int> epochs;
+};
+
+bool ring::init()
+{
+	if (!initialised)
+	{
+		mesh.add_property(epochs);
+		initialised =  true;
+		++epoch;
+		TriMesh::VertexIter v_it, v_end(mesh.vertices_end());
+		for (v_it=mesh.vertices_begin(); v_it!=v_end; ++v_it)
+		{
+			mesh.property(epochs,v_it) = epoch;
+		}
+	}
+	// set epochs 
+
+	return true;
+}
+
+
+LightVector<TriMesh::VertexHandle> ring::getRing(TriMesh::VertexHandle _vh, int k)
+// returns all vertices that are within the k-ring of the vertex vh
+{
+	if (!initialised) init();
+
+	int aux;
+	int epoch_base = epoch;
+	epoch++;
+	//std::list<TriMesh::VertexHandle> lik;
+	TriMesh::VertexHandle vh;
+	TriMesh::VertexVertexIter vvi, vvstart;
+	mesh.property(epochs, _vh) = epoch+1;
+	LightVector<TriMesh::VertexHandle> vect;
+	vect.push_back(_vh);
+	unsigned int i = 0;
+
+	while (i < vect.size())
+	{
+		vh = vect[i];
+		aux = mesh.property(epochs, vh);
+		if (aux > epoch_base + k+1) break; // we have finished exploring all the vertices from the k-1 ring.
+		if (aux == epoch + 1) ++epoch; // finished all vertices in the current epoch, go to next ring
+
+		vvstart = vvi = mesh.vv_iter(vh);
+		do
+		{
+			vh = vvi.handle();
+			aux = mesh.property(epochs, vh);
+			if (aux <= epoch_base) // node has not been visited yet
+			{
+				mesh.property(epochs, vh) = epoch+1;
+				vect.push_back(vh);
+			} else 
+			{
+				// the node has been visted already and has been added to vect, continue
+			}
+			++vvi;
+		} while (vvi);
+		++i; // move to next vertex
+	} // i < vect.size()
+	return vect;
+} // void getRing(TriMesh mesh, TriMesh::VertexHandle _vh, int k)
+
+
 bool computeNormals(TriMesh mesh)
 {
-	// this Face property stores the computed centers of gravity
+
 	OpenMesh::FPropHandleT<TriMesh::Point> trueNormals;
 	OpenMesh::FPropHandleT<TriMesh::Point> approxNormals;
 	mesh.add_property(trueNormals);
@@ -407,11 +488,11 @@ bool computeNormals(TriMesh mesh)
 		}*/
 		mesh.property(approxNormals,f_it) /= valence;
 	}
+	return true;
+} // bool computeNormals(TriMesh mesh)
 
-}
 
-
-void main()
+void main2()
 {
 /*
 	cgal<myPoint> cg;
@@ -452,15 +533,48 @@ void main()
 //	cout<<m.determinant()<<endl;
 //	cout<<m2;
 
-	 TriMesh mesh;
-	 //mesh = createSphere(2.0f,4); OpenMesh::IO::write_mesh(mesh, "tetraSphere.off");
-	//mesh = createTetra(2); OpenMesh::IO::write_mesh(mesh, "tetra.off"); readmesh(mesh, "tetra.off");
 
 	 TriMesh mesh2 = createTorus(10, 3, 50);
+	 ring ri(mesh2);
+	 LightVector<TriMesh::VertexHandle> vhv = ri.getRing(TriMesh::VertexHandle(0), 2);
+
+	 for (unsigned int i= 0; i<vhv.size(); ++i)
+	 {
+		cout<< vhv[i]<<"  ";
+	 }
 	 OpenMesh::IO::write_mesh(mesh2, "torus.off");
 
+	mesh2.request_face_normals();
+	mesh2.request_vertex_normals();
+	mesh2.update_normals();
+
+
+	TriMesh::VertexHandle vh = TriMesh::VertexHandle(5);
+	TriMesh::VertexFaceIter vfi = mesh2.vf_iter(vh);
+	int cc=0;
+	OpenMesh::Vec3f norm (0, 0, 0), normv;
+	while (vfi)
+	{
+		cout<<"+"<<vfi.handle()<<endl;
+		norm += mesh2.normal(*vfi);
+		++cc;
+		++vfi;
+	}
+	double len = norm.length();
+	if (len != 0)
+	{
+		norm *= 1/len;
+	}
+
+	normv = mesh2.normal(vh);
+	
+	meshVolume(mesh2);
 
 	 return;
+
+	TriMesh mesh;
+	 //mesh = createSphere(2.0f,4); OpenMesh::IO::write_mesh(mesh, "tetraSphere.off");
+	//mesh = createTetra(2); OpenMesh::IO::write_mesh(mesh, "tetra.off"); readmesh(mesh, "tetra.off");
 
 //	readmesh(mesh, "sphereholes.off");
 	readmesh(mesh, "lyukas.off");
@@ -509,5 +623,17 @@ void main()
 	//cout<<"Volume = "<<meshVolume(mesh)<<endl;
 //	OpenMesh::IO::write_mesh(mesh, "spherevolt.off");
 	OpenMesh::IO::write_mesh(mesh, "lyukasvolt.off");
-} // void main()
+} // void main2()
 
+
+int main(int argc, char **argv)
+{
+	glutInit(&argc, argv);
+
+	ValenceViewer window("Wireframe", 512, 512);
+
+//	window.open_mesh("bunny.off");
+	window.open_mesh("torus(10,3,50).off");
+
+	glutMainLoop();
+}
