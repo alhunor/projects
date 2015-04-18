@@ -1,5 +1,6 @@
 #pragma warning (disable : 4996)
-  
+typedef OpenMesh::PolyMesh_ArrayKernelT<>  PolyMesh;
+
 int tutorial1()
 {
  
