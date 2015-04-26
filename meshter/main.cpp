@@ -632,8 +632,83 @@ int main(int argc, char **argv)
 
 	ValenceViewer window("Wireframe", 512, 512);
 
-//	window.open_mesh("bunny.off");
-	window.open_mesh("torus(10,3,50).off");
+	window.open_mesh("bunny.off");
+//	window.open_mesh("torus(10,3,50).off");
 
 	glutMainLoop();
+	return 0;
 }
+
+void display(void)
+{
+	//Clear all pixels
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	// draw white polygon (rectangle) with corners at(0.25, 0.25, 0.0) and (0.75, 0.75, 0.0)
+	/*glColor3f(1.0,1.0,1.0);
+	glBegin(GL_POLYGON);
+		glVertex3f(0.25, 0.25, 0.0);
+		glVertex3f(0.75, 0.25, 0.0);
+		glVertex3f(0.75, 0.75, 0.0);
+		glVertex3f(0.25, 0.75, 0.0);
+	glEnd();*/
+	glColor3f(1.0,0,1.0);
+	glutWireCube(1);
+    
+	// All drawing is stored in a buffer awaiting additional OpenGL commands, until the user call glFlush()
+	glFlush();
+}
+
+
+
+void processmenu( int i)
+{
+	std::cout<<i<<std::endl;
+}
+
+
+void initOpenGL(void)
+{
+    //select clearing (background) color
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    //initialize viewing values 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    //glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+	gluLookAt(0,0,0, 5,4,3, 0,1,0);
+    glMatrixMode(GL_MODELVIEW);
+}
+/*
+int main(int argc, char **argv)
+{
+	glutInit(&argc, argv);
+
+
+	//Set Display Mode to single buffered RGB
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+
+	//Set the window size
+	glutInitWindowSize(250,250);
+
+	//Set the window position
+	glutInitWindowPosition(100,100);
+
+	//Create the window
+	glutCreateWindow("My first Window");
+
+	glutDisplayFunc(display);
+
+
+	int menuID = glutCreateMenu(processmenu);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+	glutAddMenuEntry("Menu 1", 0);
+	glutAddMenuEntry("Menu 2", 1);
+	glutAddMenuEntry("Menu 3", 2);
+	initOpenGL();
+
+	glutMainLoop();
+	return 0;
+}
+*/
+
