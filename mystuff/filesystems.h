@@ -8,6 +8,8 @@
 
 const int MAXPATH = 512;
 
+bool ShowOpenFileDialog(char* FileName, int FileNameLength, char* filter);
+
 struct Descriptor
 {
 	int nbLines; // number of liens exluding an optional header line
