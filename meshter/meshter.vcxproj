@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,9 +84,30 @@
     <ClCompile Include="..\3rdParty\levmar-2.6\lmbleic.cpp" />
     <ClCompile Include="..\3rdParty\levmar-2.6\lmlec.cpp" />
     <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp" />
+    <ClCompile Include="..\mystuff\dates.cpp" />
+    <ClCompile Include="..\mystuff\filesystems.cpp" />
+    <ClCompile Include="ANN\ANN.cpp" />
+    <ClCompile Include="ANN\bd_fix_rad_search.cpp" />
+    <ClCompile Include="ANN\bd_pr_search.cpp" />
+    <ClCompile Include="ANN\bd_search.cpp" />
+    <ClCompile Include="ANN\bd_tree.cpp" />
+    <ClCompile Include="ANN\brute.cpp" />
+    <ClCompile Include="ANN\kd_dump.cpp" />
+    <ClCompile Include="ANN\kd_fix_rad_search.cpp" />
+    <ClCompile Include="ANN\kd_pr_search.cpp" />
+    <ClCompile Include="ANN\kd_search.cpp" />
+    <ClCompile Include="ANN\kd_split.cpp" />
+    <ClCompile Include="ANN\kd_tree.cpp" />
+    <ClCompile Include="ANN\kd_util.cpp" />
+    <ClCompile Include="ANN\perf.cpp" />
     <ClCompile Include="GlutExaminer.cc" />
     <ClCompile Include="GlutViewer.cc" />
     <ClCompile Include="holefiller.cpp" />
+    <ClCompile Include="ImplicitMLS.cc" />
+    <ClCompile Include="ImplicitRBF.cc" />
+    <ClCompile Include="IsoEx\Extractors\MCTables.cc" />
+    <ClCompile Include="IsoEx\Grids\RegularGrid.cc" />
+    <ClCompile Include="IsoEx\Math\svd.cc" />
     <ClCompile Include="levdemo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="meshUtil.cpp" />
@@ -129,27 +150,60 @@
     <ClCompile Include="OpenMesh\Tools\Utils\Timer.cc" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="RBFEvalutaor.cc" />
+    <ClCompile Include="ReconViewer.cc" />
     <ClCompile Include="triangle.cpp" />
     <ClCompile Include="ValenceViewer.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\mystuff\dates.h" />
+    <ClInclude Include="..\mystuff\filesystems.h" />
+    <ClInclude Include="ANN\ANN.h" />
+    <ClInclude Include="ANN\ANNperf.h" />
+    <ClInclude Include="ANN\ANNx.h" />
+    <ClInclude Include="ANN\bd_tree.h" />
+    <ClInclude Include="ANN\kd_fix_rad_search.h" />
+    <ClInclude Include="ANN\kd_pr_search.h" />
+    <ClInclude Include="ANN\kd_search.h" />
+    <ClInclude Include="ANN\kd_split.h" />
+    <ClInclude Include="ANN\kd_tree.h" />
+    <ClInclude Include="ANN\kd_util.h" />
+    <ClInclude Include="ANN\pr_queue.h" />
+    <ClInclude Include="ANN\pr_queue_k.h" />
     <ClInclude Include="cgal.h" />
     <ClInclude Include="holefiller.h" />
     <ClInclude Include="meshUtil.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="quadtree.h" />
+    <ClInclude Include="RBFEvaluator.h" />
     <ClInclude Include="triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="gl.hh" />
     <None Include="GlutExaminer.hh" />
     <None Include="GlutViewer.hh" />
+    <None Include="ImplicitMLS.hh" />
+    <None Include="ImplicitRBF.hh" />
+    <None Include="IsoEx\Extractors\Edge2VertexMapT.hh" />
+    <None Include="IsoEx\Extractors\ExtendedMarchingCubesT.hh" />
+    <None Include="IsoEx\Extractors\MarchingCubesT.hh" />
+    <None Include="IsoEx\Extractors\MCTables.hh" />
+    <None Include="IsoEx\Grids\Grid.hh" />
+    <None Include="IsoEx\Grids\ImplicitGrid.hh" />
+    <None Include="IsoEx\Grids\RegularGrid.hh" />
+    <None Include="IsoEx\Grids\ScalarGridT.hh" />
+    <None Include="IsoEx\Implicits\CSG.hh" />
+    <None Include="IsoEx\Implicits\Implicit.hh" />
+    <None Include="IsoEx\Implicits\ImplicitSphere.hh" />
+    <None Include="IsoEx\Math\MatrixT.hh" />
+    <None Include="IsoEx\Math\svd.hh" />
     <None Include="MeshViewer.hh" />
     <None Include="OpenMesh\Math\LoopSchemeMaskT.hh" />
     <None Include="OpenMesh\Math\MathDefs.hh" />
     <None Include="OpenMesh\Math\VectorT.hh" />
     <None Include="OpenMesh\Math\VectorT_inc.hh" />
+    <None Include="ReconViewer.hh" />
     <None Include="ValenceViewer.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

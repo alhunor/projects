@@ -41,6 +41,109 @@ const double M_1_SQRT2PI = 0.398942280401433; // 1/sqrt(2pi)
 typedef IM::Matrix33<PRECISION> Mat3;
 
 #include "ValenceViewer.hh"
+#include "ReconViewer.hh"
+#include <ANN/ANN.h>
+#include <ANN/ANNperf.h>
+#include <ANN/ANNx.h>
+
+
+
+class pts
+{
+public:
+	pts() : hasData(false) {};
+	~pts() {};
+	bool readFile(char* filename);
+	int dim;
+	int nbPoints;
+	bool hasNormals;
+	ANNpointArray dataPts;
+	ANNpointArray normals;
+protected:
+	bool hasData;
+};
+
+bool pts::readFile(char* filename)
+{
+	std::ifstream dataIn;
+
+	dataIn.open(filename, std::ios::in);// open data file
+	if (!dataIn)
+	{
+		std::cerr << "Cannot open data file\n";
+		return false;
+	}
+	// read data header for nbPoints, dimension and boolean for has normals or not
+	dataIn>>nbPoints>>dim>>hasNormals;
+
+	dataPts = annAllocPts(nbPoints, dim);			// allocate data points
+	if (hasNormals)
+	{
+		normals = annAllocPts(nbPoints, dim);			// allocate storage for normals
+	}
+
+	int i,j;
+
+	// reads data
+	for (i = 0; i < nbPoints; ++i)
+	{
+		for ( j = 0; j < dim; ++j)
+		{
+			dataIn>>dataPts[i][j];
+		}
+		if (hasNormals)
+		{
+			for ( j = 0; j < dim; ++j)
+			{
+				dataIn>>normals[i][j];
+			}
+		} // if (hasNormals)
+	}
+	
+	hasData = true;
+	return true;
+}  // bool pts::readFile(char* filename)
+
+
+void ann_test()
+{
+	pts pts;
+	pts.readFile("sphere.ptsn");
+
+	ANNkd_tree* kdTree = new ANNkd_tree(					// build search structure
+					pts.dataPts,					// the data points
+					pts.nbPoints,						// number of points
+					pts.dim);						// dimension of space
+
+	ANNpoint	queryPt = new ANNcoord[pts.dim];				// query point
+	queryPt[0] = 0;
+	queryPt[1] = 0;
+	queryPt[2] = 0.5;
+	int		k		= 3;	// number of nearest neighbors
+	double	eps		= 0;	// error bound
+	ANNidxArray nnIdx = new ANNidx[k];						// allocate near neigh indices
+	ANNdistArray dists = new ANNdist[k];						// allocate near neighbor dists
+
+	kdTree->annkSearch(						// search
+			queryPt,						// query point
+			k,								// number of near neighbors
+			nnIdx,							// nearest neighbors (returned)
+			dists,							// distance (returned)
+			eps);							// error bound
+
+	std::cout << "\tNN:\tIndex\tDistance\n";
+	for (int i = 0; i < k; i++)
+	{			// print summary
+		dists[i] = sqrt(dists[i]);			// unsquare distance
+		std::cout << "\t" << i << "\t" << nnIdx[i] << "\t" << dists[i] << "\n";
+	}
+    delete [] nnIdx;							// clean things up
+    delete [] dists;
+    delete kdTree;
+	annClose();									// done with ANN
+}
+
+
 
 
 /* _USE_MATH_DEFINES are as below
@@ -492,9 +595,21 @@ bool computeNormals(TriMesh mesh)
 } // bool computeNormals(TriMesh mesh)
 
 
-void main2()
+int main(int argc, char **argv)
 {
-/*
+
+	glutInit(&argc, argv);
+
+	ValenceViewer window("Wireframe", 512, 512);
+//	ReconViewer window("Wireframe", 512, 512);
+
+//	window.open_mesh("bunny.off");
+	window.open_mesh("torus(10,3,50).off");
+
+	glutMainLoop();
+	
+	
+	/*
 	cgal<myPoint> cg;
 	pointSet<myPoint> ps("pentagram.pts");
 	cg = ps;
@@ -570,7 +685,7 @@ void main2()
 	
 	meshVolume(mesh2);
 
-	 return;
+	return 0;
 
 	TriMesh mesh;
 	 //mesh = createSphere(2.0f,4); OpenMesh::IO::write_mesh(mesh, "tetraSphere.off");
@@ -623,21 +738,8 @@ void main2()
 	//cout<<"Volume = "<<meshVolume(mesh)<<endl;
 //	OpenMesh::IO::write_mesh(mesh, "spherevolt.off");
 	OpenMesh::IO::write_mesh(mesh, "lyukasvolt.off");
-} // void main2()
+} // void main()
 
-
-int main(int argc, char **argv)
-{
-	glutInit(&argc, argv);
-
-	ValenceViewer window("Wireframe", 512, 512);
-
-	window.open_mesh("bunny.off");
-//	window.open_mesh("torus(10,3,50).off");
-
-	glutMainLoop();
-	return 0;
-}
 
 void display(void)
 {
@@ -679,9 +781,13 @@ void initOpenGL(void)
 	gluLookAt(0,0,0, 5,4,3, 0,1,0);
     glMatrixMode(GL_MODELVIEW);
 }
+
+
 /*
 int main(int argc, char **argv)
 {
+
+	ann_test();
 	glutInit(&argc, argv);
 
 

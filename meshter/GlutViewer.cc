@@ -23,9 +23,7 @@ std::map<int, GlutViewer*>  GlutViewer::windows__;
 //-----------------------------------------------------------------------------
 
 
-GlutViewer::
-GlutViewer(const char* _title, int _width, int _height)
-  : width_(_width), height_(_height)
+GlutViewer::GlutViewer(const char* _title, int _width, int _height) : width_(_width), height_(_height)
 {
   // create window
   glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE | GLUT_ALPHA);

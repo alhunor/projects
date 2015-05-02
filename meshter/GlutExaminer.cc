@@ -16,9 +16,7 @@
 //== IMPLEMENTATION ========================================================== 
 
 
-GlutExaminer::
-GlutExaminer(const char* _title, int _width, int _height)
-  : GlutViewer(_title, _width, _height)
+GlutExaminer::GlutExaminer(const char* _title, int _width, int _height) : GlutViewer(_title, _width, _height)
 {
   init();
 
@@ -38,8 +36,7 @@ GlutExaminer(const char* _title, int _width, int _height)
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::init()
+void GlutExaminer::init()
 {
   // OpenGL state
   glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -101,13 +98,12 @@ GlutExaminer::init()
   near_ = 0.1;
   far_  = 100.0;
   fovy_ = 45.0;
-}
+} // void GlutExaminer::init()
 
  
 //-----------------------------------------------------------------------------
 
-void
-GlutExaminer::reshape(int _w, int _h)
+void GlutExaminer::reshape(int _w, int _h)
 {
   width_  = _w; 
   height_ = _h;
@@ -120,8 +116,7 @@ GlutExaminer::reshape(int _w, int _h)
 //----------------------------------------------------------------------------
 
 
-void
-GlutExaminer::update_projection_matrix()
+void GlutExaminer::update_projection_matrix()
 {
   glMatrixMode( GL_PROJECTION );
   glLoadIdentity();
@@ -134,8 +129,7 @@ GlutExaminer::update_projection_matrix()
 //----------------------------------------------------------------------------
 
 
-void
-GlutExaminer::set_scene( const Vec3f& _cog, float _radius )
+void GlutExaminer::set_scene( const Vec3f& _cog, float _radius )
 {
   center_ = _cog;
   radius_ = _radius;
@@ -151,8 +145,7 @@ GlutExaminer::set_scene( const Vec3f& _cog, float _radius )
 //----------------------------------------------------------------------------
 
 
-void
-GlutExaminer::view_all()
+void GlutExaminer::view_all()
 {  
   translate( Vec3f( -(modelview_matrix_[0]*center_[0] + 
 		      modelview_matrix_[4]*center_[1] +
@@ -173,8 +166,7 @@ GlutExaminer::view_all()
 //----------------------------------------------------------------------------
 
 
-bool
-GlutExaminer::map_to_sphere( const Vec2i& _v2D, Vec3f& _v3D )
+bool GlutExaminer::map_to_sphere( const Vec2i& _v2D, Vec3f& _v3D )
 {
   if ( (_v2D[0] >= 0) && (_v2D[0] <= width_) &&
        (_v2D[1] >= 0) && (_v2D[1] <= height_) ) 
@@ -198,8 +190,7 @@ GlutExaminer::map_to_sphere( const Vec2i& _v2D, Vec3f& _v3D )
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::draw(const std::string& _draw_mode)
+void GlutExaminer::draw(const std::string& _draw_mode)
 {
   if (_draw_mode == "Wireframe")
   {
@@ -243,8 +234,7 @@ GlutExaminer::draw(const std::string& _draw_mode)
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::mouse(int button, int state, int x, int y)
+void GlutExaminer::mouse(int button, int state, int x, int y)
 {
   // mouse press
   if (state == GLUT_DOWN)
@@ -276,8 +266,7 @@ GlutExaminer::mouse(int button, int state, int x, int y)
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::motion(int x, int y)
+void GlutExaminer::motion(int x, int y)
 {
   // zoom
   if (button_down_[0] && button_down_[1])
@@ -309,8 +298,7 @@ GlutExaminer::motion(int x, int y)
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::rotation(int x, int y)
+void GlutExaminer::rotation(int x, int y)
 {
   if (last_point_ok_) 
   {
@@ -339,8 +327,7 @@ GlutExaminer::rotation(int x, int y)
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::translation(int x, int y)
+void GlutExaminer::translation(int x, int y)
 {
   float dx = x - last_point_2D_[0];
   float dy = y - last_point_2D_[1];
@@ -367,8 +354,7 @@ GlutExaminer::translation(int x, int y)
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::zoom(int x, int y)
+void GlutExaminer::zoom(int x, int y)
 {
   float dy = y - last_point_2D_[1];
   float h  = height_;
@@ -379,8 +365,7 @@ GlutExaminer::zoom(int x, int y)
 //----------------------------------------------------------------------------
 
 
-void
-GlutExaminer::translate( const Vec3f& _trans )
+void GlutExaminer::translate( const Vec3f& _trans )
 {
   glLoadIdentity();
   glTranslated( _trans[0], _trans[1], _trans[2] );
@@ -392,8 +377,7 @@ GlutExaminer::translate( const Vec3f& _trans )
 //----------------------------------------------------------------------------
 
 
-void
-GlutExaminer::rotate( const Vec3f& _axis, float _angle )
+void GlutExaminer::rotate( const Vec3f& _axis, float _angle )
 {
   Vec3f t( modelview_matrix_[0]*center_[0] + 
 	   modelview_matrix_[4]*center_[1] +
@@ -420,8 +404,7 @@ GlutExaminer::rotate( const Vec3f& _axis, float _angle )
 //-----------------------------------------------------------------------------
 
 
-void 
-GlutExaminer::keyboard(int key, int x, int y) 
+void GlutExaminer::keyboard(int key, int x, int y) 
 {
   switch (key)
   {
@@ -445,8 +428,7 @@ GlutExaminer::keyboard(int key, int x, int y)
 //-----------------------------------------------------------------------------
 
 
-double 
-GlutExaminer::measure_fps()
+double GlutExaminer::measure_fps()
 {
   double fps(0.0);
 

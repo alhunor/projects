@@ -57,6 +57,27 @@
     <Filter Include="OpenMesh-Tools\Utils">
       <UniqueIdentifier>{5b67f25e-b301-4d0b-b4da-c2f5ce5270e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ann">
+      <UniqueIdentifier>{0d44e066-5390-4268-8be5-30e5dd1973d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEx">
+      <UniqueIdentifier>{6cf33f0c-d815-479b-a9bb-8f377a191763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEx\Extractors">
+      <UniqueIdentifier>{9e8e8702-e332-494b-8c64-b007647c2d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEx\Grids">
+      <UniqueIdentifier>{79ee7251-710a-43f8-8953-a598e8170aab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEx\Explicits">
+      <UniqueIdentifier>{3a49ca9a-6d88-4227-82a5-c997effca156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IsoEx\math">
+      <UniqueIdentifier>{8c3f8f5d-d467-482a-8bf0-9b804e845b3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="myStuff">
+      <UniqueIdentifier>{040d4c4e-5f84-42bc-b049-ed47dd0178f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,6 +242,75 @@
     <ClCompile Include="OpenMesh\Tools\Utils\StripifierT.cc">
       <Filter>OpenMesh-Tools\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="ANN\ANN.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\bd_fix_rad_search.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\bd_pr_search.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\bd_search.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\bd_tree.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\brute.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_dump.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_fix_rad_search.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_pr_search.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_search.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_split.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_tree.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\kd_util.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ANN\perf.cpp">
+      <Filter>ann</Filter>
+    </ClCompile>
+    <ClCompile Include="ReconViewer.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="RBFEvalutaor.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="IsoEx\Extractors\MCTables.cc">
+      <Filter>IsoEx\Extractors</Filter>
+    </ClCompile>
+    <ClCompile Include="IsoEx\Grids\RegularGrid.cc">
+      <Filter>IsoEx\Grids</Filter>
+    </ClCompile>
+    <ClCompile Include="IsoEx\Math\svd.cc">
+      <Filter>IsoEx\math</Filter>
+    </ClCompile>
+    <ClCompile Include="ImplicitMLS.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="ImplicitRBF.cc">
+      <Filter>Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\filesystems.cpp">
+      <Filter>myStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\dates.cpp">
+      <Filter>myStuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="holefiller.h">
@@ -243,6 +333,51 @@
     </ClInclude>
     <ClInclude Include="triangle.h">
       <Filter>triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\ANN.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\ANNperf.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\ANNx.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\bd_tree.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\kd_fix_rad_search.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\kd_pr_search.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\kd_search.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\kd_split.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\kd_tree.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\kd_util.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\pr_queue.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="ANN\pr_queue_k.h">
+      <Filter>ann</Filter>
+    </ClInclude>
+    <ClInclude Include="RBFEvaluator.h">
+      <Filter>Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\filesystems.h">
+      <Filter>myStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\dates.h">
+      <Filter>myStuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +407,54 @@
     </None>
     <None Include="OpenMesh\Math\VectorT_inc.hh">
       <Filter>Openmesh-Core\Math</Filter>
+    </None>
+    <None Include="ReconViewer.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="IsoEx\Grids\Grid.hh">
+      <Filter>IsoEx\Grids</Filter>
+    </None>
+    <None Include="IsoEx\Grids\ImplicitGrid.hh">
+      <Filter>IsoEx\Grids</Filter>
+    </None>
+    <None Include="IsoEx\Grids\RegularGrid.hh">
+      <Filter>IsoEx\Grids</Filter>
+    </None>
+    <None Include="IsoEx\Grids\ScalarGridT.hh">
+      <Filter>IsoEx\Grids</Filter>
+    </None>
+    <None Include="IsoEx\Extractors\Edge2VertexMapT.hh">
+      <Filter>IsoEx\Extractors</Filter>
+    </None>
+    <None Include="IsoEx\Extractors\ExtendedMarchingCubesT.hh">
+      <Filter>IsoEx\Extractors</Filter>
+    </None>
+    <None Include="IsoEx\Extractors\MarchingCubesT.hh">
+      <Filter>IsoEx\Extractors</Filter>
+    </None>
+    <None Include="IsoEx\Extractors\MCTables.hh">
+      <Filter>IsoEx\Extractors</Filter>
+    </None>
+    <None Include="IsoEx\Implicits\ImplicitSphere.hh">
+      <Filter>IsoEx\Explicits</Filter>
+    </None>
+    <None Include="IsoEx\Implicits\CSG.hh">
+      <Filter>IsoEx\Explicits</Filter>
+    </None>
+    <None Include="IsoEx\Implicits\Implicit.hh">
+      <Filter>IsoEx\Explicits</Filter>
+    </None>
+    <None Include="IsoEx\Math\MatrixT.hh">
+      <Filter>IsoEx\math</Filter>
+    </None>
+    <None Include="IsoEx\Math\svd.hh">
+      <Filter>IsoEx\math</Filter>
+    </None>
+    <None Include="ImplicitMLS.hh">
+      <Filter>Viewer</Filter>
+    </None>
+    <None Include="ImplicitRBF.hh">
+      <Filter>Viewer</Filter>
     </None>
   </ItemGroup>
 </Project>

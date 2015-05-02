@@ -17,28 +17,24 @@
 //== IMPLEMENTATION ========================================================== 
 
 
-MeshViewer::
-MeshViewer(const char* _title, int _width, int _height)
-  : GlutExaminer(_title, _width, _height)
+MeshViewer::MeshViewer(const char* _title, int _width, int _height) : GlutExaminer(_title, _width, _height)
 {
-  mesh_.request_face_normals();
-  mesh_.request_vertex_normals();
+	mesh_.request_face_normals();
+	mesh_.request_vertex_normals();
 
-  clear_draw_modes();
-  add_draw_mode("Wireframe");
-  add_draw_mode("Hidden Line");
-  add_draw_mode("Solid Flat");
-  add_draw_mode("Solid Smooth");
-  set_draw_mode(3);
+	clear_draw_modes();
+	add_draw_mode("Wireframe");
+	add_draw_mode("Hidden Line");
+	add_draw_mode("Solid Flat");
+	add_draw_mode("Solid Smooth");
+	set_draw_mode(3);
 }
 
 
 //-----------------------------------------------------------------------------
 
 
-bool
-MeshViewer::
-open_mesh(const char* _filename)
+bool MeshViewer::open_mesh(const char* _filename)
 {
   // load mesh
   if (OpenMesh::IO::read_mesh(mesh_, _filename))
@@ -78,9 +74,7 @@ open_mesh(const char* _filename)
 //-----------------------------------------------------------------------------
 
 
-void
-MeshViewer::
-update_face_indices()
+void MeshViewer::update_face_indices()
 {
   Mesh::ConstFaceIter        f_it(mesh_.faces_sbegin()), 
                              f_end(mesh_.faces_end());
@@ -102,9 +96,7 @@ update_face_indices()
 //-----------------------------------------------------------------------------
 
 
-void 
-MeshViewer::
-draw(const std::string& _draw_mode)
+void  MeshViewer::draw(const std::string& _draw_mode)
 {
   if (indices_.empty())
   {
