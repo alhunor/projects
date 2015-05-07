@@ -255,13 +255,16 @@ void ANNkd_tree::SkeletonTree(			// construct skeleton tree
 
 	root = NULL;						// no associated tree yet
 
-	if (pi == NULL) {					// point indices provided?
+	if (pi == NULL)
+	{					// point indices provided?
 		pidx = new ANNidx[n];			// no, allocate space for point indices
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++)
+		{
 			pidx[i] = i;				// initially identity
 		}
 	}
-	else {
+	else
+	{
 		pidx = pi;						// yes, use them
 	}
 
