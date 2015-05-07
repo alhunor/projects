@@ -206,7 +206,7 @@ const ANNdist	ANN_DIST_INF = ANN_DBL_MAX;
 //	strictly positive.
 //----------------------------------------------------------------------
 
-const ANNbool	ANN_ALLOW_SELF_MATCH	= ANNtrue;
+const ANNbool	ANN_ALLOW_SELF_MATCH	= ANNfalse;
 
 //----------------------------------------------------------------------
 //	Norms and metrics:
@@ -471,7 +471,8 @@ public:
 		int				k,				// number of near neighbors to return
 		ANNidxArray		nn_idx,			// nearest neighbor array (modified)
 		ANNdistArray	dd,				// dist to near neighbors (modified)
-		double			eps=0.0			// error bound
+		double			eps=0.0,			// error bound
+		bool* marked = NULL // list of marked points
 		) = 0;							// pure virtual (defined elsewhere)
 
 	virtual int annkFRSearch(			// approx fixed-radius kNN search
@@ -717,7 +718,8 @@ public:
 		int				k,				// number of near neighbors to return
 		ANNidxArray		nn_idx,			// nearest neighbor array (modified)
 		ANNdistArray	dd,				// dist to near neighbors (modified)
-		double			eps=0.0);		// error bound
+		double			eps=0.0, // error bound
+		bool* marked = NULL);
 
 	void annkPriSearch( 				// priority k near neighbor search
 		ANNpoint		q,				// query point
