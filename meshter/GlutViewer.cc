@@ -25,39 +25,38 @@ std::map<int, GlutViewer*>  GlutViewer::windows__;
 
 GlutViewer::GlutViewer(const char* _title, int _width, int _height) : width_(_width), height_(_height)
 {
-  // create window
-  glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE | GLUT_ALPHA);
-  glutInitWindowSize(_width, _height);
-  windowID_ = glutCreateWindow(_title);
-  windows__[windowID_] = this;
+	// create window
+	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE | GLUT_ALPHA);
+	glutInitWindowSize(_width, _height);
+	windowID_ = glutCreateWindow(_title);
+	windows__[windowID_] = this;
 
 
-  // register callbacks
-  glutDisplayFunc(display__);
-  glutKeyboardFunc(keyboard__);
-  glutSpecialFunc(special__);
-  glutMouseFunc(mouse__);
-  glutMotionFunc(motion__);
-  glutPassiveMotionFunc(passivemotion__);
-  glutReshapeFunc(reshape__); 
-  glutVisibilityFunc(visibility__);
+	// register callbacks
+	glutDisplayFunc(display__);
+	glutKeyboardFunc(keyboard__);
+	glutSpecialFunc(special__);
+	glutMouseFunc(mouse__);
+	glutMotionFunc(motion__);
+	glutPassiveMotionFunc(passivemotion__);
+	glutReshapeFunc(reshape__); 
+	glutVisibilityFunc(visibility__);
 
 
-  // create menu
-  n_draw_modes_ = 0;
-  menuID_ = glutCreateMenu(processmenu__);
-  glutAttachMenu(GLUT_RIGHT_BUTTON);
+	// create menu
+	n_draw_modes_ = 0;
+	menuID_ = glutCreateMenu(processmenu__);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
   
 
 //-----------------------------------------------------------------------------
 
 
-GlutViewer::
-~GlutViewer()
+GlutViewer::~GlutViewer()
 {
-  glutDestroyWindow(windowID_);
-  glutDestroyMenu(menuID_);
+	glutDestroyWindow(windowID_);
+	glutDestroyMenu(menuID_);
 }
 
 
@@ -67,80 +66,91 @@ GlutViewer::
 void
 GlutViewer::clear_draw_modes()
 {
-  for (unsigned int i=0; i<n_draw_modes_; ++i)
-    glutRemoveMenuItem(1);
+	for (unsigned int i=0; i<n_draw_modes_; ++i)
+	glutRemoveMenuItem(1);
 
-  n_draw_modes_ = 0;
-  draw_mode_names_.clear();
+	n_draw_modes_ = 0;
+	draw_mode_names_.clear();
 }
 
 
 unsigned int
 GlutViewer::add_draw_mode(const std::string& _s)
 {
-  // insert in popup menu
-  glutAddMenuEntry(_s.c_str(), n_draw_modes_);
+	// insert in popup menu
+	glutAddMenuEntry(_s.c_str(), n_draw_modes_);
 
-  ++n_draw_modes_;
-  draw_mode_names_.push_back(_s);
+	++n_draw_modes_;
+	draw_mode_names_.push_back(_s);
 
-  return n_draw_modes_-1;
+	return n_draw_modes_-1;
 }
 
 
 void
 GlutViewer::set_draw_mode(int _id)
 {
-  draw_mode_ = _id;
-  glutPostRedisplay();
+	draw_mode_ = _id;
+	glutPostRedisplay();
 }
 
 
 //-----------------------------------------------------------------------------
 
 
-GlutViewer* GlutViewer::current_window() { 
-  return windows__[glutGetWindow()]; 
+GlutViewer* GlutViewer::current_window()
+{ 
+	return windows__[glutGetWindow()]; 
 }
 
-void GlutViewer::display__(void) {
-  current_window()->display();
+void GlutViewer::display__(void)
+{
+	current_window()->display();
 }
 
-void GlutViewer::idle__(void) {
-  current_window()->idle();
+void GlutViewer::idle__(void)
+{
+	current_window()->idle();
 } 
 
-void GlutViewer::keyboard__(unsigned char key, int x, int y) {
-  current_window()->keyboard((int)key, x, y);
+void GlutViewer::keyboard__(unsigned char key, int x, int y)
+{
+	current_window()->keyboard((int)key, x, y);
 }
 
-void GlutViewer::motion__(int x, int y) {
-  current_window()->motion(x, y);
+void GlutViewer::motion__(int x, int y)
+{
+	current_window()->motion(x, y);
 }
 
-void GlutViewer::mouse__(int button, int state, int x, int y) {
-  current_window()->mouse(button, state, x, y);
+void GlutViewer::mouse__(int button, int state, int x, int y)
+{
+	current_window()->mouse(button, state, x, y);
 }
 
-void GlutViewer::passivemotion__(int x, int y) {
-  current_window()->passivemotion(x, y);
+void GlutViewer::passivemotion__(int x, int y)
+{
+	current_window()->passivemotion(x, y);
 }
 
-void GlutViewer::reshape__(int w, int h) {
-  current_window()->reshape(w, h);
+void GlutViewer::reshape__(int w, int h)
+{
+	current_window()->reshape(w, h);
 }
 
-void GlutViewer::special__(int key, int x, int y) {
-  current_window()->keyboard(key, x, y);
-}   
-
-void GlutViewer::visibility__(int visible) {
-  current_window()->visibility(visible);
+void GlutViewer::special__(int key, int x, int y)
+{
+	current_window()->keyboard(key, x, y);
 }
 
-void GlutViewer::processmenu__(int id) {
-  current_window()->processmenu(id);
+void GlutViewer::visibility__(int visible)
+{
+	current_window()->visibility(visible);
+}
+
+void GlutViewer::processmenu__(int id)
+{
+	current_window()->processmenu(id);
 }
 
 

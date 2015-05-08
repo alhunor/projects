@@ -9,74 +9,77 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="lm">
-      <UniqueIdentifier>{45e1ce23-342c-40fb-a7dd-2cd406e8dd9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core">
-      <UniqueIdentifier>{892ec7ef-4374-4e10-b03c-7fe779d3aa69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\Mesh">
-      <UniqueIdentifier>{6b0c1fbc-15ae-45b4-8db0-db626e4fb9cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\Geometry">
-      <UniqueIdentifier>{70e1774b-ae61-48d6-be47-28e5639c9c0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\System">
-      <UniqueIdentifier>{223f1cce-61cb-4cbf-9b98-d41a80130953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\IO">
-      <UniqueIdentifier>{b538cee9-879f-4288-a1e8-97dc8fbe636e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\IO\exporter">
-      <UniqueIdentifier>{3e4b8a44-dc01-450d-9a53-76425c64084d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\IO\importer">
-      <UniqueIdentifier>{fe884be1-bf18-4c0e-8acc-292ed7bbf136}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\Utils">
-      <UniqueIdentifier>{587bfa79-6712-412c-a5e6-52dc9995f4ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\IO\reader">
-      <UniqueIdentifier>{73e1d87a-c40c-4415-8c46-130b1d81d37e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Openmesh-Core\IO\writer">
-      <UniqueIdentifier>{0bb6bcdd-8f9d-45e8-8807-a09415686bbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="triangle">
-      <UniqueIdentifier>{dc16e62d-f031-482f-aa32-9beebacd34f2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Viewer">
       <UniqueIdentifier>{cc372ec4-4b7a-479a-80f2-a0e9fa2d037f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Openmesh-Core\Math">
-      <UniqueIdentifier>{3fee5b5f-d76b-435d-ab4c-2f7352a7eadc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="OpenMesh-Tools">
-      <UniqueIdentifier>{526b1bfd-8242-471b-9eeb-8b07b770a582}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="OpenMesh-Tools\Utils">
-      <UniqueIdentifier>{5b67f25e-b301-4d0b-b4da-c2f5ce5270e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ann">
-      <UniqueIdentifier>{0d44e066-5390-4268-8be5-30e5dd1973d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IsoEx">
-      <UniqueIdentifier>{6cf33f0c-d815-479b-a9bb-8f377a191763}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IsoEx\Extractors">
-      <UniqueIdentifier>{9e8e8702-e332-494b-8c64-b007647c2d4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IsoEx\Grids">
-      <UniqueIdentifier>{79ee7251-710a-43f8-8953-a598e8170aab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IsoEx\Explicits">
-      <UniqueIdentifier>{3a49ca9a-6d88-4227-82a5-c997effca156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IsoEx\math">
-      <UniqueIdentifier>{8c3f8f5d-d467-482a-8bf0-9b804e845b3d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="myStuff">
       <UniqueIdentifier>{040d4c4e-5f84-42bc-b049-ed47dd0178f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{9be02e7f-9e0e-41b5-9cf4-b1f5400365b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\triangle">
+      <UniqueIdentifier>{dc16e62d-f031-482f-aa32-9beebacd34f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\OpenMesh-Tools">
+      <UniqueIdentifier>{526b1bfd-8242-471b-9eeb-8b07b770a582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\OpenMesh-Tools\Utils">
+      <UniqueIdentifier>{5b67f25e-b301-4d0b-b4da-c2f5ce5270e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core">
+      <UniqueIdentifier>{892ec7ef-4374-4e10-b03c-7fe779d3aa69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\Mesh">
+      <UniqueIdentifier>{6b0c1fbc-15ae-45b4-8db0-db626e4fb9cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\Geometry">
+      <UniqueIdentifier>{70e1774b-ae61-48d6-be47-28e5639c9c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\System">
+      <UniqueIdentifier>{223f1cce-61cb-4cbf-9b98-d41a80130953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\IO">
+      <UniqueIdentifier>{b538cee9-879f-4288-a1e8-97dc8fbe636e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\IO\exporter">
+      <UniqueIdentifier>{3e4b8a44-dc01-450d-9a53-76425c64084d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\IO\importer">
+      <UniqueIdentifier>{fe884be1-bf18-4c0e-8acc-292ed7bbf136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\IO\reader">
+      <UniqueIdentifier>{73e1d87a-c40c-4415-8c46-130b1d81d37e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\IO\writer">
+      <UniqueIdentifier>{0bb6bcdd-8f9d-45e8-8807-a09415686bbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\Utils">
+      <UniqueIdentifier>{587bfa79-6712-412c-a5e6-52dc9995f4ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Openmesh-Core\Math">
+      <UniqueIdentifier>{3fee5b5f-d76b-435d-ab4c-2f7352a7eadc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\ann">
+      <UniqueIdentifier>{0d44e066-5390-4268-8be5-30e5dd1973d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\lm">
+      <UniqueIdentifier>{45e1ce23-342c-40fb-a7dd-2cd406e8dd9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\IsoEx">
+      <UniqueIdentifier>{6cf33f0c-d815-479b-a9bb-8f377a191763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\IsoEx\Extractors">
+      <UniqueIdentifier>{9e8e8702-e332-494b-8c64-b007647c2d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\IsoEx\Grids">
+      <UniqueIdentifier>{79ee7251-710a-43f8-8953-a598e8170aab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\IsoEx\Explicits">
+      <UniqueIdentifier>{3a49ca9a-6d88-4227-82a5-c997effca156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\IsoEx\math">
+      <UniqueIdentifier>{8c3f8f5d-d467-482a-8bf0-9b804e845b3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,118 +102,118 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\lm.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\Axb.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\lmbc.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\lmblec.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\lmbleic.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\lmlec.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp">
-      <Filter>lm</Filter>
+      <Filter>ThirdParty\lm</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\ArrayKernel.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\ArrayKernelT.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\BaseKernel.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\PolyConnectivity.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\PolyMeshT.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\TriConnectivity.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Mesh\TriMeshT.cc">
-      <Filter>Openmesh-Core\Mesh</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Geometry\NormalConeT.cc">
-      <Filter>Openmesh-Core\Geometry</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Utils\BaseProperty.cc">
-      <Filter>Openmesh-Core\Utils</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Utils\Endian.cc">
-      <Filter>Openmesh-Core\Utils</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Utils\RandomNumberGenerator.cc">
-      <Filter>Openmesh-Core\Utils</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\Utils\SingletonT.cc">
-      <Filter>Openmesh-Core\Utils</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\System\omstream.cc">
-      <Filter>Openmesh-Core\System</Filter>
+      <Filter>ThirdParty\Openmesh-Core\System</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\reader\OFFReader.cc">
-      <Filter>Openmesh-Core\IO\reader</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\reader</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\reader\BaseReader.cc">
-      <Filter>Openmesh-Core\IO\reader</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\reader</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\reader\OBJReader.cc">
-      <Filter>Openmesh-Core\IO\reader</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\reader</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\reader\PLYReader.cc">
-      <Filter>Openmesh-Core\IO\reader</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\reader</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\reader\STLReader.cc">
-      <Filter>Openmesh-Core\IO\reader</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\reader</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\BaseWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\OBJWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\OFFWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\OMWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\PLYWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\STLWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\writer\VTKWriter.cc">
-      <Filter>Openmesh-Core\IO\writer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\writer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\BinaryHelper.cc">
-      <Filter>Openmesh-Core\IO</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\IOManager.cc">
-      <Filter>Openmesh-Core\IO</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\OMFormat.cc">
-      <Filter>Openmesh-Core\IO</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\OMFormatT.cc">
-      <Filter>Openmesh-Core\IO</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Core\IO\reader\OMReader.cc">
-      <Filter>Openmesh-Core\IO\reader</Filter>
+      <Filter>ThirdParty\Openmesh-Core\IO\reader</Filter>
     </ClCompile>
     <ClCompile Include="triangle.cpp">
-      <Filter>triangle</Filter>
+      <Filter>ThirdParty\triangle</Filter>
     </ClCompile>
     <ClCompile Include="GlutExaminer.cc">
       <Filter>Viewer</Filter>
@@ -225,79 +228,76 @@
       <Filter>Viewer</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Tools\Utils\conio.cc">
-      <Filter>OpenMesh-Tools\Utils</Filter>
+      <Filter>ThirdParty\OpenMesh-Tools\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Tools\Utils\Timer.cc">
-      <Filter>OpenMesh-Tools\Utils</Filter>
+      <Filter>ThirdParty\OpenMesh-Tools\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Tools\Utils\getopt.c">
-      <Filter>OpenMesh-Tools\Utils</Filter>
+      <Filter>ThirdParty\OpenMesh-Tools\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Tools\Utils\Gnuplot.cc">
-      <Filter>OpenMesh-Tools\Utils</Filter>
+      <Filter>ThirdParty\OpenMesh-Tools\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Tools\Utils\MeshCheckerT.cc">
-      <Filter>OpenMesh-Tools\Utils</Filter>
+      <Filter>ThirdParty\OpenMesh-Tools\Utils</Filter>
     </ClCompile>
     <ClCompile Include="OpenMesh\Tools\Utils\StripifierT.cc">
-      <Filter>OpenMesh-Tools\Utils</Filter>
+      <Filter>ThirdParty\OpenMesh-Tools\Utils</Filter>
     </ClCompile>
     <ClCompile Include="ANN\ANN.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\bd_fix_rad_search.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\bd_pr_search.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\bd_search.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\bd_tree.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\brute.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_dump.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_fix_rad_search.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_pr_search.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_search.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_split.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_tree.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\kd_util.cpp">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="ANN\perf.cpp">
-      <Filter>ann</Filter>
-    </ClCompile>
-    <ClCompile Include="ReconViewer.cc">
-      <Filter>Viewer</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClCompile>
     <ClCompile Include="RBFEvalutaor.cc">
       <Filter>Viewer</Filter>
     </ClCompile>
     <ClCompile Include="IsoEx\Extractors\MCTables.cc">
-      <Filter>IsoEx\Extractors</Filter>
+      <Filter>ThirdParty\IsoEx\Extractors</Filter>
     </ClCompile>
     <ClCompile Include="IsoEx\Grids\RegularGrid.cc">
-      <Filter>IsoEx\Grids</Filter>
+      <Filter>ThirdParty\IsoEx\Grids</Filter>
     </ClCompile>
     <ClCompile Include="IsoEx\Math\svd.cc">
-      <Filter>IsoEx\math</Filter>
+      <Filter>ThirdParty\IsoEx\math</Filter>
     </ClCompile>
     <ClCompile Include="ImplicitMLS.cc">
       <Filter>Viewer</Filter>
@@ -332,43 +332,43 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="triangle.h">
-      <Filter>triangle</Filter>
+      <Filter>ThirdParty\triangle</Filter>
     </ClInclude>
     <ClInclude Include="ANN\ANN.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\ANNperf.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\ANNx.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\bd_tree.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\kd_fix_rad_search.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\kd_pr_search.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\kd_search.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\kd_split.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\kd_tree.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\kd_util.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\pr_queue.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="ANN\pr_queue_k.h">
-      <Filter>ann</Filter>
+      <Filter>ThirdParty\ann</Filter>
     </ClInclude>
     <ClInclude Include="RBFEvaluator.h">
       <Filter>Viewer</Filter>
@@ -397,58 +397,55 @@
       <Filter>Viewer</Filter>
     </None>
     <None Include="OpenMesh\Math\LoopSchemeMaskT.hh">
-      <Filter>Openmesh-Core\Math</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Math</Filter>
     </None>
     <None Include="OpenMesh\Math\MathDefs.hh">
-      <Filter>Openmesh-Core\Math</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Math</Filter>
     </None>
     <None Include="OpenMesh\Math\VectorT.hh">
-      <Filter>Openmesh-Core\Math</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Math</Filter>
     </None>
     <None Include="OpenMesh\Math\VectorT_inc.hh">
-      <Filter>Openmesh-Core\Math</Filter>
-    </None>
-    <None Include="ReconViewer.hh">
-      <Filter>Viewer</Filter>
+      <Filter>ThirdParty\Openmesh-Core\Math</Filter>
     </None>
     <None Include="IsoEx\Grids\Grid.hh">
-      <Filter>IsoEx\Grids</Filter>
+      <Filter>ThirdParty\IsoEx\Grids</Filter>
     </None>
     <None Include="IsoEx\Grids\ImplicitGrid.hh">
-      <Filter>IsoEx\Grids</Filter>
+      <Filter>ThirdParty\IsoEx\Grids</Filter>
     </None>
     <None Include="IsoEx\Grids\RegularGrid.hh">
-      <Filter>IsoEx\Grids</Filter>
+      <Filter>ThirdParty\IsoEx\Grids</Filter>
     </None>
     <None Include="IsoEx\Grids\ScalarGridT.hh">
-      <Filter>IsoEx\Grids</Filter>
+      <Filter>ThirdParty\IsoEx\Grids</Filter>
     </None>
     <None Include="IsoEx\Extractors\Edge2VertexMapT.hh">
-      <Filter>IsoEx\Extractors</Filter>
+      <Filter>ThirdParty\IsoEx\Extractors</Filter>
     </None>
     <None Include="IsoEx\Extractors\ExtendedMarchingCubesT.hh">
-      <Filter>IsoEx\Extractors</Filter>
+      <Filter>ThirdParty\IsoEx\Extractors</Filter>
     </None>
     <None Include="IsoEx\Extractors\MarchingCubesT.hh">
-      <Filter>IsoEx\Extractors</Filter>
+      <Filter>ThirdParty\IsoEx\Extractors</Filter>
     </None>
     <None Include="IsoEx\Extractors\MCTables.hh">
-      <Filter>IsoEx\Extractors</Filter>
+      <Filter>ThirdParty\IsoEx\Extractors</Filter>
     </None>
     <None Include="IsoEx\Implicits\ImplicitSphere.hh">
-      <Filter>IsoEx\Explicits</Filter>
+      <Filter>ThirdParty\IsoEx\Explicits</Filter>
     </None>
     <None Include="IsoEx\Implicits\CSG.hh">
-      <Filter>IsoEx\Explicits</Filter>
+      <Filter>ThirdParty\IsoEx\Explicits</Filter>
     </None>
     <None Include="IsoEx\Implicits\Implicit.hh">
-      <Filter>IsoEx\Explicits</Filter>
+      <Filter>ThirdParty\IsoEx\Explicits</Filter>
     </None>
     <None Include="IsoEx\Math\MatrixT.hh">
-      <Filter>IsoEx\math</Filter>
+      <Filter>ThirdParty\IsoEx\math</Filter>
     </None>
     <None Include="IsoEx\Math\svd.hh">
-      <Filter>IsoEx\math</Filter>
+      <Filter>ThirdParty\IsoEx\math</Filter>
     </None>
     <None Include="ImplicitMLS.hh">
       <Filter>Viewer</Filter>

@@ -18,26 +18,27 @@
 #include <IsoEx/Grids/ScalarGridT.hh>
 #include <IsoEx/Extractors/MarchingCubesT.hh>
 
-#include "ReconViewer.hh"
 #include "ImplicitRBF.hh"
 #include "ImplicitMLS.hh"
+const int MC_RESOLUTION = 50;
+
 #include <fileSystems.h>
 
 //== IMPLEMENTATION ========================================================== 
 
 
 ValenceViewer::ValenceViewer(const char* _title, int _width, int _height) : MeshViewer(_title, _width, _height)
-{ 
-  mesh_.request_vertex_colors();
+{
+	mesh_.request_vertex_colors();
 
-  add_draw_mode("Vertex Valences");
-  mesh_.add_property(vertexValence);  
-  InitializeColorsArray();
+	add_draw_mode("Vertex Valences");
+	mesh_.add_property(vertexValence);  
+	InitializeColorsArray();
 
-// Reconviewer
-  epsilon=0.01;
-  beta = 0.61;
-  add_draw_mode("Point Cloud");
+	// Reconviewer
+	epsilon=0.01;
+	beta = 0.61;
+	add_draw_mode("Point Cloud");
 }
 
 
@@ -53,17 +54,17 @@ ValenceViewer::~ValenceViewer()
 
 bool ValenceViewer::open_mesh(const char* _filename)
 {
-  // load mesh
-  if (MeshViewer::open_mesh(_filename))
-  {
-    // compute vertex valence and color coding
-    calc_valences();
-    color_coding();
+	// load mesh
+	if (MeshViewer::open_mesh(_filename))
+	{
+	// compute vertex valence and color coding
+	calc_valences();
+	color_coding();
 
-    glutPostRedisplay();
-    return true;
-  }
-  return false;
+	glutPostRedisplay();
+	return true;
+	}
+	return false;
 }
 
 
@@ -90,17 +91,16 @@ void ValenceViewer::calc_valences()
 //-----------------------------------------------------------------------------
 void ValenceViewer::InitializeColorsArray()
 {
-  vertexColors[0] = Mesh::Color(255,0,255);		// Violet
-  vertexColors[1] = Mesh::Color(255,255,255);	// White
-  vertexColors[2] = Mesh::Color(255,0,0);		// Red
-  vertexColors[3] = Mesh::Color(255,125,0);		// Orange
-  vertexColors[4] = Mesh::Color(255,255,0);		// Yellow
-  vertexColors[5] = Mesh::Color(0,255,0);		// Green
-  vertexColors[6] = Mesh::Color(0,255,255);		// Cyan
-  vertexColors[7] = Mesh::Color(0,0,255);		// Blue
-  vertexColors[8] = Mesh::Color(125,0,125);		// Indigo
-  vertexColors[9] = Mesh::Color(125,0,0);		// Maroon
-  /////////////////////////////////////////////////////////////////////////////
+	vertexColors[0] = Mesh::Color(255,0,255);		// Violet
+	vertexColors[1] = Mesh::Color(255,255,255);	// White
+	vertexColors[2] = Mesh::Color(255,0,0);		// Red
+	vertexColors[3] = Mesh::Color(255,125,0);		// Orange
+	vertexColors[4] = Mesh::Color(255,255,0);		// Yellow
+	vertexColors[5] = Mesh::Color(0,255,0);		// Green
+	vertexColors[6] = Mesh::Color(0,255,255);		// Cyan
+	vertexColors[7] = Mesh::Color(0,0,255);		// Blue
+	vertexColors[8] = Mesh::Color(125,0,125);		// Indigo
+	vertexColors[9] = Mesh::Color(125,0,0);		// Maroon
 }
 
 
@@ -190,7 +190,7 @@ void ValenceViewer::MeshFromFunction(Implicit* ImpFunc)
 	std::cout << "Bounding Box\n" << std::flush;
 	Mesh::Point bb_min( Points[0]), bb_max( Points[0]);
 
-	for (std::vector<Point>::iterator pi=Points.begin(); pi!=Points.end();pi++)
+	for (std::vector<Mesh::Point>::iterator pi=Points.begin(); pi!=Points.end();pi++)
 	{
 		bb_min.minimize(*pi);
 		bb_max.maximize(*pi);
@@ -210,7 +210,7 @@ void ValenceViewer::MeshFromFunction(Implicit* ImpFunc)
 	{
 		res[idir] = (int)(MC_RESOLUTION * VecDiag[0]/MeanSize + 0.5); 
 	}
-	IsoEx::ScalarGridT<Scalar>  grid(bb_min,
+	IsoEx::ScalarGridT<Mesh::Scalar>  grid(bb_min,
 		Mesh::Point(bb_max[0]-bb_min[0], 0, 0),
 		Mesh::Point(0, bb_max[1]-bb_min[1], 0),
 		Mesh::Point(0, 0, bb_max[2]-bb_min[2]),

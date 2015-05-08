@@ -41,7 +41,6 @@ const double M_1_SQRT2PI = 0.398942280401433; // 1/sqrt(2pi)
 typedef IM::Matrix33<PRECISION> Mat3;
 
 #include "ValenceViewer.hh"
-#include "ReconViewer.hh"
 #include <ANN/ANN.h>
 #include <ANN/ANNperf.h>
 #include <ANN/ANNx.h>
@@ -123,13 +122,34 @@ void ann_test()
 	double	eps		= 0;	// error bound
 	ANNidxArray nnIdx = new ANNidx[k];						// allocate near neigh indices
 	ANNdistArray dists = new ANNdist[k];						// allocate near neighbor dists
+	bool* marked = new bool[pts.nbPoints];
+	
+	for (int i = 0; i<pts.nbPoints; ++i) marked[i] = false;
+
 
 	kdTree->annkSearch(						// search
 			queryPt,						// query point
 			k,								// number of near neighbors
 			nnIdx,							// nearest neighbors (returned)
 			dists,							// distance (returned)
-			eps);							// error bound
+			eps, 							// error bound
+			marked);
+
+	std::cout << "\tNN:\tIndex\tDistance\n";
+	for (int i = 0; i < k; i++)
+	{			// print summary
+		dists[i] = sqrt(dists[i]);			// unsquare distance
+		std::cout << "\t" << i << "\t" << nnIdx[i] << "\t" << dists[i] << "\n";
+		marked[nnIdx[i]] = true;
+	}
+
+	kdTree->annkSearch(						// search
+			queryPt,						// query point
+			k,								// number of near neighbors
+			nnIdx,							// nearest neighbors (returned)
+			dists,							// distance (returned)
+			eps, 							// error bound
+			marked);
 
 	std::cout << "\tNN:\tIndex\tDistance\n";
 	for (int i = 0; i < k; i++)
@@ -137,6 +157,9 @@ void ann_test()
 		dists[i] = sqrt(dists[i]);			// unsquare distance
 		std::cout << "\t" << i << "\t" << nnIdx[i] << "\t" << dists[i] << "\n";
 	}
+
+
+	delete [] marked;
     delete [] nnIdx;							// clean things up
     delete [] dists;
     delete kdTree;
@@ -594,14 +617,14 @@ bool computeNormals(TriMesh mesh)
 	return true;
 } // bool computeNormals(TriMesh mesh)
 
-
+// https://msdn.microsoft.com/en-us/library/ms182372.aspx -< Profiler
 int main(int argc, char **argv)
 {
+	//ann_test();
 
 	glutInit(&argc, argv);
 
 	ValenceViewer window("Wireframe", 512, 512);
-//	ReconViewer window("Wireframe", 512, 512);
 
 //	window.open_mesh("bunny.off");
 	window.open_mesh("torus(10,3,50).off");
@@ -818,3 +841,4 @@ int main(int argc, char **argv)
 }
 */
 
+// http://us.battle.net/d3/en/forum/topic/3967848172

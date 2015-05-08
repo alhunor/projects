@@ -151,7 +151,6 @@
     <ClCompile Include="point.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="RBFEvalutaor.cc" />
-    <ClCompile Include="ReconViewer.cc" />
     <ClCompile Include="triangle.cpp" />
     <ClCompile Include="ValenceViewer.cc" />
   </ItemGroup>
@@ -203,7 +202,6 @@
     <None Include="OpenMesh\Math\MathDefs.hh" />
     <None Include="OpenMesh\Math\VectorT.hh" />
     <None Include="OpenMesh\Math\VectorT_inc.hh" />
-    <None Include="ReconViewer.hh" />
     <None Include="ValenceViewer.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
