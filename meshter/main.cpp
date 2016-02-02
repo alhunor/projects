@@ -599,23 +599,25 @@ bool computeNormals(TriMesh mesh)
 	OpenMesh::FPropHandleT<TriMesh::Point> approxNormals;
 	mesh.add_property(trueNormals);
 	mesh.add_property(approxNormals);
-	TriMesh::FaceIter		f_it, f_end(mesh.faces_end());
+	TriMesh::FaceIter	f_it, f_end(mesh.faces_end());
 	double valence;
-	//TriMesh::FaceFaceIter	ff_it;
+	TriMesh::FaceVertexIter fv_it;
 
 	for (f_it=mesh.faces_begin(); f_it!=f_end; ++f_it)
 	{
 		mesh.property(trueNormals,f_it).vectorize(0.0f);
 		valence = 0;
-/*		for (vv_it=mesh.vv_iter( v_it ); vv_it; ++vv_it)
+		for (fv_it=mesh.fv_iter( f_it ); fv_it; ++fv_it)
 		{
-			mesh.property(cogs,v_it) += mesh.point( vv_it );
+			mesh.property(approxNormals,fv_it) += mesh.point( fv_it );
 			++valence;
-		}*/
+		}
 		mesh.property(approxNormals,f_it) /= valence;
 	}
 	return true;
 } // bool computeNormals(TriMesh mesh)
+
+
 
 // https://msdn.microsoft.com/en-us/library/ms182372.aspx -< Profiler
 int main(int argc, char **argv)
