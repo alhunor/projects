@@ -1,6 +1,8 @@
 #include <math.h>
 #include "BlackScholes.h"
 #include "mathProbability.h"
+#include <algorithm> // for max
+
 // formulae from http://en.wikipedia.org/wiki/Black%E2%80%93Scholes with r=0 and for a call.
 
 inline static double sq(double x) {return x*x;}
@@ -9,12 +11,15 @@ inline static double sq(double x) {return x*x;}
 double black(double F, double K, double sigma, double t, OptionType ot)
 {
 	// prices a call option
+	if (t<0.00000001) return std::max(F-K,0.0);
 	double sigmasqrt = sigma*sqrt(t);
-	double d1 = (log(F/K)+0.5*sigma*sigma*t)/sigmasqrt;
+	double d1 = (log(F/K) + 0.5*sigma*sigma*t) / sigmasqrt;
+	double nd1 = gaussCdf(d1);
+	double nd2 = gaussCdf(d1-sigmasqrt);
 
 	if (ot == CALL)
 	{
-		return F*gaussCdf(d1)-K*gaussCdf(d1-sigmasqrt);
+		return F*nd1-K*nd2;
 	} else
 	{
 		//return F*gaussCdf(d1)-K*gaussCdf(d1-sigmasqrt);

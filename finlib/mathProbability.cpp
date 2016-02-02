@@ -17,7 +17,8 @@ double gaussPdf(double x, double mu, double sigma)
 
 double gaussCdf(double x)
 {
-	return 0.5*(1+gsl_sf_erf(x)*M_SQRT1_2);
+//	return 0.5*(1+gsl_sf_erf(x)*M_SQRT1_2);
+	return 1 - gsl_sf_erf_Q(x);
 };
 
 double gaussCdf(double x, double mu, double sigma)

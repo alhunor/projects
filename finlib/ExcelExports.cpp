@@ -101,6 +101,25 @@ extern "C" LPXLFOPER __declspec(dllexport) xlOptionPricer(double forward, double
 	EXCEL_END;
 }
 
+
+
+extern "C" LPXLFOPER __declspec(dllexport) xlBlackScholes(double forward, double strike, double atmVol, double time)
+{
+	EXCEL_BEGIN;
+
+	// Checks if called from the function wizard
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+	double ret = black(forward, strike, atmVol, time);
+
+	return XlfOper(ret);
+	EXCEL_END;
+}
+
+
+
+
 extern "C" LPXLFOPER __declspec(dllexport) xlCholesky(XlfOper Matrix)
 {
 	EXCEL_BEGIN;
@@ -672,6 +691,20 @@ namespace
     XLRegistration::XLFunctionRegistrationHelper registerOptionPricer
 	(   "xlOptionPricer", "OptionPricer", "Computes a call option price",
         "FinLib", OptionPricerArgs, 5);
+
+
+//BlackScholes
+	XLRegistration::Arg BlackScholesArgs[] = {
+        { "Forward", "Forward", "B" },
+        { "Strike", "Strike of the Option", "B" },
+        { "AtmVol", "ATM Volatility", "B" },
+        { "Time", "Time to Expiry", "B" }
+    };
+
+    XLRegistration::XLFunctionRegistrationHelper registerBlackScholes
+	(   "xlBlackScholes", "BlackScholes", "BS formula for Call option",
+        "FinLib", BlackScholesArgs, 4);
+
 
 //FrequencyDistribution
 	XLRegistration::Arg FrequencyDistributionArgs[] = {
