@@ -56,7 +56,7 @@ void main()
 		++count;
 		if (count == 33)
 		{
-			count = 33;
+			count = 34;
 		}
 	}
 	actors.stat();
