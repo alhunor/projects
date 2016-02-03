@@ -53,7 +53,13 @@ void main()
 		
 		cout<<endl;
 		}*/
+		++count;
+		if (count == 33)
+		{
+			count = 33;
+		}
 	}
+	actors.stat();
 	cout<<"Press any key to exit..";
 	_getch();
 }

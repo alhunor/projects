@@ -7,6 +7,9 @@
 
 enum atype { Player, Pet, Creature, Invalid };
 
+
+typedef std::list<wowEvent*> wowEventListT;
+
 class actor
 {
 public:
@@ -19,16 +22,15 @@ public:
 	int maxHP;
 	bool alive;
 	std::string name;
-	typedef std::list<wowEvent*> wowEventListT;
 	wowEventListT actions;
-	virtual bool processEvent(wowEvent* eve) = 0; // return true if the venet has been processed successfully or ignored by design
+	virtual bool processEvent(wowEvent* eve); // return true if the event has been processed successfully or ignored by design
 };
 
 class petT : public actor
 {
 public: 
-	petT(wowEvent* eve) : actor(eve) { atype=Player; }
-	bool processEvent(wowEvent* eve) { return true; }
+	petT(wowEvent* eve) : actor(eve) { atype = Pet; name = eve->destName; }
+	//bool processEvent(wowEvent* eve) { return true; }
 };
 
 typedef std::list<petT*> petListT;
@@ -38,9 +40,9 @@ class player : public actor
 {
 public:
 	player(wowEvent* eve) : actor(eve) { atype = Player; }
-	~player();
+	virtual ~player();
 	//protected:
-	bool processEvent(wowEvent* eve) { return 0; }
+	virtual bool processEvent(wowEvent* eve);
 	int currentLevel;
 	int itemLevel;
 	float mastery;
@@ -54,33 +56,12 @@ public:
 };
 
 
-struct actorType
-{
-	atype atype;
-	player *player;
-};
-
-typedef std::map<std::string, actor*> actorMapT;
-class actors
-{
-public:
-	actors() {}
-	~actors();
-	int nbActors() { return actorMap.size(); }
-	void add(wowEvent* eve);
-	//bool remove(std::string name);
-
-protected:
-	actorMapT actorMap;
-};
-
-
-
 class mage : public player
 {
 public:
 	mage(wowEvent* eve) : player(eve) {}
-//protected:
+	bool processEvent(wowEvent* eve) { return player::processEvent(eve); }
+	//protected:
 	int currentMana;
 	int maxMana;
 	int spellPower;
@@ -95,4 +76,24 @@ public:
 	int arcaneCharges;
 	float arcaneChargesExpires; // seconds until the arcane charges will expire
 	// store temporary buffs
+};
+
+
+
+typedef std::map<std::string, actor*> actorMapT;
+class actors
+{
+public:
+	actors() {}
+	~actors();
+	int nbActors() { return actorMap.size(); }
+	void add(wowEvent* eve);
+	//bool remove(std::string name);
+	void stat();
+	//petT* searchPetOwner(std::string petName, wowEvent* eve);
+	petT* actors::searchPetOwner(std::string petName, std::string ownerName);
+
+protected:
+	actorMapT actorMap;
+	std::map<std::string, std::string> petOwners;
 };
