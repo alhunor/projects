@@ -4,8 +4,7 @@
 #include <string>
 #include <map>
 #include <list>
-
-enum atype { Player, Pet, Creature, Invalid };
+#include <vector>
 
 
 typedef std::list<wowEvent*> wowEventListT;
@@ -13,7 +12,7 @@ typedef std::list<wowEvent*> wowEventListT;
 class actor
 {
 public:
-	actor();
+	//actor();
 	virtual ~actor();
 	actor(wowEvent* eve);
 	atype atype;
@@ -21,15 +20,17 @@ public:
 	int currentHP;
 	int maxHP;
 	bool alive;
-	std::string name;
+	GUID guid;
 	wowEventListT actions;
 	virtual bool processEvent(wowEvent* eve); // return true if the event has been processed successfully or ignored by design
+	void computeDamageTimeline(std::vector<int>& dmg, long start, long end, int nbPeriods); // Return dmg doen in each sampling interval between start and end. There are "n" periods
 };
 
 class petT : public actor
 {
 public: 
-	petT(wowEvent* eve) : actor(eve) { atype = Pet; name = eve->destName; }
+	petT(wowEvent* eve);
+	std::string petName; // duplicate information for debugging
 	//bool processEvent(wowEvent* eve) { return true; }
 };
 
@@ -39,7 +40,7 @@ typedef std::list<petT*> petListT;
 class player : public actor
 {
 public:
-	player(wowEvent* eve) : actor(eve) { atype = Player; }
+	player(wowEvent* eve);
 	virtual ~player();
 	//protected:
 	virtual bool processEvent(wowEvent* eve);
@@ -51,6 +52,9 @@ public:
 	float multistrike;
 	float versatility;
 	int intellect;
+#ifdef _DEBUG
+	std::string playerName; // duplicate information for debugging
+#endif
 	petListT pets;
 	// list of party buffs
 };
@@ -80,20 +84,22 @@ public:
 
 
 
-typedef std::map<std::string, actor*> actorMapT;
+typedef std::map<GUID, actor*> actorMapT;
 class actors
 {
 public:
-	actors() {}
+	actors() : minTime(INT32_MAX), maxTime(-9999) {}
 	~actors();
 	int nbActors() { return actorMap.size(); }
 	void add(wowEvent* eve);
 	//bool remove(std::string name);
 	void stat();
 	//petT* searchPetOwner(std::string petName, wowEvent* eve);
-	petT* actors::searchPetOwner(std::string petName, std::string ownerName);
+	petT* actors::searchPetOwner(std::string petName, GUID ownerGuid);
+	actor* locate(std::string name);
+	unsigned long minTime, maxTime;
 
 protected:
 	actorMapT actorMap;
-	std::map<std::string, std::string> petOwners;
+	std::map<std::string, GUID> petOwners;
 };

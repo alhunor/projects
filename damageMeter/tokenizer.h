@@ -12,7 +12,8 @@ public:
 	bool init(const char* s, const int len);
 	char* slice(char separator);
 	void tokenize();
-
+	void setTime(unsigned int time) { time_ms = time; }
+	unsigned int time_ms;
 protected:
 	void clear();
 	bool tokenized;

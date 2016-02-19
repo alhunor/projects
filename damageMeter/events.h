@@ -1,7 +1,7 @@
 #pragma once
 #include "tokenizer.h"
 #include "mechanics.h"
-//#include "actors.h"
+#include "utils.h"
 #include <string>
 
 //Type
@@ -38,17 +38,44 @@ typedef enum { SPELL_DAMAGE = 0, SWING_DAMAGE, SWING_DAMAGE_LANDED, SPELL_CAST_S
 SPELL_AURA_REMOVED, SPELL_AURA_REMOVED_DOSE, SPELL_SUMMON } etype;
 // xxx TODO add all types
 
+/*
+const int SPELL = 1;
+const int DAMAGE = 2;
+const int HEAL = 4;
+const int RANGE = 8;
+//..*/
+
+
+
+enum atype { Player = 0, Pet, Creature, Vehicle, Item, Nil, Invalid};
+typedef unsigned int GUID;
+//typedef FLAGS;
+
+struct guidImpl
+{
+	std::string name;
+	std::string guidString;
+	atype type;
+	GUID guid; // for convenience
+};
+
+
+class guidClass
+{
+public:
+	guidClass() {}
+	guidImpl& insert(std::string& guidString, std::string& name);
+	GUID hash(std:: string& s);
+	guidImpl& lookUp(GUID hash);
+	void save();
+protected:
+	std::map<GUID, guidImpl> data;
+};
 
 class damage
 {
 public:
 	damage(tokenizer& t, int offset);
-
-	int hitPoints;
-	int maxHitPoints;
-
-	float xPosition;
-	float yPosition;
 
 	int dmgDone;
 	int overkill;
@@ -67,6 +94,7 @@ class sourceOrDestination
 {
 public:
 	sourceOrDestination(tokenizer& t, int offset);
+	GUID targetGuid, masterGuid;
 
 	int hitPoints;
 	int maxHitPoints;
@@ -87,18 +115,24 @@ class wowEvent
 {
 public:
 	wowEvent(tokenizer& t);
-	void setTime(long int _time_ms) { time_ms = _time_ms; }
-	std::string sourceGUID; //1
+	void setTime(unsigned long int _time_ms) { time_ms = _time_ms; }
+	GUID sourceGUID; //1
+	unsigned long int  sourceFlags; //3
+	unsigned long int  sourceRaidFlags; //4
+	GUID destGUID; //5
+#ifdef _DEBUG
 	std::string sourceName; //2
-	int sourceFlags; //3
-	int sourceRaidFlags; //4
-	std::string destGUID; //5
 	std::string destName; //6
-	int destFlags; //7
-	int destRaidFlags; //8
-	etype etype;
-protected:
-	long int time_ms;
+	int nr;
+	static int count;
+#endif // DEBUG
+	unsigned long int  destFlags; //7
+	unsigned long int  destRaidFlags; //8
+	etype etype; // event type
+	atype atype; // actor type
+	virtual int damage_amount() { return 0; }
+	virtual int heal_amount() { return 0; }
+	unsigned long int time_ms;
 };
 
 class spellEvent : public wowEvent
@@ -107,7 +141,7 @@ public:
 	spellEvent(tokenizer& t);
 	int spellID; //9
     // std::string spellName;//10
-	int spellSchool;
+	unsigned long int spellSchool;
 };
 
 
@@ -116,6 +150,8 @@ class spellDamage : public spellEvent
 {
 public:
 	spellDamage(tokenizer& t);
+	virtual int damage_amount() { return d.dmgDone; }
+
 	damage d;
 	sourceOrDestination sd;
 };
@@ -124,6 +160,7 @@ class swingDamage : public wowEvent
 {
 public:
 	swingDamage(tokenizer& t);
+	virtual int damage_amount() { return d.dmgDone; }
 	damage d;
 	sourceOrDestination sd;
 };
@@ -141,6 +178,7 @@ class spellCastSuccess : public spellEvent
 public:
 	spellCastSuccess(tokenizer& t);
 	sourceOrDestination sd; // these fields are related to the damage dealer and not to the target
+	GUID resourceActor;
 };
 
 class spellCastFailed : public spellEvent
@@ -200,5 +238,6 @@ public:
 	spellSummon(tokenizer& t);
 };
 
-
 wowEvent* createEvent(const char* s, int len, tokenizer& t);
+
+//atype actorType(wowEvent* eve);

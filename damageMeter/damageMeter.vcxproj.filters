@@ -8,6 +8,9 @@
     <Filter Include="LogFiles">
       <UniqueIdentifier>{11d80acf-371f-490e-8513-c1f1374c624d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\sqllight">
+      <UniqueIdentifier>{95c90e9f-cf86-4dd4-ba7d-4bde36752c16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -28,6 +31,12 @@
     <ClCompile Include="mechanics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\mystuff\hash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\sqlite\sqlite3.c">
+      <Filter>Source Files\sqllight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="kettle arcane.txt">
@@ -37,6 +46,15 @@
       <Filter>LogFiles</Filter>
     </Text>
     <Text Include="arcane full 2.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="archi-log.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="arcane3.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="frost.txt">
       <Filter>LogFiles</Filter>
     </Text>
   </ItemGroup>
@@ -60,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="mechanics.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\sqlite\sqlite3.h">
+      <Filter>Source Files\sqllight</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

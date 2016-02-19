@@ -1,5 +1,10 @@
 #include "utils.h"
 #include <string>
+#include <sqlite3.h>
+
+// GLOBAL variables
+sqlite3 *db;
+
 
 void trim(std::string& s)
 {
@@ -24,9 +29,10 @@ float asFloat(const char* s)
 }
 
 
-int asIntFromHexa(const char* s)
+unsigned long asuIntFromHexa(const char* s)
 {
-	int i = strtol(s, NULL,16);
+//	unsigned long int i = strtoul("0x80000000", NULL, 16);
+	unsigned long int i = strtoul(s, NULL,16);
 	return i;
 }
 
@@ -42,4 +48,61 @@ bool isPrefix(const char* prefix, const char* s)
 		++ptr;
 	}
 	return true;
+}
+
+
+wchar_t* convert(const char* c)
+{
+	int i;
+	int len = strlen(c);
+	int wcount = 0;
+	wchar_t* w = new wchar_t[len+1];
+	wchar_t wc;
+	for (i = 0; i < len; ++i)
+	{
+		if ((unsigned char)c[i] != 0xC3)
+		{
+			w[i - wcount] = c[i];
+		}
+		else
+		{
+			switch ((unsigned char)c[i + 1])
+			{
+			case 0x82:
+				wc = L'Â';
+				break;
+			case 0x84:
+				wc = L'Ä';
+				break;
+			case 0x89:
+				wc = L'É';
+				break;
+			case 0xa6:
+				wc = L'æ';
+				break;
+			case 0xa8:
+				wc = L'è';
+				break;
+			case 0xa9:
+				wc = L'é';
+				break;
+			case 0xae:
+				wc = L'î';
+				break;
+			default:
+				wc = L'*';
+			}
+			w[i - wcount] = wc;
+			++i;
+			wcount++;
+		}
+	}
+	w[len - wcount] = 0;
+	return w;
+} // wchar_t* convert(char* c)
+
+bool checkFlags(unsigned long int attribute, unsigned long int flags)
+{
+	int b = attribute & flags;
+	return b != 0;
 }
