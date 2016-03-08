@@ -14,24 +14,26 @@ class actor
 public:
 	//actor();
 	virtual ~actor();
-	actor(wowEvent* eve);
+	actor(GUID guid, std::string& name);
 	atype atype;
 	float x, y; //positions
 	int currentHP;
 	int maxHP;
 	bool alive;
 	GUID guid;
+	std::string name;
 	wowEventListT actions;
 	virtual bool processEvent(wowEvent* eve); // return true if the event has been processed successfully or ignored by design
 	void computeDamageTimeline(std::vector<int>& dmg, long start, long end, int nbPeriods); // Return dmg doen in each sampling interval between start and end. There are "n" periods
 };
 
+
+class player;
 class petT : public actor
 {
-public: 
-	petT(wowEvent* eve);
-	std::string petName; // duplicate information for debugging
-	//bool processEvent(wowEvent* eve) { return true; }
+public:
+	petT(GUID guid, std::string& name);
+	player* owner;
 };
 
 typedef std::list<petT*> petListT;
@@ -40,7 +42,7 @@ typedef std::list<petT*> petListT;
 class player : public actor
 {
 public:
-	player(wowEvent* eve);
+	player(GUID guid, std::string& name);
 	virtual ~player();
 	//protected:
 	virtual bool processEvent(wowEvent* eve);
@@ -52,18 +54,16 @@ public:
 	float multistrike;
 	float versatility;
 	int intellect;
-#ifdef _DEBUG
-	std::string playerName; // duplicate information for debugging
-#endif
 	petListT pets;
 	// list of party buffs
 };
 
 
+
 class mage : public player
 {
 public:
-	mage(wowEvent* eve) : player(eve) {}
+	mage(GUID guid, std::string& name) : player(guid, name) {}
 	bool processEvent(wowEvent* eve) { return player::processEvent(eve); }
 	//protected:
 	int currentMana;
@@ -74,7 +74,7 @@ public:
 class arcaneMage :public mage
 {
 public:
-	arcaneMage(wowEvent* eve) : mage(eve) {}
+	arcaneMage(GUID guid, std::string& name) : mage(guid, name) {}
 //protected:
 	bool processEvent(wowEvent* eve);
 	int arcaneCharges;
@@ -85,21 +85,25 @@ public:
 
 
 typedef std::map<GUID, actor*> actorMapT;
+typedef std::map<GUID, petT*> petMapT;
 class actors
 {
 public:
 	actors() : minTime(INT32_MAX), maxTime(-9999) {}
 	~actors();
-	int nbActors() { return actorMap.size(); }
+	int nbPlayers() { return players.size(); }
 	void add(wowEvent* eve);
-	//bool remove(std::string name);
 	void stat();
-	//petT* searchPetOwner(std::string petName, wowEvent* eve);
-	petT* actors::searchPetOwner(std::string petName, GUID ownerGuid);
-	actor* locate(std::string name);
+	petT* searchPetOwner(GUID petGuid, GUID  ownerName);
+	// finds a player by its name
+	actor* locatePlayer(std::string name);
 	unsigned long minTime, maxTime;
 
+	petMapT pets;
 protected:
-	actorMapT actorMap;
+	actorMapT players;
+	actorMapT enemies;
 	std::map<std::string, GUID> petOwners;
+	void summonPet(wowEvent* eve);
+	static std::string unknown;
 };

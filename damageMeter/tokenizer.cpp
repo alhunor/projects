@@ -17,15 +17,15 @@ bool tokenizer::init(const char* s, const int len)
 };
 
 
-void tokenizer::tokenize()
+void tokenizer::tokenize(int offset, char separator)
 {
-	tokens[0] = ++data2;
+	tokens[0] = data2+offset;
 	char* ptr = data2;
 	nbtok = 1;
 	while (*data2)
 	{
 		*ptr = *data2++;
-		if (*ptr == ',')
+		if (*ptr == separator)
 		{
 			*ptr = 0;
 			tokens[nbtok] = ptr + 1;

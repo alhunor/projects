@@ -88,15 +88,14 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="archi.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="arcane full 2.txt" />
     <Text Include="arcane3.txt" />
     <Text Include="archi-log.txt" />
+    <Text Include="events.txt" />
     <Text Include="frost.txt" />
     <Text Include="kettle arcane full.txt" />
     <Text Include="kettle arcane.txt" />
+    <Text Include="summons.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\sqlite\sqlite3.h" />

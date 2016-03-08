@@ -3,6 +3,8 @@
 #include "mechanics.h"
 #include "utils.h"
 #include <string>
+#include <list>
+
 
 //Type
 #define COMBATLOG_OBJECT_TYPE_MASK     0x0000FC00
@@ -34,9 +36,9 @@
 #define COMBATLOG_OBJECT_FOCUS        0x00020000
 #define COMBATLOG_OBJECT_TARGET       0x00010000
 
-typedef enum { SPELL_DAMAGE = 0, SWING_DAMAGE, SWING_DAMAGE_LANDED, SPELL_CAST_SUCCESS, SPELL_CAST_FAILED, SPELL_CAST_START, SPELL_AURA_APPLIED, SPELL_AURA_APPLIED_DOSE, SPELL_AURA_REFRESH,
-SPELL_AURA_REMOVED, SPELL_AURA_REMOVED_DOSE, SPELL_SUMMON } etype;
+//typedef enum { SPELL_DAMAGE = 0, SWING_DAMAGE, SWING_DAMAGE_LANDED, SPELL_CAST_SUCCESS, SPELL_CAST_FAILED, SPELL_CAST_START, SPELL_AURA_APPLIED, SPELL_AURA_APPLIED_DOSE, SPELL_AURA_REFRESH, SPELL_AURA_REMOVED, SPELL_AURA_REMOVED_DOSE, SPELL_SUMMON } etype;
 // xxx TODO add all types
+
 
 /*
 const int SPELL = 1;
@@ -46,9 +48,6 @@ const int RANGE = 8;
 //..*/
 
 
-
-enum atype { Player = 0, Pet, Creature, Vehicle, Item, Nil, Invalid};
-typedef unsigned int GUID;
 //typedef FLAGS;
 
 struct guidImpl
@@ -59,14 +58,13 @@ struct guidImpl
 	GUID guid; // for convenience
 };
 
-
 class guidClass
 {
 public:
 	guidClass() {}
 	guidImpl& insert(std::string& guidString, std::string& name);
-	GUID hash(std:: string& s);
-	guidImpl& lookUp(GUID hash);
+	GUID hash(std::string& s, atype at);
+	guidImpl& lookUpPet(GUID hash);
 	void save();
 protected:
 	std::map<GUID, guidImpl> data;
@@ -111,10 +109,27 @@ public:
 	int itemLevel;
 }; // class sourceOrDestination
 
+
+struct dbField
+{
+	std::string fieldname;
+	int fieldpos;
+	char fieldtype;
+};
+
+struct dbTable
+{
+	std::list<dbField> fields;
+	std::string name; // name of the table
+	std::string insert; // human readable insert statement
+	sqlite3_stmt *statement; // parameterised sqlite3 translation for insert. Actual values need to be linked to the statement with "bind"
+};
+
 class wowEvent
 {
 public:
 	wowEvent(tokenizer& t);
+
 	void setTime(unsigned long int _time_ms) { time_ms = _time_ms; }
 	GUID sourceGUID; //1
 	unsigned long int  sourceFlags; //3
@@ -128,11 +143,24 @@ public:
 #endif // DEBUG
 	unsigned long int  destFlags; //7
 	unsigned long int  destRaidFlags; //8
-	etype etype; // event type
+	int etype; // event type
 	atype atype; // actor type
 	virtual int damage_amount() { return 0; }
 	virtual int heal_amount() { return 0; }
+	virtual GUID ownerID() { return 0; }
 	unsigned long int time_ms;
+
+	static void init();
+	static int SPELL_DAMAGE, SPELL_CAST_SUCCESS, SPELL_CAST_FAILED, SPELL_CAST_START;
+	static int SWING_DAMAGE, SWING_DAMAGE_LANDED;
+	static int SPELL_AURA_APPLIED, SPELL_AURA_APPLIED_DOSE, SPELL_AURA_REFRESH, SPELL_AURA_REMOVED, SPELL_AURA_REMOVED_DOSE;
+	static int SPELL_SUMMON;
+// for interaction with sqlite3 DB - setup access and save
+	static std::map<int, dbTable > dbTables;
+	static bool readConfigFile(const char* fileName);
+	static bool savetoDB(tokenizer& t, int etype);
+	static bool finalise();
+
 };
 
 class spellEvent : public wowEvent
@@ -151,7 +179,7 @@ class spellDamage : public spellEvent
 public:
 	spellDamage(tokenizer& t);
 	virtual int damage_amount() { return d.dmgDone; }
-
+	virtual GUID ownerID() { return sd.masterGuid; }
 	damage d;
 	sourceOrDestination sd;
 };
@@ -161,6 +189,8 @@ class swingDamage : public wowEvent
 public:
 	swingDamage(tokenizer& t);
 	virtual int damage_amount() { return d.dmgDone; }
+	virtual GUID ownerID() { return sd.masterGuid; }
+
 	damage d;
 	sourceOrDestination sd;
 };
@@ -177,8 +207,10 @@ class spellCastSuccess : public spellEvent
 {
 public:
 	spellCastSuccess(tokenizer& t);
+	virtual GUID ownerID() { return sd.masterGuid; }
+
 	sourceOrDestination sd; // these fields are related to the damage dealer and not to the target
-	GUID resourceActor;
+//	GUID resourceActor;
 };
 
 class spellCastFailed : public spellEvent
@@ -241,3 +273,48 @@ public:
 wowEvent* createEvent(const char* s, int len, tokenizer& t);
 
 //atype actorType(wowEvent* eve);
+
+/*
+
+
+sql = "DROP TABLE if exists SpellDamage; CREATE TABLE SpellDamage("  \
+"ID						INT PRIMARY KEY," \
+"time_ms				unsigned big int NOT NULL," \
+"sourceGuid				INT NOT NULL," \
+"sourceFlag				int not null," \
+"sourceRaidFlag         int not null,"\
+"destinationGuid        int not null,"\
+"destinationFlag        int not null," \
+"destinationRaidFlag    int not null," \
+"SepllID				int not null," \
+//	"targetGuid				int not null,"
+"masterGuid				int not null," \
+"hitPoints				int not null," \
+"maxHitPoints			int not null," \
+"attackPower			int not null," \
+"spellPower				int not null," \
+"resolve				int not null," \
+"resourceType			int not null," \
+"resourceAmount			int not null," \
+"maxResourceAmount      int not null,"\
+"xPosition				REAL not null," \
+"yPosition				REAL not null," \
+"itemLevel				int not null," \
+"dmgDone				int not null," \
+"overkill				bool not null," \
+"resisted				int not null," \
+"blocked				int not null," \
+"absorbed				int not null," \
+"critical				bool not null," \
+"glancing				bool not null," \
+"crushing				bool not null," \
+"multistrike			bool not null);";
+
+rc = sqlite3_exec(db, sql, 0, 0, &zErrMsg);
+if (rc != SQLITE_OK)
+{
+fprintf(stderr, "Error in CREATE TABLE SpellDamage: %s\n", zErrMsg);
+sqlite3_free(zErrMsg);
+};
+
+*/

@@ -57,11 +57,12 @@
     <Text Include="frost.txt">
       <Filter>LogFiles</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="archi.txt">
+    <Text Include="events.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="summons.txt">
       <Filter>LogFiles</Filter>
-    </None>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tokenizer.h">
