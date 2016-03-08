@@ -43,6 +43,9 @@
     <Filter Include="3rdParty\lm">
       <UniqueIdentifier>{2f2f0514-2c3a-43b3-a9b2-56ade54f74e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FX Modelling">
+      <UniqueIdentifier>{88d1f4aa-0789-4ed3-8ca6-83d5ce2ff2d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdparty\dSFMT\dSFMT.cpp">
@@ -108,7 +111,6 @@
     <ClCompile Include="ImageProcessing.cpp">
       <Filter>Images</Filter>
     </ClCompile>
-    <ClCompile Include="BlackScholes.cpp" />
     <ClCompile Include="..\myStuff\dates.cpp">
       <Filter>3rdParty\mystuff</Filter>
     </ClCompile>
@@ -225,6 +227,21 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\levmar-2.6\misc.cpp">
       <Filter>3rdParty\lm</Filter>
+    </ClCompile>
+    <ClCompile Include="fxoption.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="fxVolSurf.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="marketData.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="yieldCurve.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScholes.cpp">
+      <Filter>FX Modelling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +395,6 @@
     <ClInclude Include="ImageProcessing.h">
       <Filter>Images</Filter>
     </ClInclude>
-    <ClInclude Include="BlackScholes.h" />
     <ClInclude Include="..\myStuff\dates.h">
       <Filter>3rdParty\mystuff</Filter>
     </ClInclude>
@@ -453,6 +469,21 @@
     </ClInclude>
     <ClInclude Include="randomNumbers.h">
       <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="fxVolSurf.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="fxoption.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="yieldCurve.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="marketData.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScholes.h">
+      <Filter>FX Modelling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

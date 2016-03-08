@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -20,11 +20,13 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -51,8 +53,8 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\boost_1_55_0;l:\Projects\myStuff;l:\Projects\3rdparty\gsl\win32\include;.\;l:\Projects\3rdparty;L:\Projects\3rdParty\levmar-2.6;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\gsl\win32\lib;l:\Projects\3rdparty\boost_1_55_0\lib;l:\Projects\3rdparty\xlw5\xlw\lib;L:\Projects\3rdParty\lapack;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\boost_1_60_0;l:\Projects\myStuff;l:\Projects\3rdparty\gsl\;.\;l:\Projects\3rdparty;L:\Projects\3rdParty\levmar-2.6;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\gsl\lib;l:\Projects\3rdparty\boost_1_60_0\lib32-msvc-14.0;l:\Projects\3rdparty\xlw5\xlw\lib;L:\Projects\3rdParty\lapack;$(LibraryPath)</LibraryPath>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.xll</TargetExt>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">finlib</TargetName>
   </PropertyGroup>
@@ -92,7 +94,7 @@
       <Culture>0x0809</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cblas_mtd.lib;gsl_mtd.lib;lapack_win32_MTd.lib;blas_win32_MTd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cblasr.lib;gsld.lib;lapack_win32_MTd.lib;blas_win32_MTd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>
@@ -106,6 +108,7 @@
       <ImportLibrary>
       </ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalOptions>/nodefaultlib:LIBCMTD.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -175,6 +178,9 @@
     <ClCompile Include="ExcelExportsArrayFunctions.cpp" />
     <ClCompile Include="ExcelExportsImages.cpp" />
     <ClCompile Include="ExcelExportsTrader.cpp" />
+    <ClCompile Include="fxoption.cpp" />
+    <ClCompile Include="fxVolSurf.cpp" />
+    <ClCompile Include="marketData.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="myError.cpp" />
     <ClCompile Include="randomNumbers.cpp" />
@@ -216,6 +222,7 @@
     <ClCompile Include="xlw\XlfServices.cpp" />
     <ClCompile Include="xlw\XlFunctionRegistration.cpp" />
     <ClCompile Include="xlw\XlOpenClose.cpp" />
+    <ClCompile Include="yieldCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgList.h" />
@@ -260,6 +267,9 @@
     <ClInclude Include="..\myStuff\optimizer.h" />
     <ClInclude Include="dataStructures.h" />
     <ClInclude Include="ExcelConversions.h" />
+    <ClInclude Include="fxoption.h" />
+    <ClInclude Include="fxVolSurf.h" />
+    <ClInclude Include="marketData.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="myError.h" />
     <ClInclude Include="backTesting.h" />
@@ -294,6 +304,7 @@
     <ClInclude Include="xlw\XlfStr.h" />
     <ClInclude Include="xlw\XlFunctionRegistration.h" />
     <ClInclude Include="xlw\xlw.h" />
+    <ClInclude Include="yieldCurve.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\myStuff\hfimer.doc" />

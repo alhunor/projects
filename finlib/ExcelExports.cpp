@@ -13,6 +13,10 @@
 #include "editDistance.h"
 
 //#include "parameters.h"
+#include "marketData.h"
+#include "yieldCurve.h"
+
+
 
 double sq(double x) {return x*x;}
 
@@ -645,6 +649,63 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMultiLinearRegression(XlfOper xGrid
 } // extern "C" LPXLFOPER __declspec(dllexport) xlMultiLinearRegression(XlfOper xGrid, XlfOper b)
 
 
+Currency readycCurveCurrency(XlfOper Curves, int offset)
+{
+	char* s = Curves(0, offset*2).AsString();
+	Currency ccy = toCurrency(s);
+	return ccy;
+}
+
+yieldCurve* readycCurve(XlfOper Curves, int offset, int marketDate)
+{
+	std::string convention = Curves(0, offset*2+1).AsString();
+	if (convention != "DFs") return NULL;
+	yieldCurve* yc = new yieldCurve(marketDate);
+	int nbRows = Curves.rows();
+	int date;
+	float df;
+	std::vector<int> dates;
+	std::vector<float> dfs;
+		for (int i = 1; i < nbRows; ++i)
+	{
+		date = Curves(i, offset * 2).AsInt();
+		df = (float)Curves(i, offset * 2+1).AsDouble();
+		dates.push_back(date);
+		dfs.push_back(df);
+	}
+	yc->buildFromDFs(dates, dfs);
+	return yc;
+}
+
+extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper Curves, XlfOper fxVol, XlfOper irVol)
+{
+	EXCEL_BEGIN;
+
+	// Checks if called from the function wizard
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+	if (Curves.IsMissing())
+	{
+		return XlfOper("Curve parameter is missing");
+	}
+	marketData md(marketDate);
+	int nbCurves = Curves.columns()/2;
+	int i;
+	for (i = 0; i < nbCurves; ++i)
+	{
+		Currency ccy = readycCurveCurrency(Curves, i);
+		yieldCurve* yc = readycCurve(Curves, i, marketDate);
+		if (yc)
+		{
+			md.addCurve(ccy, yc);
+		}
+	}
+
+	return XlfOper(true);
+	EXCEL_END;
+}
+
 
 
 namespace
@@ -659,12 +720,26 @@ namespace
 	(   "xlTest", "Test", "Test Data",
         "FinLib", TestArg, 1);
 
+	//MarketLoad
+	XLRegistration::Arg MarketLoadArgs[] = {
+		{ "marketDate", "Base date for the market", "J" },
+		{ "Curves", "Yield Curves", "XLF_OPER" },
+		{ "fxVol", "fx volatility", "XLF_OPER" },
+		{ "irVol", "ir volatility", "XLF_OPER" }
+	};
+
+
+	XLRegistration::XLFunctionRegistrationHelper registerMarketLoadArgs
+		("xlMarketLoad", "MarketLoad", "Loads a market (DFs, {fxSpots- not yet implmented}, fxVols and irVol.",
+			"FinLib", MarketLoadArgs, 4);
+
 	//xlEditDistance
 	XLRegistration::Arg EditDistanceArgs[] = {
         { "X", "Y", "XLF_OPER" },
         { "Y", "Y", "XLF_OPER" },
 		{ "WeigthedDistance", "int DistanceType {0- standard, 1 - weighted, 2 - weigted overlapping}", "I" }
     };
+
     XLRegistration::XLFunctionRegistrationHelper registerEditDistanceArgs
 	(   "xlEditDistance", "EditDistance", "Computes the edit distance between two strings X and Y.",
         "FinLib", EditDistanceArgs, 3);
