@@ -1,0 +1,10 @@
+﻿Build started 10-Jan-16 2:24:38 PM.
+     1>Project "L:\Projects\filefinderr\filefinder.vcxproj" on node 2 (ClCompile target(s)).
+     1>ClCompile:
+         F:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>Done Building Project "L:\Projects\filefinderr\filefinder.vcxproj" (ClCompile target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.99
