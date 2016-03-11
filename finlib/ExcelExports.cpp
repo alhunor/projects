@@ -689,7 +689,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper 
 	{
 		return XlfOper("Curve parameter is missing");
 	}
-	marketData md(marketDate);
+	marketData* md = new marketData(marketDate);
 	int nbCurves = Curves.columns()/2;
 	int i;
 	for (i = 0; i < nbCurves; ++i)
@@ -698,14 +698,68 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper 
 		yieldCurve* yc = readycCurve(Curves, i, marketDate);
 		if (yc)
 		{
-			md.addCurve(ccy, yc);
+			md->addCurve(ccy, yc);
 		}
 	}
 
-	return XlfOper(true);
+	int h = handle.add(md);
+
+	return XlfOper(h);
 	EXCEL_END;
 }
 
+
+extern "C" LPXLFOPER __declspec(dllexport) xlMarketDelete(int h)
+{
+	EXCEL_BEGIN;
+
+	// Checks if called from the function wizard
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+	
+	marketData* md = (marketData*)handle[h];
+	if (md)
+	{
+		delete md;
+		return XlfOper(true);
+	}
+	else
+	{
+		return XlfOper("Unknown market handle.");
+	}
+	EXCEL_END;
+}
+
+
+extern "C" LPXLFOPER __declspec(dllexport) xlDF(int h, XlfOper CurrencyName, int date)
+{
+	EXCEL_BEGIN;
+
+	// Checks if called from the function wizard
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+
+	marketData* md = (marketData*)handle[h];
+	if (!md)
+	{
+		return XlfOper("Unknown market handle.");
+	}
+	else
+	{
+		char* ccyString = CurrencyName.AsString();
+		Currency ccy = toCurrency(ccyString);
+		yieldCurve* yc = md->curve(ccy);
+		if (!yc)
+		{
+			return XlfOper("Market does not have a curve for this currency.");
+		}
+		double df = yc->df(date);
+		return XlfOper(df);
+	}
+	EXCEL_END;
+}
 
 
 namespace
@@ -732,6 +786,29 @@ namespace
 	XLRegistration::XLFunctionRegistrationHelper registerMarketLoadArgs
 		("xlMarketLoad", "MarketLoad", "Loads a market (DFs, {fxSpots- not yet implmented}, fxVols and irVol.",
 			"FinLib", MarketLoadArgs, 4);
+
+	//MarketDelete
+	XLRegistration::Arg MarketDeleteArgs[] = {
+		{ "handle", "Handle for the market", "J" }
+	};
+
+
+	XLRegistration::XLFunctionRegistrationHelper registerMarketDeleteArgs
+		("xlMarketLoad", "MarketDelete", "Delete a marked indentified by its handle.",
+			"FinLib", MarketDeleteArgs, 1);
+
+	//DF
+	XLRegistration::Arg DFArgs[] = {
+		{ "marketHandle", "Handle to the market", "J" },
+		{ "CurrencyName", "Currency Name", "XLF_OPER" },
+		{ "date", "date", "J" }
+	 };
+
+
+	XLRegistration::XLFunctionRegistrationHelper registerDFArgs
+		("xlDF", "DF", "Discount factor.",
+			"FinLib", DFArgs, 3);
+
 
 	//xlEditDistance
 	XLRegistration::Arg EditDistanceArgs[] = {
