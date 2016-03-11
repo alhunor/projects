@@ -1,0 +1,25 @@
+# preceeds comments
+first line: number of points, number of faces, number of lines
+list of points: X, Y and Z coordinates
+list of faces: number of points, followed by the sequence number of the composing points (indexed from zero)
+
+
+OFF
+#  cube.off
+#  A cube
+
+8 6 12
+ 1.0   0.0   1.0
+ 0.0   1.0   1.0
+-1.0   0.0   1.0
+ 0.0  -1.0   1.0
+ 1.0   0.0  -1.0
+ 0.0   1.0  -1.0
+-1.0   0.0  -1.0
+ 0.0  -1.0  -1.0
+ 4  0 1 2 3  
+ 4  7 4 0 3  
+ 4  4 5 1 0  
+ 4  5 6 2 1  
+ 4  3 2 6 7  
+ 4  6 5 4 7
