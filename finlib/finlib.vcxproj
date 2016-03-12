@@ -53,8 +53,8 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\boost_1_60_0;l:\Projects\myStuff;l:\Projects\3rdparty\gsl\;.\;l:\Projects\3rdparty;L:\Projects\3rdParty\levmar-2.6;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">l:\Projects\3rdparty\gsl\lib;l:\Projects\3rdparty\boost_1_60_0\lib32-msvc-14.0;l:\Projects\3rdparty\xlw5\xlw\lib;L:\Projects\3rdParty\lapack;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">c:\Projects\3rdparty\boost_1_60_0;c:\Projects\myStuff;C:\projects\3rdParty\gsl;.\;c:\Projects\3rdparty;c:\Projects\3rdParty\levmar-2.6;C:\projects\finlib\;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">c:\Projects\3rdparty\gsl\lib;c:\Projects\3rdparty\boost_1_60_0\lib32-msvc-14.0;C:\GoogleDrive\Projects\3rdParty\lapack;$(LibraryPath)</LibraryPath>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.xll</TargetExt>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">finlib</TargetName>
   </PropertyGroup>
