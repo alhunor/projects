@@ -258,8 +258,8 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper 
 		}
 		int nbRows = fxSpots.rows();
 		std::string fxpair;
-		double fxSpot;
-		for (int i = 1; i < nbRows; ++i)
+		float fxSpot;
+		for (int i = 0; i < nbRows; ++i)
 		{
 			fxpair = fxSpots(i, 0).AsString();
 			fxSpot = (float)fxSpots(i, 1).AsDouble();
@@ -358,7 +358,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlFxSpot(int h, XlfOper FXPair)
 		{
 			return XlfOper("Market does not have FX spot information.");
 		}
-		double fxspot = fx->getSpot(fgn, dom);
+		double fxspot = fx->value(fgn, dom);
 		return XlfOper(fxspot);
 	}
 	EXCEL_END;

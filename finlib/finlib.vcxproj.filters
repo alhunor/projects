@@ -359,9 +359,6 @@
     <ClInclude Include="ExcelConversions.h">
       <Filter>Infrastructure</Filter>
     </ClInclude>
-    <ClInclude Include="matrix.h">
-      <Filter>Infrastructure</Filter>
-    </ClInclude>
     <ClInclude Include="myError.h">
       <Filter>Infrastructure</Filter>
     </ClInclude>

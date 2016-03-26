@@ -53,9 +53,8 @@ protected:
 struct fxQuote
 {
 	fxQuote() : status(INVALIDQUOTE), dirty (true) {};
-	void set(float _level);
+	void set(float _level, fxQuoteStatus _status);
 	fxQuoteStatus status;
-	float value();
 	float level;
 	bool dirty;
 	// list of dependencies, if formula
@@ -65,10 +64,16 @@ class fxTable
 {
 public:
 	fxTable();
+	~fxTable();
 	void set(Currency fgn, Currency dom, float _level);
-	double getSpot(Currency fgn, Currency dom);
+	void setFormula(Currency fgn, Currency dom, float _level);
+	float value(Currency fgn, Currency dom);
 protected:
 	int n; // number of currencies is n+1
 	fxQuote* fx;
+	float* lookup; // used for calculation of FX levels indirectly from several pairs
+	bool* visited; // used for calculation of FX levels indirectly from several pairs
+	int* prev; // used for calculation of FX levels indirectly from several pairs
 	std::map<Currency, std::set<Currency> > fxpairs;
 };
+

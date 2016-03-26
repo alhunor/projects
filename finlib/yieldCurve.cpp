@@ -1,6 +1,7 @@
 #include "yieldCurve.h"
+#include <list>
+#include <set>
 #include <vector>
-
 
 
 int tenorToMonths(Tenor tenor)
@@ -99,8 +100,6 @@ struct { Currency ccy; char* s; } currencies[150] = {
 	{ EUR,"EUR" },
 	{ AUD,"AUD" },
 	{ JPY,"JPY" },
-
-
 	{ AED,"AED" },
 	{ AFN,"AFN" },
 	{ ALL,"ALL" },
@@ -267,43 +266,34 @@ Currency toCurrency(const char* str)
 } // Currency toCurrency(char* str)
 
 
-
-
-float fxQuote::value()
+void fxQuote::set(float _level, fxQuoteStatus _status=LEVEL)
 {
-	if (status == LEVEL)
+	if (status == LEVEL && status == FORMULA)
 	{
-		return level;
+		return; // do not overwrite n outright level with a formula
 	}
-	else if (status == FORMULA)
-	{
-		if (!dirty)
-		{
-			return level;
-		}
-		// XXX TODO compute level based on formula and list of depedencies
-		return 0;
-	} else
-	{
-		// XXX TODO deal with INVALIDQUOTE
-		return 0;
-	}
-}
-
-void fxQuote::set(float _level)
-{
 	dirty = false;
-	status = LEVEL;
+	status = _status;
 	level = _level;
-	// XXX TODO mark all dependencies dirty
+	// XXX TODO mark all dependencies dirty if _status == LEVEL
 }
-
 
 
 fxTable::fxTable()
 {
 	n = (int)UNKNOWN;
 	fx = new fxQuote[n*(n + 1) / 2];
+	lookup = new float[n + 1];
+	visited = new bool[n + 1];
+	prev = new int[n + 1];
+}
+
+fxTable::~fxTable()
+{
+	delete[] fx;
+	delete[] lookup;
+	delete[] visited;
+	delete[] prev;
 }
 
 void fxTable::set(Currency fgn, Currency dom, float _level)
@@ -322,7 +312,23 @@ void fxTable::set(Currency fgn, Currency dom, float _level)
 	fxpairs[dom].insert(fgn);
 } // void fxTable::set(Currency fgn, Currency dom, float _level)
 
-double fxTable::getSpot(Currency fgn, Currency dom)
+
+
+void fxTable::setFormula(Currency fgn, Currency dom, float _level)
+{
+	if (fgn == dom) return;
+
+	if (fgn < dom)
+	{
+		swap(fgn, dom);
+		_level = 1 / _level;
+	}
+	int pos = (fgn - 1)*fgn / 2 + dom;
+	fx[pos].set(_level, FORMULA);
+} // void fxTable::setFormula(Currency fgn, Currency dom, float _level)
+
+
+float fxTable::value(Currency fgn, Currency dom)
 {
 	if (fgn == dom) return 1;
 	bool inv = false;
@@ -332,6 +338,60 @@ double fxTable::getSpot(Currency fgn, Currency dom)
 		inv = true;
 	}
 	int pos = (fgn - 1)*fgn / 2 + dom;
-	double level=fx[pos].value();
-	return inv ? 1 / level:level;
-} // double fxTable::getSpot(Currency fgn, Currency dom)
+
+	fxQuote& fxq = fx[pos];
+	
+	if (fxq.status == FORMULA)
+	{
+		if (fxq.dirty)
+		{
+			throw "Recompute dirty pair";
+			// XXX TODO compute level based on formula and list of depedencies
+		}
+	} else if (fxq.status == INVALIDQUOTE)
+	{
+		// FX level requires combining several quotes, used Dijkstra's shortest path
+		// lookup[dom] contains the value of the pair fgndom if known, otherwise -1
+		int i;
+		for (i = 0; i <= n; ++i)
+		{
+			lookup[i] = -1; // any invalid value
+			visited[i] = false;
+		}
+		std::list<Currency> tovisit;
+		lookup[fgn] = 1;
+		prev[fgn] = fgn;
+		Currency dom2, fgn2;
+		tovisit.push_back(fgn);
+		do
+		{
+			fgn2 = tovisit.front();
+			tovisit.pop_front();
+			visited[fgn2] = true;
+			for (std::set<Currency>::const_iterator it = fxpairs[fgn2].begin(); it != fxpairs[fgn2].end(); ++it)
+			{
+				dom2 = *it;
+				if (lookup[dom2] != -1) continue;
+				lookup[dom2] = lookup[fgn2]*value(fgn2, dom2); // we have a direct quote for fgndom or its inverse
+				setFormula(fgn, dom2, lookup[dom2]);
+				if (dom2 == dom) goto _exit;
+				if (!visited[dom2])
+				{
+					tovisit.push_back(dom2);
+				}
+			}
+		} while (!tovisit.empty());
+_exit:
+		if (dom2 == dom)
+		{
+			fxq.level = lookup[dom2];
+			fxq.dirty = false;
+			fxq.status = FORMULA;
+			// XXX TODO record formula.
+		} else
+		{
+			throw "Fx pair is missing";
+		}
+	}
+	return inv ? 1 / fxq.level : fxq.level;
+} // float fxTable::value(Currency fgn, Currency dom)
