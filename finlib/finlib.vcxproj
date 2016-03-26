@@ -174,12 +174,14 @@
     <ClCompile Include="..\myStuff\optimizer.cpp" />
     <ClCompile Include="dataStructures.cpp" />
     <ClCompile Include="ExcelConversions.cpp" />
+    <ClCompile Include="ExcelExportFX.cpp" />
     <ClCompile Include="ExcelExports.cpp" />
     <ClCompile Include="ExcelExportsArrayFunctions.cpp" />
     <ClCompile Include="ExcelExportsImages.cpp" />
     <ClCompile Include="ExcelExportsTrader.cpp" />
     <ClCompile Include="fxoption.cpp" />
     <ClCompile Include="fxVolSurf.cpp" />
+    <ClCompile Include="grid.cpp" />
     <ClCompile Include="marketData.cpp" />
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="myError.cpp" />
@@ -269,6 +271,7 @@
     <ClInclude Include="ExcelConversions.h" />
     <ClInclude Include="fxoption.h" />
     <ClInclude Include="fxVolSurf.h" />
+    <ClInclude Include="grid.h" />
     <ClInclude Include="marketData.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="myError.h" />

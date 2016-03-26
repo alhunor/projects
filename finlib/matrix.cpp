@@ -5,8 +5,6 @@
 
 //using namespace boost::numeric;
 
-typedef boost::numeric::ublas::matrix<double> dmat;
-typedef boost::numeric::ublas::matrix<double>::size_type dmat_sizetype;
 
 
 boost::shared_ptr<dmat> mult (const dmat& x, const dmat& y)

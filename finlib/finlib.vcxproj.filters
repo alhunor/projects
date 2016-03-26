@@ -243,6 +243,12 @@
     <ClCompile Include="BlackScholes.cpp">
       <Filter>FX Modelling</Filter>
     </ClCompile>
+    <ClCompile Include="grid.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExportFX.cpp">
+      <Filter>Infrastructure</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgList.h">
@@ -483,6 +489,9 @@
       <Filter>FX Modelling</Filter>
     </ClInclude>
     <ClInclude Include="BlackScholes.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="grid.h">
       <Filter>FX Modelling</Filter>
     </ClInclude>
   </ItemGroup>

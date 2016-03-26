@@ -1,4 +1,5 @@
 #include "marketData.h"
+#include "yieldCurve.h"
 
 
 bool marketData::addCurve(Currency c, yieldCurve* yc)
@@ -36,7 +37,13 @@ marketData::~marketData()
 	// XXX TODO destroy other market data
 }
 
-yieldCurve* marketData::curve(Currency ccy)
+yieldCurve* marketData::getCurve(Currency ccy)
 {
 	return ycs[ccy];
+}
+
+void marketData::addFXTable(fxTable *_fxTable)
+{
+	if (fx) delete fx;
+	fx = _fxTable;
 }

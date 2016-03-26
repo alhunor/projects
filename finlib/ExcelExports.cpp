@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "BlackScholes.h"
+
 #include "ExcelConversions.h"
 #include "FileSystems.h"
 #include "LinearAlgebra.h"
@@ -12,9 +12,6 @@
 #include "md5.h"
 #include "editDistance.h"
 
-//#include "parameters.h"
-#include "marketData.h"
-#include "yieldCurve.h"
 
 
 
@@ -33,7 +30,6 @@ K	FP	Floating-point array structure.
 R	XLOPER	Values, arrays, and range references.
 */
 
-inline double square(double x) {return x*x;}
 
 
 #include "xlw/xlw.h"
@@ -45,83 +41,6 @@ inline double square(double x) {return x*x;}
 
 using namespace xlw;
 using namespace std;
-
-extern "C" LPXLFOPER __declspec(dllexport) xlOptionPricer(double forward, double strike, double atmVol, double time, XlfOper ModelDescriptor)
-{
-	typedef enum {BlackScholes=0, NormalBlackScholes, Hagan} modelType;
-	EXCEL_BEGIN;
-
-	// Checks if called from the function wizard
-	if (XlfExcel::Instance().IsCalledByFuncWiz())
-		return XlfOper(true);
-
-	labelValue lv;
-	if (!ModelDescriptor.IsMissing())
-		lv.add(ModelDescriptor);
-
-	modelType model;
-	if (lv.getHandle("Model")==-1) 
-	{
-		model = BlackScholes;
-	} else
-	{
-		string modelName = lv.getStr("Model");
-		if (modelName == "BlackScholes")
-		{
-			model = BlackScholes;
-		} else if (modelName == "NormalBlackScholes")
-		{
-			model = NormalBlackScholes;
-		} else if (modelName == "Hagan")
-		{
-			model = Hagan;
-		}
-	}
-	double ret;
-
-	switch (model)
-	{
-		case BlackScholes:
-			ret = black(forward, strike, atmVol, time);
-			break;
-		case NormalBlackScholes:
-			ret = normalblack(forward, strike, atmVol, time);
-			break;
-		case Hagan:
-			{
-			double sigma0 = lv.getNum("sigma0");
-			double volvol = lv.getNum("volvol");
-			double rho = lv.getNum("rho");
-			double beta = lv.getNum("beta");
-
-			ret = hagan(forward, strike, sigma0, volvol, rho, beta, time);
-			}
-			break;
-		default:
-			ret = black(forward, strike, atmVol, time);
-	}
-
-	return XlfOper(ret);
-	EXCEL_END;
-}
-
-
-
-extern "C" LPXLFOPER __declspec(dllexport) xlBlackScholes(double forward, double strike, double atmVol, double time)
-{
-	EXCEL_BEGIN;
-
-	// Checks if called from the function wizard
-	if (XlfExcel::Instance().IsCalledByFuncWiz())
-		return XlfOper(true);
-
-	double ret = black(forward, strike, atmVol, time);
-
-	return XlfOper(ret);
-	EXCEL_END;
-}
-
-
 
 
 extern "C" LPXLFOPER __declspec(dllexport) xlCholesky(XlfOper Matrix)
@@ -146,94 +65,6 @@ extern "C" LPXLFOPER __declspec(dllexport) xlCholesky(XlfOper Matrix)
 	return XlfOper(m);
 	EXCEL_END;
 }
-
-class Dynamics
-{
-public:
-	Dynamics();
-	Dynamics(double _f) : f(_f) {}
-	virtual MyArray simulate(int n, double timesteps)=0;
-protected:
-	double f; // forward at time 0.
-};
-
-class LognormalDynamics : public Dynamics
-{
-public:
-	LognormalDynamics();
-	LognormalDynamics(double f, double _vol) : Dynamics(f), vol(_vol) {}
-	virtual MyArray simulate(int n, double timesteps);
-protected:
-	double vol;
-};
-
-
-
-MyArray LognormalDynamics::simulate(int n, double dt)
-{
-	MyArray ma(n);
-	double prev = f;
-	double sigma2t= 0.5 *vol*vol* dt;
-	double sqrtdt =sqrt(dt);
-	double dw = .1;
-	for (int i=0; i<n; ++i)
-	{
-		//ma(i)= prev;
-		//dw = ran()*sqrtdt;
-		prev *= exp(vol*dw-sigma2t);
-	
-	}
-	//ma(n-1) = prev;
-	return ma;
-}
-
-Dynamics* createDynamics(labelValue& arg)
-{
-	const char* dynamics = arg.getStr("dynamics").c_str();
-	double f = arg.getNum("forward");
-	Dynamics* dyn;
-
-	if (_stricmp(dynamics, "LogNormal")==0)
-	{
-		double vol = arg.getNum("vol");
-		dyn = new LognormalDynamics(f, vol);
-		return dyn;
-	}
-	return NULL;
-}
-
-
-
-
-
-
-extern "C" LPXLFOPER __declspec(dllexport) xlSimulatePath(XlfOper Command, XlfOper Arg)
-// returns handle to timeseries object in dbRecordT[] format.
-{
-	EXCEL_BEGIN;
-
-	// Checks if called from the function wizard
-	if (XlfExcel::Instance().IsCalledByFuncWiz())
-		return XlfOper(true);
-
-
-	labelValue arg;
-	arg.add(Command);
-	const char* command = arg.getStr("command").c_str();
-	if (_stricmp(command, "SimulateDynamics")==0)
-	{
-		int n = (int)arg.getNum("nbPoints");
-		double pointsPerYear = arg.getNum("pointsPerYear");
-		Dynamics* dyn = createDynamics(arg);
-		if (!dyn) return XlfOper("Unknown dynamics.");
-
-		dyn->simulate(n, 1/pointsPerYear);
-	}
-
-	return XlfOper(1.0);
-	EXCEL_END;
-}
-
 
 extern "C" LPXLFOPER __declspec(dllexport) xlEigenValuesVectors(XlfOper Matrix)
 {
@@ -649,117 +480,6 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMultiLinearRegression(XlfOper xGrid
 } // extern "C" LPXLFOPER __declspec(dllexport) xlMultiLinearRegression(XlfOper xGrid, XlfOper b)
 
 
-Currency readycCurveCurrency(XlfOper Curves, int offset)
-{
-	char* s = Curves(0, offset*2).AsString();
-	Currency ccy = toCurrency(s);
-	return ccy;
-}
-
-yieldCurve* readycCurve(XlfOper Curves, int offset, int marketDate)
-{
-	std::string convention = Curves(0, offset*2+1).AsString();
-	if (convention != "DFs") return NULL;
-	yieldCurve* yc = new yieldCurve(marketDate);
-	int nbRows = Curves.rows();
-	int date;
-	float df;
-	std::vector<int> dates;
-	std::vector<float> dfs;
-		for (int i = 1; i < nbRows; ++i)
-	{
-		date = Curves(i, offset * 2).AsInt();
-		df = (float)Curves(i, offset * 2+1).AsDouble();
-		dates.push_back(date);
-		dfs.push_back(df);
-	}
-	yc->buildFromDFs(dates, dfs);
-	return yc;
-}
-
-extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper Curves, XlfOper fxVol, XlfOper irVol)
-{
-	EXCEL_BEGIN;
-
-	// Checks if called from the function wizard
-	if (XlfExcel::Instance().IsCalledByFuncWiz())
-		return XlfOper(true);
-
-	if (Curves.IsMissing())
-	{
-		return XlfOper("Curve parameter is missing");
-	}
-	marketData* md = new marketData(marketDate);
-	int nbCurves = Curves.columns()/2;
-	int i;
-	for (i = 0; i < nbCurves; ++i)
-	{
-		Currency ccy = readycCurveCurrency(Curves, i);
-		yieldCurve* yc = readycCurve(Curves, i, marketDate);
-		if (yc)
-		{
-			md->addCurve(ccy, yc);
-		}
-	}
-
-	int h = handle.add(md);
-
-	return XlfOper(h);
-	EXCEL_END;
-}
-
-
-extern "C" LPXLFOPER __declspec(dllexport) xlMarketDelete(int h)
-{
-	EXCEL_BEGIN;
-
-	// Checks if called from the function wizard
-	if (XlfExcel::Instance().IsCalledByFuncWiz())
-		return XlfOper(true);
-
-	
-	marketData* md = (marketData*)handle[h];
-	if (md)
-	{
-		delete md;
-		return XlfOper(true);
-	}
-	else
-	{
-		return XlfOper("Unknown market handle.");
-	}
-	EXCEL_END;
-}
-
-
-extern "C" LPXLFOPER __declspec(dllexport) xlDF(int h, XlfOper CurrencyName, int date)
-{
-	EXCEL_BEGIN;
-
-	// Checks if called from the function wizard
-	if (XlfExcel::Instance().IsCalledByFuncWiz())
-		return XlfOper(true);
-
-
-	marketData* md = (marketData*)handle[h];
-	if (!md)
-	{
-		return XlfOper("Unknown market handle.");
-	}
-	else
-	{
-		char* ccyString = CurrencyName.AsString();
-		Currency ccy = toCurrency(ccyString);
-		yieldCurve* yc = md->curve(ccy);
-		if (!yc)
-		{
-			return XlfOper("Market does not have a curve for this currency.");
-		}
-		double df = yc->df(date);
-		return XlfOper(df);
-	}
-	EXCEL_END;
-}
 
 
 namespace
@@ -773,41 +493,6 @@ namespace
     XLRegistration::XLFunctionRegistrationHelper registerTest
 	(   "xlTest", "Test", "Test Data",
         "FinLib", TestArg, 1);
-
-	//MarketLoad
-	XLRegistration::Arg MarketLoadArgs[] = {
-		{ "marketDate", "Base date for the market", "J" },
-		{ "Curves", "Yield Curves", "XLF_OPER" },
-		{ "fxVol", "fx volatility", "XLF_OPER" },
-		{ "irVol", "ir volatility", "XLF_OPER" }
-	};
-
-
-	XLRegistration::XLFunctionRegistrationHelper registerMarketLoadArgs
-		("xlMarketLoad", "MarketLoad", "Loads a market (DFs, {fxSpots- not yet implmented}, fxVols and irVol.",
-			"FinLib", MarketLoadArgs, 4);
-
-	//MarketDelete
-	XLRegistration::Arg MarketDeleteArgs[] = {
-		{ "handle", "Handle for the market", "J" }
-	};
-
-
-	XLRegistration::XLFunctionRegistrationHelper registerMarketDeleteArgs
-		("xlMarketLoad", "MarketDelete", "Delete a marked indentified by its handle.",
-			"FinLib", MarketDeleteArgs, 1);
-
-	//DF
-	XLRegistration::Arg DFArgs[] = {
-		{ "marketHandle", "Handle to the market", "J" },
-		{ "CurrencyName", "Currency Name", "XLF_OPER" },
-		{ "date", "date", "J" }
-	 };
-
-
-	XLRegistration::XLFunctionRegistrationHelper registerDFArgs
-		("xlDF", "DF", "Discount factor.",
-			"FinLib", DFArgs, 3);
 
 
 	//xlEditDistance
@@ -830,34 +515,7 @@ namespace
     XLRegistration::XLFunctionRegistrationHelper registerWriteDataArgs
 	(   "xlWriteData", "WriteData", "Changes the value of a label in <labelValue> structure.",
         "FinLib", WriteDataArgs, 3);
-
-//OptionPricer
-	XLRegistration::Arg OptionPricerArgs[] = {
-        { "Forward", "Forward", "B" },
-        { "Strike", "Strike of the Option", "B" },
-        { "AtmVol", "ATM Volatility", "B" },
-        { "Time", "Time to Expiry", "B" },
-        { "Model", "Model Descriptor", "XLF_OPER" }
-    };
-
-    XLRegistration::XLFunctionRegistrationHelper registerOptionPricer
-	(   "xlOptionPricer", "OptionPricer", "Computes a call option price",
-        "FinLib", OptionPricerArgs, 5);
-
-
-//BlackScholes
-	XLRegistration::Arg BlackScholesArgs[] = {
-        { "Forward", "Forward", "B" },
-        { "Strike", "Strike of the Option", "B" },
-        { "AtmVol", "ATM Volatility", "B" },
-        { "Time", "Time to Expiry", "B" }
-    };
-
-    XLRegistration::XLFunctionRegistrationHelper registerBlackScholes
-	(   "xlBlackScholes", "BlackScholes", "BS formula for Call option",
-        "FinLib", BlackScholesArgs, 4);
-
-
+	
 //FrequencyDistribution
 	XLRegistration::Arg FrequencyDistributionArgs[] = {
         { "Data", "Data", "XLF_OPER" }
@@ -893,7 +551,7 @@ namespace
         "FinLib", EigenValuesVectorsArgs, 1);
 
 
-//OptionPricer
+//MatProd
 	XLRegistration::Arg MatProdArgs[] = {
         { "MatrixA", "MatrixA", "XLF_OPER" },
         { "MatrixB", "MatrixB", "XLF_OPER" }
