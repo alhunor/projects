@@ -5,6 +5,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/shared_array.hpp>
 
+
+typedef boost::numeric::ublas::matrix<double> dmat;
+typedef boost::numeric::ublas::matrix<double>::size_type dmat_sizetype;
+
 template<class T, class und = boost::numeric::ublas::matrix<T> >
 class HuMatrix
 {
