@@ -68,7 +68,7 @@
          <bool>true</bool>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <property name="autoFillBackground">
@@ -136,7 +136,7 @@
            </rect>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="searchButton">
           <property name="geometry">
            <rect>
             <x>530</x>
@@ -149,7 +149,7 @@
            <string>Search</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="insertButton">
           <property name="geometry">
            <rect>
             <x>580</x>
@@ -159,7 +159,7 @@
            </rect>
           </property>
           <property name="text">
-           <string>PushButton</string>
+           <string>InsertButton</string>
           </property>
          </widget>
          <widget class="QCheckBox" name="checkBox">
@@ -411,7 +411,10 @@
             <number>1</number>
            </property>
            <item>
-            <widget class="QTableWidget" name="tableWidget">
+            <widget class="QTableView" name="tableView">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
              <property name="autoFillBackground">
               <bool>true</bool>
              </property>
@@ -433,20 +436,6 @@
              <property name="cornerButtonEnabled">
               <bool>false</bool>
              </property>
-             <property name="columnCount">
-              <number>5</number>
-             </property>
-             <attribute name="verticalHeaderDefaultSectionSize">
-              <number>18</number>
-             </attribute>
-             <attribute name="verticalHeaderMinimumSectionSize">
-              <number>18</number>
-             </attribute>
-             <column/>
-             <column/>
-             <column/>
-             <column/>
-             <column/>
             </widget>
            </item>
           </layout>
