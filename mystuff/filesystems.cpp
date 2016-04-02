@@ -2,11 +2,21 @@
 
 #include <boost/shared_ptr.hpp>
 #include "dates.h"
+#include "editDistance.h"
 #include "filesystems.h"
+#include "mutex.h"
 #include <iostream>
 #include <queue>
 #include <string.h>
 #include <windows.h>
+
+char* cc(const char* const tempcchar)
+{
+	char* aux = new char[strlen(tempcchar) + 1];
+	strcpy(aux, tempcchar);
+	return aux;
+} // char* cc(const char* const tempcchar)
+
 
 
 void DOHLCVparser(const char* buff, int nbLine, char tokenID, Descriptor * d)
@@ -910,3 +920,227 @@ bool ShowOpenFileDialog(char* FileName, int FileNameLength, char* filter)
     if (strlen(ofn.lpstrFile) == 0) return false;
     return true;
 } // ShowOpenFileDialog
+
+
+
+void FindFiles::closeSearch()
+{
+	if (m_insearch) CloseHandle(m_h);
+	m_insearch = false;
+	folders.clear();
+}
+
+
+FindFiles::FindFiles() : m_insearch(false)
+{
+
+}
+
+FindFiles::~FindFiles()
+{
+	closeSearch();
+}
+
+
+
+bool FindFiles::isValidFolder()
+{
+	bool directory;
+	directory = (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+	if (!directory) return false;
+
+	// Exclude self and parent
+	if (strcmp(fd.cFileName, ".") == 0 || strcmp(fd.cFileName, "..") == 0)
+	{
+		return false;
+	}
+	// exclude Subversion folders
+	if (strcmp(fd.cFileName, ".svn") == 0)
+	{
+		return false;
+	}
+	return true;
+} // bool validDirectory(WIN32_FIND_DATAA& fd)
+
+
+bool FindFiles::isValidFile()
+{
+	// any file is valid
+	bool isFile = (fd.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE) != 0;
+	return isFile;
+}
+
+
+void FindFiles::SetRoot(const char* root)
+{
+	strcpy(m_root, root);
+	closeSearch();
+} // void FindFiles::SetRoot(const char* root)
+
+
+void FindFiles::storeFolder()
+{
+	// store the directory
+	int len = strlen(m_currentFolder);
+	int len2 = strlen(fd.cFileName);
+	char* newName = new char[len + strlen(fd.cFileName) + 2];
+	strcpy(newName, m_currentFolder);
+	strcat(newName + len, fd.cFileName);
+	strcat(newName + len + len2, "\\");
+	folders.push_back(newName);
+}
+
+
+int FindFiles::openFolder(bool recursive)
+{
+	char searchPattern[MAX_PATH];
+	strcpy(searchPattern, m_currentFolder);
+	strcat(searchPattern, "*");
+	SetLastError(0);
+	m_h = FindFirstFileA(searchPattern, &fd);
+	int e = GetLastError();
+	if (e != ERROR_SUCCESS)
+	{
+		FindClose(m_h);
+		m_insearch = false;
+		return e;
+	}
+
+	bool keep_looking = true;
+	do
+	{
+		if (isValidFolder())
+		{
+			if (recursive) storeFolder();
+			keep_looking = false;
+		}
+		else if (isValidFile())
+		{
+			keep_looking = false;
+		}
+		else
+		{
+			FindNextFileA(m_h, &fd);
+			e = GetLastError();
+		}
+	} while (keep_looking && e == ERROR_SUCCESS);
+	return e;
+} //int FindFiles::openFolder(WIN32_FIND_DATAA& fd, bool recursive)
+
+
+bool FindFiles::FindItem(bool recursive)
+{
+	if (m_insearch)
+	{
+		FindNextFileA(m_h, &fd);
+		if (GetLastError() == ERROR_SUCCESS)
+		{
+			if (isValidFolder())
+			{
+				storeFolder();
+			}
+			return true;
+		}
+		else
+		{
+			FindClose(m_h);
+			m_h = 0;
+		}
+		while (folders.size()>0)
+		{
+			strcpy(m_currentFolder, folders.front());
+			folders.pop_front();
+			if (openFolder(recursive) == 0)
+				return true;
+		}
+		// NO_MORE_FILES;
+		m_insearch = false;
+		if (m_h) FindClose(m_h);
+		return false;
+	}
+	else
+	{
+		m_insearch = true;
+		strcpy(m_currentFolder, m_root);
+		return openFolder(recursive) == 0;
+	}
+} // void FindFiles::SetRoot(const char* root)
+
+
+bool match::matched(fileData& fd)
+{
+	if (!wildCharMatch(filter, fd.cFileName.get())) return false;
+
+	return true;
+}
+
+void match::init(char* _filter)
+{
+	filter = _filter;
+	initialised = true;
+}
+
+void FindFiles::findAll(files& f, match& m)
+{
+	while (FindItem())
+	{
+		fileData fd(AllInfo(), CurrentFolder());
+		if (!isFolder() && m.matched(fd))
+		{
+			f.add(fd);
+		}
+	}
+} // void FindFiles::findAll(files* f)
+
+
+
+char* FileTimetoString(FILETIME ft, char* str)
+{
+	char* months[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+	FileTimeToLocalFileTime(&ft, &ft);
+	SYSTEMTIME st;
+	FileTimeToSystemTime(&ft, &st);
+	//cout << st.wYear << "-" << st.wMonth << "-" << st.wDay << " " << st.wHour << ":" << st.wMinute << ":" << st.wSecond;
+	sprintf(str, "%04d-%s-%02d %02d:%02d:%02d", st.wYear, months[st.wMonth - 1], st.wDay, st.wHour, st.wMinute, st.wSecond);
+	return str;
+}
+
+
+fileData::fileData(WIN32_FIND_DATAA& fd, const char* _path)
+{
+	dwFileAttributes = fd.dwFileAttributes;
+	ftCreationTime = fd.ftCreationTime;
+	ftLastAccessTime = fd.ftLastAccessTime;
+	ftLastWriteTime = fd.ftLastWriteTime;
+	fileSize = (((ULONGLONG)fd.nFileSizeHigh) << 32) + fd.nFileSizeLow;
+	cFileName = SPC(cc(fd.cFileName));
+	path = SPC(cc(_path));
+	FileTimetoString(fd.ftCreationTime, creationTime);
+}
+
+fileData& files::operator[] (int i)
+{
+	return fd[i];
+}
+
+const fileData& files::operator[] (int i) const
+{
+	return fd[i];
+}
+
+void files::clear()
+{
+	m.get();
+	fd.clear();
+	n = 0;
+	m.release();
+}
+
+void files::add(fileData _fd)
+{
+	m.get();
+	fd.push_back(_fd);
+	++n;
+	m.release();
+}

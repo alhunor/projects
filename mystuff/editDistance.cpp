@@ -244,7 +244,7 @@ void testEditDistance()
 
 char mapCaseTable[256];
 
-void init_match(VOID)
+void init_match(void)
 {
         for (int i = 0; i < 256; ++i)
         {

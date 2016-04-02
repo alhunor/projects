@@ -10,7 +10,7 @@ int editDistanceWithCost(char* x, char* y);
 int editDistanceWithOverlapDetection( char* x,  char* y);
 
 
-void init_match(VOID);
+void init_match(void);
 // http://xoomer.virgilio.it/acantato/dev/wildcard/wildmatch.html#c_cpp_userjournal_algo
 bool wildCharMatch(const char* pat, const char* str);
 

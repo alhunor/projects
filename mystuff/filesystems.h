@@ -3,8 +3,14 @@
 
 #include <boost/shared_ptr.hpp>
 #include <queue>
+#include <list>
 #include <windows.h>
 #include "MotherOfAllBaseObjects.h"
+#include "mutex.h"
+
+
+typedef boost::shared_ptr<char> SPC;
+
 
 const int MAXPATH = 512;
 
@@ -38,7 +44,7 @@ bool openCSVFile(const char* filename, char separator, Descriptor * d, void pars
 class fileFinder
 {
 public:
-	fileFinder() : initialised(false), noMoreFiles(false) {}
+	fileFinder() : initialised(false), noMoreFiles(false) { throw "Use FindFiles class."; }
 	~fileFinder() {clear();}
 	bool init(const char* basepath); // positions to the first file and returns true or return false if there are no files to be found
 	void clear();
@@ -58,6 +64,81 @@ protected:
 	char* relpath;
 	char currentPath[MAXPATH];
 };
+
+
+struct fileData
+{
+	fileData() {}
+	fileData(WIN32_FIND_DATAA& fd, const char* _path);
+	DWORD dwFileAttributes;
+	FILETIME ftCreationTime;
+	char creationTime[21];
+	FILETIME ftLastAccessTime;
+	FILETIME ftLastWriteTime;
+	SPC cFileName, path;
+	ULONGLONG fileSize;
+};
+
+
+class files
+{
+public:
+	files() : n(0) {}
+	void clear();
+	void add(fileData _fd);
+	int nbFiles() { return n; }
+	fileData& operator[] (int i);
+	const fileData& operator[] (int i) const;
+
+	//	list<fileData>::const_iterator begin() { return fd.begin(); }
+	//	list<fileData>::const_iterator end() { return fd.end(); }
+
+private:
+	std::vector<fileData> fd;
+	mutex m;
+	int n; // number of files inserted
+};
+
+class match
+{
+public:
+	match() : initialised(false) {};
+	~match() {};
+	void init(char* _filter);
+	bool matched(fileData& fd);
+protected:
+	bool initialised;
+	char* filter;
+};
+
+class FindFiles
+{
+public:
+	FindFiles();
+	void SetRoot(const char* root); // root mus have trailing '\'
+	bool FindItem(bool m_recursive = true); // Returns true on succes
+	const char* FileName() { return fd.cFileName; }
+	WIN32_FIND_DATAA& AllInfo() { return fd; }
+	bool isFolder() { return (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
+	~FindFiles();
+	const char* CurrentFolder() { return m_currentFolder; }
+	void findAll(files& f, match& m);
+
+protected:
+	void closeSearch();
+	int openFolder(bool recursive);
+	void storeFolder();
+	bool isValidFolder();
+	bool isValidFile();
+	char m_root[MAX_PATH];
+	char m_currentFolder[MAX_PATH];
+	bool m_insearch;
+	std::list<char*> folders;
+	HANDLE m_h;
+	WIN32_FIND_DATAA fd;
+}; // FindFiles
+
+
 
 class binstream
 {
