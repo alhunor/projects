@@ -151,7 +151,7 @@ again:
 		return false;
 	if (h==INVALID_HANDLE_VALUE)
 	{
-		int a = GetLastError();
+        GetLastError();
 	}
 
 	bool isDirectory = ((FILE_ATTRIBUTE_DIRECTORY & fileData.dwFileAttributes) == FILE_ATTRIBUTE_DIRECTORY);
@@ -789,7 +789,7 @@ char* memoryMappedTextFile::map(const char* filename)
 	}
 
 // Count the number of lines
-	int pos=0, prevEOL=0;
+    int prevEOL=0;
 	_nbLines = 0;
 	DWORD i;
 	for (i=0; i<nFileSize; i++)
@@ -943,7 +943,7 @@ FindFiles::~FindFiles()
 
 
 
-bool FindFiles::isValidFolder()
+bool FindFiles::isValidFolder(bool skipSystemFolders)
 {
 	bool directory;
 	directory = (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
@@ -954,7 +954,13 @@ bool FindFiles::isValidFolder()
 	{
 		return false;
 	}
-	// exclude Subversion folders
+
+    if (fd.dwFileAttributes & FILE_ATTRIBUTE_SYSTEM && skipSystemFolders)
+    {
+        return false;
+    }
+
+    // exclude Subversion folders
 	if (strcmp(fd.cFileName, ".svn") == 0)
 	{
 		return false;
@@ -973,7 +979,7 @@ bool FindFiles::isValidFile()
 
 void FindFiles::SetRoot(const char* root)
 {
-	strcpy(m_root, root);
+    strcpy(m_root, root);
 	closeSearch();
 } // void FindFiles::SetRoot(const char* root)
 
@@ -991,7 +997,7 @@ void FindFiles::storeFolder()
 }
 
 
-int FindFiles::openFolder(bool recursive)
+int FindFiles::openFolder(bool includeSubFolders, bool skipSystemFolders)
 {
 	char searchPattern[MAX_PATH];
 	strcpy(searchPattern, m_currentFolder);
@@ -1009,9 +1015,9 @@ int FindFiles::openFolder(bool recursive)
 	bool keep_looking = true;
 	do
 	{
-		if (isValidFolder())
+        if (isValidFolder(skipSystemFolders))
 		{
-			if (recursive) storeFolder();
+            if (includeSubFolders) storeFolder();
 			keep_looking = false;
 		}
 		else if (isValidFile())
@@ -1028,14 +1034,14 @@ int FindFiles::openFolder(bool recursive)
 } //int FindFiles::openFolder(WIN32_FIND_DATAA& fd, bool recursive)
 
 
-bool FindFiles::FindItem(bool recursive)
+bool FindFiles::FindItem(bool includeSubFolders, bool skipSystemFolders)
 {
 	if (m_insearch)
 	{
 		FindNextFileA(m_h, &fd);
 		if (GetLastError() == ERROR_SUCCESS)
 		{
-			if (isValidFolder())
+            if (isValidFolder(skipSystemFolders))
 			{
 				storeFolder();
 			}
@@ -1050,7 +1056,7 @@ bool FindFiles::FindItem(bool recursive)
 		{
 			strcpy(m_currentFolder, folders.front());
 			folders.pop_front();
-			if (openFolder(recursive) == 0)
+            if (openFolder(includeSubFolders, skipSystemFolders) == 0)
 				return true;
 		}
 		// NO_MORE_FILES;
@@ -1062,32 +1068,45 @@ bool FindFiles::FindItem(bool recursive)
 	{
 		m_insearch = true;
 		strcpy(m_currentFolder, m_root);
-		return openFolder(recursive) == 0;
+        return openFolder(includeSubFolders, skipSystemFolders) == 0;
 	}
 } // void FindFiles::SetRoot(const char* root)
 
 
-bool match::matched(fileData& fd)
+bool matcher::matched(fileData& fd)
 {
-	if (!wildCharMatch(filter, fd.cFileName.get())) return false;
+
+    if (!wildCharMatch(filter, fd.cFileName.get())) return false;
+
+    if (fd.fileSize<minSize || fd.fileSize>maxSize) return false;
+
+    if (! (attributes && fd.dwFileAttributes)) return false;
 
 	return true;
 }
 
-void match::init(char* _filter)
+
+void matcher::init(const char* _filter, DWORD _attributes, ULONGLONG _minSize, ULONGLONG _maxSize)
 {
-	filter = _filter;
+    delete[] filter;
+    int len = strlen(_filter);
+    filter = new char[len+1];
+    strcpy(filter, _filter);
 	initialised = true;
+    attributes = _attributes;
+    minSize = _minSize;
+    maxSize = _maxSize;
 }
 
-void FindFiles::findAll(files& f, match& m)
+void FindFiles::findAll(files* f, matcher& m,  bool includeSubFolders, bool skipSystemFolders)
 {
-	while (FindItem())
+
+    while (FindItem(includeSubFolders, skipSystemFolders))
 	{
 		fileData fd(AllInfo(), CurrentFolder());
 		if (!isFolder() && m.matched(fd))
 		{
-			f.add(fd);
+            f->add(fd);
 		}
 	}
 } // void FindFiles::findAll(files* f)

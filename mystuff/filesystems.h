@@ -76,7 +76,7 @@ struct fileData
 	FILETIME ftLastAccessTime;
 	FILETIME ftLastWriteTime;
 	SPC cFileName, path;
-	ULONGLONG fileSize;
+    ULONGLONG fileSize;
 };
 
 
@@ -86,9 +86,11 @@ public:
 	files() : n(0) {}
 	void clear();
 	void add(fileData _fd);
-	int nbFiles() { return n; }
+    int nbFiles() const { return n; }
 	fileData& operator[] (int i);
 	const fileData& operator[] (int i) const;
+    void getMutex() { m.get(); }
+    void releaseMutex() { m.release(); }
 
 	//	list<fileData>::const_iterator begin() { return fd.begin(); }
 	//	list<fileData>::const_iterator end() { return fd.end(); }
@@ -99,16 +101,18 @@ private:
 	int n; // number of files inserted
 };
 
-class match
+class matcher
 {
 public:
-	match() : initialised(false) {};
-	~match() {};
-	void init(char* _filter);
+    matcher() : initialised(false), filter(NULL) {}
+    ~matcher() {if (filter) delete[] filter;}
+    void init(const char* _filter, DWORD _attributes, ULONGLONG _minSize, ULONGLONG _maxSize);
 	bool matched(fileData& fd);
 protected:
 	bool initialised;
-	char* filter;
+    DWORD attributes;
+    ULONGLONG minSize, maxSize;
+    char* filter;
 };
 
 class FindFiles
@@ -116,19 +120,19 @@ class FindFiles
 public:
 	FindFiles();
 	void SetRoot(const char* root); // root mus have trailing '\'
-	bool FindItem(bool m_recursive = true); // Returns true on succes
+    bool FindItem(bool includeSubFolders, bool skipSystemFolders); // Returns true on succes
 	const char* FileName() { return fd.cFileName; }
 	WIN32_FIND_DATAA& AllInfo() { return fd; }
 	bool isFolder() { return (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
 	~FindFiles();
 	const char* CurrentFolder() { return m_currentFolder; }
-	void findAll(files& f, match& m);
+    void findAll(files* f, matcher& m, bool includeSubFolders, bool skipSystemFolders);
 
 protected:
 	void closeSearch();
-	int openFolder(bool recursive);
+    int openFolder(bool includeSubFolders, bool skipSystemFolders);
 	void storeFolder();
-	bool isValidFolder();
+    bool isValidFolder(bool skipSystemFolders);
 	bool isValidFile();
 	char m_root[MAX_PATH];
 	char m_currentFolder[MAX_PATH];
@@ -235,7 +239,7 @@ public:
 protected:
 	DWORD nFileSize;
 	bool mapped, writable;
-    HANDLE fileHandle;;
+    HANDLE fileHandle;
 	HANDLE memHandle;
 	void* rec;
 };
