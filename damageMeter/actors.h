@@ -1,5 +1,4 @@
 #pragma once
-//#include "tokenizer.h"
 #include "events.h"
 #include <string>
 #include <map>
@@ -8,6 +7,7 @@
 
 
 typedef std::list<wowEvent*> wowEventListT;
+
 
 class actor
 {
@@ -89,7 +89,7 @@ typedef std::map<GUID, petT*> petMapT;
 class actors
 {
 public:
-	actors() : minTime(INT32_MAX), maxTime(-9999) {}
+	actors() : minTime(INT_MAX), maxTime(-9999) {}
 	~actors();
 	int nbPlayers() { return players.size(); }
 	void add(wowEvent* eve);

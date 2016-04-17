@@ -2,6 +2,7 @@
 #include "tokenizer.h"
 #include "mechanics.h"
 #include "utils.h"
+#include "dbutils.h"
 #include <string>
 #include <list>
 
@@ -47,7 +48,9 @@ const int HEAL = 4;
 const int RANGE = 8;
 //..*/
 
-
+// XXX TODO move these somewhere else
+enum atype { Player = 0, Pet, Creature, Vehicle, Item, Nil, Invalid };
+typedef unsigned int GUID;
 //typedef FLAGS;
 
 struct guidImpl

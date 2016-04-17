@@ -16,16 +16,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tokenizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="actors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="events.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mechanics.cpp">
@@ -36,6 +30,15 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\sqlite\sqlite3.c">
       <Filter>Source Files\sqllight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\dbutils.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,16 +68,10 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tokenizer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="events.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="actors.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="mechanics.h">
@@ -82,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="..\3rdParty\sqlite\sqlite3.h">
       <Filter>Source Files\sqllight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\tokenizer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\dbutils.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
