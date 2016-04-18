@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>arcaneMissile.png</file>
+        <file>arcaneCharge.png</file>
+        <file>arcaneCrystal.jpg</file>
+        <file>arcanePower.jpg</file>
+        <file>doomNova.jpg</file>
+        <file>incantersFlow.jpg</file>
+        <file>nithramus.jpg</file>
+        <file>presenceOfMind.jpg</file>
+        <file>supernova.jpg</file>
+        <file>target.jpg</file>
+        <file>TimeWrap.jpg</file>
+        <file>wowDraenor.jpg</file>
+        <file>images.jpg</file>
+        <file>intellectPotion.jpg</file>
+        <file>controls/fastforward.png</file>
+        <file>controls/run.jpg</file>
+        <file>controls/run.png</file>
+        <file>controls/step.png</file>
+        <file>controls/open.ico</file>
+        <file>controls/open2.png</file>
+    </qresource>
+</RCC>
