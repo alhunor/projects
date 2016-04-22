@@ -2,7 +2,49 @@
 
 using namespace std;
 
+int arcaneMage::stat_value(stats stat)
+{
+    switch(stat)
+    {
+    case MASTERY:
+        return mastery + masteryBuff;
+    case HASTE:
+        return hasteBuff + haste;
+    case CRIT:
+        return critBuff + crit;
+    case MULTISTRIKE:
+        return multistrikeBuff + multistrike;
+    case INTELLECT:
+        return intellectBuff + intellect;
+    case SPELLPOWER:
+        return spellpowerBuff + spellpower;
+    case VERSATILITY:
+        return versatilityBuff + versatility;
+    }
+    throw "Unknown stat";
+}
 
+float arcaneMage::stat_percentage(stats stat)
+{
+    switch(stat)
+    {
+    case MASTERY:
+        return (float)(mastery + masteryBuff) / ratio_mastery;
+    case HASTE:
+        return (float)(hasteBuff + haste) / ratio_haste;
+    case CRIT:
+        return (float)(critBuff + crit) / ratio_crit;
+    case MULTISTRIKE:
+        return (float)(multistrikeBuff + multistrike) / ratio_multi;
+    case INTELLECT:
+        return 100.0f*(intellectBuff + intellect) / intellect;
+    case SPELLPOWER:
+        return (float)(spellpowerBuff + spellpower) / spellpower;
+    case VERSATILITY:
+        return (float)(versatilityBuff + versatility) / ratio_versa;
+    }
+    throw "Unknown stat";
+}
 
 void arcaneMage::change(stats stat, float time, int amount)
 {
@@ -32,9 +74,9 @@ void arcaneMage::change(stats stat, float time, int amount)
     }
 } // void arcaneMage::change(stats stat, float time, int amount)
 
-void arcaneMage::set(float time, flags flag, int state)
+void arcaneMage::set(float time, flags flag, int value)
 {
-    pair<float, int>* stateVariable;
+    pair<float, status>* stateVariable;
     switch (flag)
     {
     case PRESENCE_OF_MIND:
@@ -52,17 +94,14 @@ void arcaneMage::set(float time, flags flag, int state)
     case ARCANE_MISSILES:
         stateVariable = &arcane_missiles;
         break;
-    case BLOODLUST:
-        stateVariable = &blooodlust;
-        break;
-    case EXHAUSTION:
-        stateVariable = &exhaustion;
+    case HEROISM:
+        stateVariable = &hero;
         break;
     case NITHRAMUS:
         stateVariable = &nithramus;
         break;
-    case MAGE_ARMOR:
-        stateVariable = &mage_armor;
+    case PRISMATIC_CRYSTAL:
+        stateVariable = &prismatic_crystal;
         break;
     case DRAENIC_INTELLECT_POTION:
         stateVariable = &draenic_intellect_potion;
@@ -73,14 +112,14 @@ void arcaneMage::set(float time, flags flag, int state)
     default:
         throw "unknown field";
     } // switch (flag)
-    if (state<0)
+    if (value<0)
     {
-        temporal_power.second = temporal_power.second + state;
+        temporal_power.second.charges += value;
         modified = true;
     }
     else
     {
-        stateVariable->second = state;
+        stateVariable->second.charges = value;
         stateVariable->first = time;
         modified = true;
     }
@@ -130,6 +169,62 @@ bool arcaneMage::init()
     manareg = 3813;
     health = 496440;
     masteryBuff = hasteBuff = critBuff = multistrikeBuff = intellectBuff = spellpowerBuff = versatilityBuff = 0;
+
+    presence_of_mind.first = -999;
+    presence_of_mind.second.charges=0;
+    presence_of_mind.second.cd=90;
+    presence_of_mind.second.duration=60; // should be infinity
+
+    arcane_power.first = -999;
+    arcane_power.second.charges=0;
+    arcane_power.second.cd=90;
+    arcane_power.second.duration=15; //ok
+
+    temporal_power.second.charges=0;
+    temporal_power.second.cd=0;
+    temporal_power.second.duration=12; // todo check duration
+
+    hero.first = -999;
+    hero.second.charges=0;
+    hero.second.cd=600;
+    hero.second.duration=40; //ok
+
+
+    doom_nova.first = -0;
+    doom_nova.second.charges=0;
+    doom_nova.second.cd=0;
+    doom_nova.second.duration=10; //check
+
+
+    arcane_charge.first = 0;
+    arcane_charge.second.charges = 0;
+    arcane_charge.second.cd = 0;
+    arcane_charge.second.duration = 15; //ok
+
+    arcane_missiles.first = 0;
+    arcane_missiles.second.charges =0;
+    arcane_missiles.second.cd = 0;
+    arcane_missiles.second.duration = 20; //ok
+
+    nithramus.first = -999;
+    nithramus.second.charges = 0;
+    nithramus.second.cd = 120;
+    nithramus.second.duration = 15; //ok
+
+    draenic_intellect_potion.first = -999;
+    draenic_intellect_potion.second.charges = 0;
+    draenic_intellect_potion.second.cd = 60;
+    draenic_intellect_potion.second.duration = 24; //ok
+
+    weapon_enchant.second.charges = 0;
+    weapon_enchant.second.cd = 0;
+    weapon_enchant.second.duration = 10;
+
+    prismatic_crystal.first = -999;
+    prismatic_crystal.second.charges = 0;
+    prismatic_crystal.second.cd = 90;
+    prismatic_crystal.second.duration = 12; //ok
+
 
     return true;
 /*	Core Stats : strength = 679 | 647(647)  agility = 933 | 889(889)  stamina = 8274 | 7522(7522)  intellect = 6850 | 6262(6016)  spirit = 1155 | 1155(1155)  health = 496440 | 451320  mana = 160000 | 160000

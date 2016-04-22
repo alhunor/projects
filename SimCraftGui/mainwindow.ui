@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>912</width>
-    <height>624</height>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -159,7 +159,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_2">
+   <widget class="QFrame" name="frame_am">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -269,7 +269,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_3">
+   <widget class="QFrame" name="frame_ap">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -287,7 +287,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="arcanepower">
+    <widget class="QLabel" name="pic_arcanepower">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -350,7 +350,7 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>15</number>
+      <number>20</number>
      </property>
      <property name="value">
       <number>8</number>
@@ -375,7 +375,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_4">
+   <widget class="QFrame" name="frame_pc">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -393,7 +393,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="arcanecrystal">
+    <widget class="QLabel" name="pic_prismaticcrystal">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -406,13 +406,13 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="res.qrc">:/arcaneCrystal.jpg</pixmap>
+      <pixmap resource="res.qrc">:/prismaticCrystal.jpg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar1_2">
+    <widget class="QProgressBar" name="pc_progressBar1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -446,7 +446,7 @@
       <string>%v</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar2_2">
+    <widget class="QProgressBar" name="pc_progressBar2">
      <property name="geometry">
       <rect>
        <x>61</x>
@@ -456,7 +456,7 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>15</number>
+      <number>12</number>
      </property>
      <property name="value">
       <number>8</number>
@@ -481,7 +481,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_5">
+   <widget class="QFrame" name="frame_pm">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -499,7 +499,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="presenceofmind">
+    <widget class="QLabel" name="pic_presenceofmind">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -518,7 +518,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar1_3">
+    <widget class="QProgressBar" name="pm_progressBar1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -552,7 +552,7 @@
       <string>%v</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar2_3">
+    <widget class="QProgressBar" name="pm_progressBar2">
      <property name="geometry">
       <rect>
        <x>61</x>
@@ -562,7 +562,7 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>15</number>
+      <number>60</number>
      </property>
      <property name="value">
       <number>8</number>
@@ -587,7 +587,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_6">
+   <widget class="QFrame" name="frame_doom">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -605,7 +605,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="doomNova">
+    <widget class="QLabel" name="pic_doom">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -624,7 +624,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar1_4">
+    <widget class="QProgressBar" name="doom_progressBar1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -658,42 +658,8 @@
       <string>%v</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar2_4">
-     <property name="geometry">
-      <rect>
-       <x>61</x>
-       <y>30</y>
-       <width>131</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="maximum">
-      <number>15</number>
-     </property>
-     <property name="value">
-      <number>8</number>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-     </property>
-     <property name="textVisible">
-      <bool>true</bool>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="invertedAppearance">
-      <bool>false</bool>
-     </property>
-     <property name="textDirection">
-      <enum>QProgressBar::BottomToTop</enum>
-     </property>
-     <property name="format">
-      <string>%v</string>
-     </property>
-    </widget>
    </widget>
-   <widget class="QFrame" name="frame_7">
+   <widget class="QFrame" name="frame_hero">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -711,7 +677,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="hero">
+    <widget class="QLabel" name="pic_hero">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -730,7 +696,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar1_5">
+    <widget class="QProgressBar" name="hero_progressBar1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -764,7 +730,7 @@
       <string>%v</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar2_5">
+    <widget class="QProgressBar" name="hero_progressBar2">
      <property name="geometry">
       <rect>
        <x>61</x>
@@ -774,7 +740,7 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>15</number>
+      <number>40</number>
      </property>
      <property name="value">
       <number>8</number>
@@ -799,7 +765,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_8">
+   <widget class="QFrame" name="frame_pot">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -817,7 +783,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="intellectPotion">
+    <widget class="QLabel" name="pic_intellectpotion">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -836,7 +802,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar1_6">
+    <widget class="QProgressBar" name="pot_progressBar1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -870,7 +836,7 @@
       <string>%v</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar2_6">
+    <widget class="QProgressBar" name="pot_progressBar2">
      <property name="geometry">
       <rect>
        <x>61</x>
@@ -880,7 +846,7 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>15</number>
+      <number>24</number>
      </property>
      <property name="value">
       <number>8</number>
@@ -1398,7 +1364,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_9">
+   <widget class="QFrame" name="frame_nith">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -1416,7 +1382,7 @@
     <property name="lineWidth">
      <number>2</number>
     </property>
-    <widget class="QLabel" name="nithramus">
+    <widget class="QLabel" name="pic_nithramus">
      <property name="geometry">
       <rect>
        <x>6</x>
@@ -1435,7 +1401,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar1_7">
+    <widget class="QProgressBar" name="nith_progressBar1">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -1469,7 +1435,7 @@
       <string>%v</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="ap_progressBar2_7">
+    <widget class="QProgressBar" name="nith_progressBar2">
      <property name="geometry">
       <rect>
        <x>61</x>
@@ -1479,7 +1445,7 @@
       </rect>
      </property>
      <property name="maximum">
-      <number>15</number>
+      <number>20</number>
      </property>
      <property name="value">
       <number>8</number>
@@ -1508,7 +1474,7 @@
     <property name="geometry">
      <rect>
       <x>2</x>
-      <y>441</y>
+      <y>493</y>
       <width>909</width>
       <height>181</height>
      </rect>
@@ -1518,7 +1484,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>400</y>
+      <y>450</y>
       <width>171</width>
       <height>41</height>
      </rect>
@@ -1768,6 +1734,78 @@
      </property>
      <property name="text">
       <string>SpellPower: 10235</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_ench">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>430</y>
+      <width>201</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <property name="lineWidth">
+     <number>2</number>
+    </property>
+    <widget class="QLabel" name="pic_enchant">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>5</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/enchant.jpg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="ench_progressBar1">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>3</y>
+       <width>131</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>15</number>
+     </property>
+     <property name="value">
+      <number>8</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="textDirection">
+      <enum>QProgressBar::BottomToTop</enum>
+     </property>
+     <property name="format">
+      <string>%v</string>
      </property>
     </widget>
    </widget>

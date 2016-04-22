@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>arcaneMissile.png</file>
         <file>arcaneCharge.png</file>
-        <file>arcaneCrystal.jpg</file>
         <file>arcanePower.jpg</file>
         <file>doomNova.jpg</file>
         <file>incantersFlow.jpg</file>
@@ -20,5 +19,7 @@
         <file>controls/step.png</file>
         <file>controls/open.ico</file>
         <file>controls/open2.png</file>
+        <file>prismaticCrystal.jpg</file>
+        <file>enchant.jpg</file>
     </qresource>
 </RCC>

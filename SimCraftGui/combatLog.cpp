@@ -11,418 +11,22 @@ using namespace std;
 
 bool parseCombatLog(char* fileName, arcaneMage& kettle, int nbSteps)
 {
-	std::ifstream in;
-	char buff[MAX_LEN];
-	int len;
-	tokenizer t;
-	int count = 0;
-	std::map<std::string, int> actor;
-	std::map<std::string, int> action;
-	in.open(fileName);
-
-	if (in.bad())
-	{
-		std::cout << "File not found" << endl;
-		return false;
-	}
-	char* timeStr;
-	float time;
-
-	while (!in.eof())
-	{
-		in.getline(buff, MAX_LEN);
-		len = (int)in.gcount();
-		count++;
-
-		if (len == MAX_LEN)
-		{
-			throw "Line is too long";
-		}
-		if (len == 0)
-		{
-			break;
-		}
-		bool output = false;
-		t.init(buff, len);
-		timeStr = t.slice(' ');
-		time = asFloat(timeStr);
-		if (output) std::cout << time;
-		t.tokenize(0, ' ');
-		const char* who = t.token(0);
-		if (output) std::cout << "  " << who;
-		actor[who]++;
-		const char* what1, *what2;
-		int amount;
-
-
-		if (strcmp(who, "Kettle_Active") == 0)
-		{
-		}
-		else if (strcmp(who, "Kettle_Active_temporal_hero") == 0)
-		{
-		}
-		else if (strcmp(who, "Fluffy_Pillow") == 0)
-		{
-			/*			what1 = t.token(2);
-			else
-			{
-			std::cout << buff << endl;
-			}*/
-			continue;
-		}
-		else if (strcmp(who, "Player") == 0)
-		{
-			continue;
-		}
-		else if (strcmp(who, "Kettle_Active_prismatic_crystal") == 0)
-		{
-		}
-		else
-		{
-			std::cout << who << endl;
-		}
-
-		const char* action = t.token(1);
-		if (strcmp(action, "gains") == 0)
-		{
-			what1 = t.token(2);
-			if (strcmp(what1, "incanters_flow_1") == 0 || strcmp(what1, "incanters_flow_2") == 0 || strcmp(what1, "incanters_flow_3") == 0 || strcmp(what1, "incanters_flow_4") == 0 || strcmp(what1, "incanters_flow_5") == 0)
-			{
-			}
-			else if (strcmp(what1, "mage_armor_1") == 0)
-			{
-				kettle.set(time, MAGE_ARMOR, 1);
-			}
-			else if (strcmp(what1, "bloodlust_1") == 0)
-			{
-				kettle.set(time, BLOODLUST, 1);
-			}
-			else if (strcmp(what1, "exhaustion_1") == 0)
-			{
-				kettle.set(time, EXHAUSTION, 1);
-			}
-			else if (strcmp(what1, "nithramus_1") == 0)
-			{
-				kettle.set(time, NITHRAMUS, 1);
-			}
-
-			else if (strcmp(what1, "buttered_sturgeon_food_1") == 0)
-			{
-			}
-			else if (strcmp(what1, "draenic_intellect_potion_1") == 0)
-			{
-				kettle.set(time, DRAENIC_INTELLECT_POTION, 1);
-			}
-			else if (strcmp(what1, "arcane_charge_1") == 0 || strcmp(what1, "arcane_charge_2") == 0 || strcmp(what1, "arcane_charge_3") == 0 || strcmp(what1, "arcane_charge_4") == 0)
-			{
-				kettle.set(time, ARCANE_CHARGE, what1[14] - 48);
-			}
-			else if (strcmp(what1, "arcane_missiles_1") == 0 || strcmp(what1, "arcane_missiles_2") == 0 || strcmp(what1, "arcane_missiles_3") == 0)
-			{
-				kettle.set(time, ARCANE_MISSILES, what1[16] - 48);
-			}
-
-			else if (strcmp(what1, "greater_draenic_intellect_flask_1") == 0)
-			{
-				// ignore;
-			}
-			else if (strcmp(what1, "mark_of_warsong_10") == 0)
-			{
-				kettle.set(time, WEAPON_ENCHANT, 1);
-			}
-			else if (strcmp(what1, "presence_of_mind_1") == 0)
-			{
-				// ignore this, handled by with presence_of_mind action
-			}
-			else if (strcmp(what1, "casting_1") == 0)
-			{
-			}
-			else if (strcmp(what1, "temporal_power_1") == 0 || strcmp(what1, "temporal_power_2") == 0 || strcmp(what1, "temporal_power_3") == 0)
-			{
-				kettle.set(time, TEMPORAL_POWER, what1[15] - 48);
-			}
-			else if (strcmp(what1, "arcane_power_1") == 0)
-			{
-				// ignore, handled by action
-			}
-			else if (strcmp(what1, "mark_of_doom_1") == 0)
-			{
-				//target
-			}
-			else if ((amount = asInt(what1))>1)
-			{
-				what2 = t.token(3);
-				if (t.nbTokens() >= 4 && strcmp(t.token(4), "mana") == 0)
-				{
-					kettle.changemana(time, amount);
-				}
-				else if (strcmp(t.token(3), "intellect") == 0)
-				{
-                    kettle.change(INTELLECT, time, amount);
-				}
-				else if (strcmp(t.token(3), "mastery_rating") == 0)
-				{
-                    kettle.change(MASTERY, time, amount);
-				}
-				else if (strcmp(t.token(3), "haste_rating") == 0)
-				{
-                    kettle.change(HASTE, time, amount);
-				}
-                else if (strcmp(t.token(3), "crit_rating") == 0)
-                {
-                    kettle.change(CRIT, time, amount);
-                }
-                else if (strcmp(t.token(3), "multistrike_rating") == 0)
-                {
-                    kettle.change(MULTISTRIKE, time, amount);
-                }
-                else if (strcmp(t.token(3), "spellpower_rating") == 0)
-                {
-                    kettle.change(SPELLPOWER, time, amount);
-                }
-                else if (strcmp(t.token(3), "versatility_rating") == 0)
-                {
-                    kettle.change(VERSATILITY, time, amount);
-                }
-                else
-				{
-                    throw buff;
-				}
-			}
-			else
-			{
-				// std::cout << buff << endl;
-			}
-		}
-		else if (strcmp(action, "loses") == 0)
-		{
-			what1 = t.token(2);
-			if (strcmp(what1, "incanters_flow") == 0)
-			{
-			}
-			else if (strcmp(what1, "mage_armor") == 0)
-			{
-				kettle.set(time, MAGE_ARMOR, 0);
-			}
-			else if (strcmp(what1, "bloodlust") == 0)
-			{
-				kettle.set(time, BLOODLUST, 0);
-			}
-			else if (strcmp(what1, "exhaustion") == 0)
-			{
-				kettle.set(time, EXHAUSTION, 0);
-			}
-			else if (strcmp(what1, "nithramus") == 0)
-			{
-				kettle.set(time, NITHRAMUS, 0);
-			}
-			else if (strcmp(what1, "buttered_sturgeon_food") == 0)
-			{
-			}
-			else if (strcmp(what1, "draenic_intellect_potion") == 0)
-			{
-				kettle.set(time, DRAENIC_INTELLECT_POTION, -1);
-			}
-			else if (strcmp(what1, "arcane_charge") == 0)
-			{
-				kettle.set(time, ARCANE_CHARGE, -1);
-			}
-			else if (strcmp(what1, "arcane_missiles") == 0)
-			{
-				kettle.set(time, ARCANE_MISSILES, -1);
-			}
-			else if (strcmp(what1, "greater_draenic_intellect_flask") == 0)
-			{
-				kettle.set(time, PRESENCE_OF_MIND, 0);
-				//MAGE_ARMOR
-			}
-			else if (strcmp(what1, "presence_of_mind") == 0)
-			{
-				kettle.set(time, PRESENCE_OF_MIND, 0);
-			}
-			else if (strcmp(what1, "casting") == 0)
-			{
-			}
-			else if (strcmp(what1, "temporal_power") == 0)
-			{
-				kettle.set(time, TEMPORAL_POWER, -1);
-			}
-			else if (strcmp(what1, "arcane_power") == 0)
-			{
-				kettle.set(time, ARCANE_POWER, 0);
-			}
-			else if (strcmp(what1, "mark_of_warsong") == 0)
-			{
-				kettle.set(time, WEAPON_ENCHANT, 0);
-			}
-			else if (strcmp(what1, "mark_of_doom") == 0)
-			{
-				//target
-			}
-			else if ((amount = asInt(what1)) > 1)
-			{
-				what2 = t.token(3);
-				if (strcmp(t.token(3), "intellect") == 0)
-				{
-                    kettle.change(INTELLECT, time, -amount);
-				}
-				else if (strcmp(t.token(3), "mastery_rating") == 0)
-				{
-                    kettle.change(MASTERY, time, -amount);
-				}
-				else if (strcmp(t.token(3), "haste_rating") == 0)
-				{
-                    kettle.change(HASTE, time, -amount);
-				}
-				else if (strcmp(t.token(3), "crit_rating") == 0)
-				{
-                    kettle.change(CRIT, time, -amount);
-				}
-				else
-				{
-                    throw buff;
-				}
-			}
-			else
-			{
-				std::cout << buff << endl;
-			}
-		}
-		else if (strcmp(action, "performs") == 0)
-		{
-			//std::cout << buff << endl;
-
-			//vector<pair<float, actionT> > act;
-			// use it to collect Kettle's actions
-
-		}
-		else if (strcmp(action, "uses") == 0)
-		{
-		}
-		else if (strcmp(action, "potion") == 0)
-		{
-		}
-		else if (strcmp(action, "schedules") == 0)
-		{
-		}
-		else if (strcmp(action, "doom_nova") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-		}
-		else if (strcmp(action, "choose_target") == 0)
-		{
-			std::cout << buff << endl;
-		}
-		else if (strcmp(action, "consumes") == 0)
-		{
-			amount = asInt(t.token(2));
-			if (strcmp(t.token(3), "mana") == 0)
-			{
-				kettle.changemana(time, -amount);
-			}
-			else
-			{
-				std::cout << buff << endl;
-			}
-		}
-		else if (strcmp(action, "arcane_missiles") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "arcane_missiles_tick") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "arcane_barrage") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-
-		}
-		else if (strcmp(action, "arcane_blast") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-
-		}
-		else if (strcmp(action, "evocation") == 0)
-		{
-			// nothing to do here, can be used to follow how many ticks an evocation is lasting
-		}
-		else if (strcmp(action, "unstable_magic_explosion") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "prismatic_crystal") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "presence_of_mind") == 0)
-		{
-			kettle.set(time, PRESENCE_OF_MIND, 1);
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "arcane_power") == 0)
-		{
-			kettle.set(time, ARCANE_POWER, 1);
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "nithramus") == 0)
-		{
-
-		}
-		else if (strcmp(action, "arises.") == 0)
-		{
-		}
-		else if (strcmp(action, "demises..") == 0)
-		{
-		}
-		else if (strcmp(action, "tries") == 0)
-		{
-		}
-		else if (strcmp(action, "summons") == 0)
-		{
-		}
-		else if (strcmp(action, "shoot") == 0 || strcmp(action, "frostbolt") == 0 || strcmp(action, "melee") == 0)
-		{
-			kettle.damage(time, t.token(3), action, asInt(t.token(5)));
-			kettle.record_action(time, action, t.token(3));
-		}
-		else if (strcmp(action, "dismisses") == 0)
-		{
-			std::cout << buff << endl;
-		}
-		else if (strcmp(action, "prismatic_crystal") == 0)
-		{
-			std::cout << buff << endl;
-		}
-		else
-		{
-			std::cout << action << endl;
-		}
-
-		if (output) std::cout << endl;
-
-		if (count >= 80)
-		{
-			//	std::cout << count << endl;
-		}
-	} // while (!in.eof())
-	in.close();
-	for (std::map<std::string, int>::const_iterator it = actor.begin(); it != actor.end(); ++it)
-	{
-		cout << it->first << "  " << it->second << endl;
-	}
-    return true;
+    combatlog log;
+    log.init(fileName, kettle,
+    #ifdef QTHUNOR
+     NULL
+     #endif
+     );
+    return log.parseCombatLog(999999);
 } // bool parseCombatLog(char* fileName, arcaneMage kettle)
 
 
 
-bool combatlog::init(const char* fileName, arcaneMage& player, QPlainTextEdit* edit)
+bool combatlog::init(const char* fileName, arcaneMage& player
+#ifdef QTHUNOR
+, QPlainTextEdit* edit
+#endif
+)
 {
     count = 0;
     in.open(fileName);
@@ -432,7 +36,9 @@ bool combatlog::init(const char* fileName, arcaneMage& player, QPlainTextEdit* e
         return false;
     }
     kettle = &player;
+#ifdef QTHUNOR
     actionList = edit;
+#endif
     return initialised = true;
 } // bool combatlog::init(const char* fileName, arcaneMage& player)
 
@@ -440,7 +46,6 @@ bool combatlog::init(const char* fileName, arcaneMage& player, QPlainTextEdit* e
 bool combatlog::readLine()
 {
     char* timeStr;
-    float time;
     kettle->modified = false;
 
     if (in.eof()) return false;
@@ -506,18 +111,16 @@ bool combatlog::readLine()
         }
         else if (strcmp(what1, "mage_armor_1") == 0)
         {
-            kettle->set(time, MAGE_ARMOR, 1);
             return false;
         }
         else if (strcmp(what1, "bloodlust_1") == 0)
         {
-            kettle->set(time, BLOODLUST, 1);
+            kettle->set(time, HEROISM, 1);
             return true;
         }
         else if (strcmp(what1, "exhaustion_1") == 0)
         {
-            kettle->set(time, EXHAUSTION, 1);
-            return true;
+            return false;
         }
         else if (strcmp(what1, "nithramus_1") == 0)
         {
@@ -633,18 +236,16 @@ bool combatlog::readLine()
         }
         else if (strcmp(what1, "mage_armor") == 0)
         {
-            kettle->set(time, MAGE_ARMOR, 0);
-            return true;
+            return false;
         }
         else if (strcmp(what1, "bloodlust") == 0)
         {
-            kettle->set(time, BLOODLUST, 0);
+            kettle->set(time, HEROISM, 0);
             return true;
         }
         else if (strcmp(what1, "exhaustion") == 0)
         {
-            kettle->set(time, EXHAUSTION, 0);
-            return true;
+            return false;
         }
         else if (strcmp(what1, "nithramus") == 0)
         {
@@ -875,12 +476,14 @@ bool combatlog::readLine()
 bool combatlog::step()
 {
     bool b = false;
+#ifdef QTHUNOR
     QTextCursor cursor = actionList->textCursor();
     QTextCharFormat format = cursor.charFormat();
-
+#endif
     while (!in.eof() && !b)
     {
         b = readLine();
+#ifdef QTHUNOR
         cursor.insertBlock();
         if (b)
         {
@@ -890,6 +493,7 @@ bool combatlog::step()
             format.setForeground(QColor(0, 255, 0));
         }
         cursor.insertText(buff, format);
+#endif
     }
 
     return b;

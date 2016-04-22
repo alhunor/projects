@@ -20,9 +20,17 @@ struct damageT
     int amount;
 };
 
+struct status
+{
+    int cd; //
+    int charges;
+    int duration;
+//    int active;
+};
+;
 
-typedef enum {PRESENCE_OF_MIND=0, ARCANE_POWER, TEMPORAL_POWER, ARCANE_CHARGE, ARCANE_MISSILES, BLOODLUST,
-            DRAENIC_INTELLECT_POTION, EXHAUSTION, NITHRAMUS, MAGE_ARMOR, WEAPON_ENCHANT} flags;
+typedef enum {PRESENCE_OF_MIND=0, ARCANE_POWER, TEMPORAL_POWER, ARCANE_CHARGE, ARCANE_MISSILES,
+            DRAENIC_INTELLECT_POTION, EXHAUSTION, NITHRAMUS, WEAPON_ENCHANT, PRISMATIC_CRYSTAL, HEROISM, DOOMNOVA} flags;
 
 typedef enum {MASTERY=0, HASTE, CRIT, MULTISTRIKE, INTELLECT, SPELLPOWER, VERSATILITY} stats;
 
@@ -47,12 +55,14 @@ public:
     void cast(float time, const char* buff) {  }
     void markOfDoom(float time, const char* buff) {  }
     void summon(float time, const char* buff) {  }
+    int stat_value(stats stat);
+    float stat_percentage(stats stat);
     int health;
     int maxMana, mana, manareg;
+    int incanters_flow;
     int mastery, haste, crit, multistrike, intellect, spellpower, versatility;
     int masteryBuff, hasteBuff, critBuff, multistrikeBuff, intellectBuff, spellpowerBuff, versatilityBuff;
 
-    int incanters_flow;
     std::map<std::string, int> dmgonTarget;
     std::map<std::string, int> dmgwithSpell;
     void damage(float time, const char* target, const char* action, int amount);
@@ -63,8 +73,14 @@ public:
     std::vector<std::pair<float, actionT> > act;
 
 // flags
-    std::pair<float, int> presence_of_mind, arcane_power, temporal_power, arcane_charge, arcane_missiles, blooodlust, exhaustion, nithramus, mage_armor;
-    std::pair<float, int> draenic_intellect_potion, weapon_enchant;
+    std::pair<float, status> presence_of_mind, arcane_power, temporal_power, arcane_charge, arcane_missiles, nithramus, prismatic_crystal;
+    std::pair<float, status> draenic_intellect_potion, weapon_enchant, hero, doom_nova;
+// level 100 ratios
+    static const int ratio_crit =110;
+    static const int ratio_mastery =110;
+    static const int ratio_haste =90;
+    static const int ratio_multi =60;
+    static const int ratio_versa =130;
 }; // class arcaneMage
 
 #endif // ARCANEMAGE
