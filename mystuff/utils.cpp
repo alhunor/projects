@@ -27,7 +27,9 @@ void trimQuotes(std::string& s)
 
 int asInt(const char* s)
 {
-	int i = atoi(s);
+	char *endptr;
+	int i = strtol(s, &endptr, 10);
+	if (endptr == s) return -123456;
 	return i;
 }
 
