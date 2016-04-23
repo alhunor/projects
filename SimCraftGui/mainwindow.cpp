@@ -12,42 +12,54 @@
 
 
 
-void Plate::init(QFrame* _base, QProgressBar* _durationBar, QProgressBar* _cdBar, QLabel* _pic, const char* path, std::pair<float, status>* _attribute)
+void Plate::init(QFrame* _base, QProgressBar* _durationBar, QLabel* _cdLabel, QLabel* _pic_cd, QLabel* _pic_duration, const char* path, std::pair<float, status>* _attribute)
 {
     base =_base;
     durationBar = _durationBar;
-    cdBar = _cdBar;
-    pic =_pic;
+    pic_duration =_pic_duration;
+    pic_cd =_pic_cd;
     attribute = _attribute;
+    cdLabel = _cdLabel;
+
+    if (base) base->setVisible(false);
+
     QPixmap pixy(path);
-    pic->setPixmap(pixy);
-    durationBar->setMaximum(attribute->second.duration);
-    durationBar->setValue(0);
-    if (cdBar!=NULL)
+    if (pic_duration)  pic_duration->setPixmap(pixy);
+    if (pic_cd) pic_cd->setPixmap(pixy);
+
+    if (cdLabel) cdLabel->setText("");
+
+    if (durationBar!=NULL)
     {
-        cdBar->setMaximum(attribute->second.cd);
-        cdBar->setValue(attribute->second.cd);
+        durationBar->setMaximum(attribute->second.duration);
+        durationBar->setValue(attribute->second.duration);
     }
 }
 
-
+// http://www.qcustomplot.com/
 
 void Plate::display(float time)
-{
-   // qDebug()<<time<<"  "<<attribute->first<<"  "<<attribute->second.cd<<"\n";
-    pic->setEnabled( (time - attribute->first > attribute->second.cd));
-    durationBar->setVisible(attribute->second.charges>0);
-    durationBar->setValue(time - attribute->first);
-    if (cdBar!=NULL)
+{   // qDebug()<<time<<"  "<<attribute->first<<"  "<<attribute->second.cd<<"\n";
+
+    if (base)
     {
-        cdBar->setValue(time - attribute->first);
+        base->setVisible(attribute->second.charges>0);
     }
 
-    if (time - attribute->first < attribute->second.duration)
+    if (durationBar)
     {
-        //base->setP TODO
+        //durationBar->setVisible(attribute->second.charges>0);
+        durationBar->setValue(time - attribute->first);
     }
-}
+    if (time - attribute->first < attribute->second.cd)
+    {
+        if (pic_cd) pic_cd->setEnabled(false);
+        int time_till_cd_expires =  attribute->second.cd - (time - attribute->first);
+        if (cdLabel) cdLabel->setText(QString("%1 s").arg(time_till_cd_expires));
+    }
+} // void Plate::display(float time)
+
+
 
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -56,17 +68,49 @@ MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainW
 //    std::pair<float, status> , temporal_power
 //    std::pair<float, status> , weapon_enchant,
 
-    prismaticCrystal.init(ui->frame_pc, ui->pc_progressBar1, ui->pc_progressBar2, ui->pic_prismaticcrystal, "L:\\Projects\\SimCraftGui\\prismaticcrystal.jpg", &kettle.presence_of_mind);
-    nithramus.init(ui->frame_nith, ui->nith_progressBar1, ui->nith_progressBar2, ui->pic_nithramus, "L:\\Projects\\SimCraftGui\\nithramus.jpg",&kettle.nithramus);
-    hero.init(ui->frame_hero, ui->hero_progressBar1, ui->hero_progressBar2, ui->pic_hero, "L:\\Projects\\SimCraftGui\\timeWrap.jpg",&kettle.hero);
-    intellectPotion.init(ui->frame_pot, ui->pot_progressBar1, ui->pot_progressBar2, ui->pic_intellectpotion, "L:\\Projects\\SimCraftGui\\intellectPotion.jpg", &kettle.draenic_intellect_potion);
-    presenceofmind.init(ui->frame_pm, ui->pm_progressBar1, ui->pm_progressBar2, ui->pic_presenceofmind, "L:\\Projects\\SimCraftGui\\presenceofmind.jpg", &kettle.presence_of_mind);
-    arcanepower.init(ui->frame_ap, ui->ap_progressBar1, ui->ap_progressBar2, ui->pic_arcanepower, "L:\\Projects\\SimCraftGui\\arcanepower.jpg",&kettle.arcane_power);
-    doomNova.init(ui->frame_doom, ui->doom_progressBar1, NULL, ui->pic_doom, "L:\\Projects\\SimCraftGui\\doomNova.jpg",&kettle.doom_nova);
-    weaponEnchant.init(ui->frame_ench, ui->ench_progressBar1, NULL, ui->pic_enchant, "L:\\Projects\\SimCraftGui\\enchant.jpg",&kettle.weapon_enchant);
+    prismaticCrystal.init(ui->frame_pc, ui->pc_progressBar1, ui->pc_cd, ui->pic_prismaticcrystal_cd, ui->pic_prismaticcrystal, "L:\\Projects\\SimCraftGui\\prismaticcrystal.jpg", &kettle.prismatic_crystal);
+    nithramus.init(ui->frame_nith, ui->nith_progressBar1, ui->nith_cd, ui->pic_nithramus_cd, ui->pic_nithramus, "L:\\Projects\\SimCraftGui\\nithramus.jpg",&kettle.nithramus);
+    hero.init(ui->frame_hero, ui->hero_progressBar1, ui->hero_cd, ui->pic_hero_cd, ui->pic_hero, "L:\\Projects\\SimCraftGui\\timeWrap.jpg",&kettle.hero);
+    intellectPotion.init(ui->frame_pot, ui->pot_progressBar1, ui->pot_cd, ui->pic_potion_cd, ui->pic_potion, "L:\\Projects\\SimCraftGui\\intellectPotion.jpg", &kettle.draenic_intellect_potion);
+    presenceofmind.init(ui->frame_pm, ui->pm_progressBar1, ui->pm_cd, ui->pic_presenceofmind_cd, ui->pic_presenceofmind, "L:\\Projects\\SimCraftGui\\presenceofmind.jpg", &kettle.presence_of_mind);
+    arcanepower.init(ui->frame_ap, ui->ap_progressBar1, ui->ap_cd, ui->pic_arcanepower_cd, ui->pic_arcanepower, "L:\\Projects\\SimCraftGui\\arcanepower.jpg",&kettle.arcane_power);
+    doomNova.init(ui->frame_doom, ui->doom_progressBar1, NULL, NULL, ui->pic_doom, "L:\\Projects\\SimCraftGui\\doomNova.jpg",&kettle.doom_nova);
+    weaponEnchant.init(ui->frame_ench, ui->ench_progressBar1, NULL, NULL, ui->pic_enchant, "L:\\Projects\\SimCraftGui\\enchant.jpg",&kettle.weapon_enchant);
+    evocation.init(NULL, NULL, ui->evo_cd, ui->pic_evocation_cd, NULL, "L:\\Projects\\SimCraftGui\\evocation.jpg",&kettle.evocation);
+
+    ui->frame_ao->setVisible(false);
+    ui->frame_sn->setVisible(false);
+
+
+    ui->openButton->installEventFilter(this);
+    ui->stepButton->installEventFilter(this);
+    ui->forwardButton->installEventFilter(this);
+    ui->actionList->installEventFilter(this);
 
     init();
 }
+
+
+bool MainWindow::eventFilter(QObject *target, QEvent *event)
+{
+ // http://www.informit.com/articles/article.aspx?p=1405544 <- capture specific events
+// http://www.informit.com/articles/article.aspx?p=1405544&seqNum=2 <- Redefine event filter on main window
+// http://www.informit.com/articles/article.aspx?p=1405544&seqNum=3 <- remain responsive during long processing tasks
+
+    //    if (target == ui->stepButton || target == ui->openButton || ...)
+        if (event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (keyEvent->key() == Qt::Key_Space)
+            {
+                if (ui->stepButton->isEnabled()) on_stepButton_clicked();
+                return true;
+            }
+        }
+    return QMainWindow::eventFilter(target, event);
+}
+
+
 
 void MainWindow::init()
 {
@@ -179,6 +223,11 @@ void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
     arcanepower.display(time);
     doomNova.display(time);
     weaponEnchant.display(time);
+    evocation.display(time);
+    if (kettle.doom_nova.second.charges>0)
+    {
+        ui->doomTarget->setText(QString("DoomTarget = ")+QString::fromStdString(kettle.doomTarget));
+    }
     //supernova
 
 } // void MainWindow::displayArcaneMage(arcaneMage& kettle)
@@ -187,31 +236,6 @@ void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-
-void MainWindow::on_pushButton_released()
-{
-//    MessageBoxA(NULL, "on_pushbuton_clicked", "on_pushbuton_clicked", MB_OK);
-
- /*   QString st = QString (
-                "QProgressBar::chunk {"
-                "background-color: #ff0000;"
-                 "}");
-
-    st.append("QProgressBar {"
-              "border: 1px solid grey;"
-              "border-radius: 2px;"
-              "text-align: center;"
-              "background: #eeeeee;"
-              "}");
-
-    ui->progressBar->setStyleSheet(st);*/
-}
-
-void MainWindow::on_pushButton_pressed()
-{
-
 }
 
 
@@ -251,3 +275,14 @@ void MainWindow::on_forwardButton_clicked()
 //    log.parseCombatLog(10);
 //    displayArcaneMage(kettle, log.getTime());
 }
+
+
+
+/*void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+   // if (event->key() == Qt::Key_Space)
+    {
+        Beep(1000,500);
+    }
+    QMainWindow::keyPressEvent(event);
+}*/

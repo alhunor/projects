@@ -1,6 +1,58 @@
 #include "arcanemage.h"
+#include <iostream>
 
 using namespace std;
+
+
+void arcaneMage::markOfDoom(float time, bool gains, const char* target) 
+{
+	doomTarget = target;
+	if (gains)
+	{
+		doom_nova.first = time;
+	}
+	doom_nova.second.charges = gains?1:0;
+}
+
+
+void arcaneMage::summon(float time, const char* target)
+{
+	if (strcmp(target, "Kettle_Active_temporal_hero.") == 0) 
+	{
+		set(time, TEMPORAL_POWER, +1, true);
+	}
+	else if (strcmp(target, "Kettle_Active_prismatic_crystal.") == 0)
+	{
+		set(time, PRISMATIC_CRYSTAL , +1, false);
+	}
+	else
+	{
+		throw "Nana!";
+	}
+} // void arcaneMage::summon(float time, const char* target)
+
+
+void arcaneMage::dismiss(float time, const char* target)
+{
+	if (strcmp(target, "Kettle_Active_temporal_hero") == 0)
+	{
+		set(time, TEMPORAL_POWER, -1, true);
+	}
+	else if (strcmp(target, "Kettle_Active_prismatic_crystal") == 0)
+	{
+		set(time, PRISMATIC_CRYSTAL, 0, false);
+	}
+	else
+	{
+		throw "Nana!";
+	}
+} // void arcaneMage::summon(float time, const char* target)
+
+
+void arcaneMage::cast(float time, const char* buff)
+{
+	// TODO - this function is called with gain casting and loses casting
+}
 
 int arcaneMage::stat_value(stats stat)
 {
@@ -74,7 +126,7 @@ void arcaneMage::change(stats stat, float time, int amount)
     }
 } // void arcaneMage::change(stats stat, float time, int amount)
 
-void arcaneMage::set(float time, flags flag, int value)
+void arcaneMage::set(float time, flags flag, int value, bool relative)
 {
     pair<float, status>* stateVariable;
     switch (flag)
@@ -109,20 +161,26 @@ void arcaneMage::set(float time, flags flag, int value)
     case WEAPON_ENCHANT:
         stateVariable = &weapon_enchant;
         break;
+	case INCANTERS_FLOW:
+		incanters_flow = value;
+		modified = true;
+		return;
+	case EVOCATION:
+		stateVariable = &evocation;
+        break;
     default:
         throw "unknown field";
     } // switch (flag)
-    if (value<0)
-    {
-        temporal_power.second.charges += value;
-        modified = true;
-    }
-    else
-    {
-        stateVariable->second.charges = value;
-        stateVariable->first = time;
-        modified = true;
-    }
+	if (relative)
+	{
+		stateVariable->second.charges += value;
+	}
+	else
+	{
+		stateVariable->second.charges = value;
+	}
+    stateVariable->first = time;
+	modified = true;
 } // void arcaneMage::set(float time, flags flag, int state)
 
 void arcaneMage::record_action(float time, const char* target, const char* action)
@@ -182,17 +240,21 @@ bool arcaneMage::init()
 
     temporal_power.second.charges=0;
     temporal_power.second.cd=0;
-    temporal_power.second.duration=12; // todo check duration
+    temporal_power.second.duration=10; // ok
 
     hero.first = -999;
     hero.second.charges=0;
     hero.second.cd=600;
     hero.second.duration=40; //ok
 
+    evocation.first = -999;
+    evocation.second.charges=0;
+    evocation.second.cd=90; //ok
+    evocation.second.duration=4;
 
     doom_nova.first = -0;
     doom_nova.second.charges=0;
-    doom_nova.second.cd=0;
+    doom_nova.second.cd=999;
     doom_nova.second.duration=10; //check
 
 
@@ -216,9 +278,10 @@ bool arcaneMage::init()
     draenic_intellect_potion.second.cd = 60;
     draenic_intellect_potion.second.duration = 24; //ok
 
+    weapon_enchant.first = -999;
     weapon_enchant.second.charges = 0;
-    weapon_enchant.second.cd = 0;
-    weapon_enchant.second.duration = 10;
+    weapon_enchant.second.cd = 999;
+    weapon_enchant.second.duration = 20;
 
     prismatic_crystal.first = -999;
     prismatic_crystal.second.charges = 0;

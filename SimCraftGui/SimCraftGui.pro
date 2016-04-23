@@ -45,3 +45,6 @@ FORMS    += mainwindow.ui
 
 RESOURCES += \
     res.qrc
+
+DISTFILES += \
+    combatlog-elite.txt

@@ -21,5 +21,12 @@
         <file>controls/open2.png</file>
         <file>prismaticCrystal.jpg</file>
         <file>enchant.jpg</file>
+        <file>abarr.jpg</file>
+        <file>ArcaneBlast.png</file>
+        <file>evocation.jpg</file>
+        <file>iceFloes.jpg</file>
+        <file>mage2.png</file>
+        <file>Crocolisk.png</file>
+        <file>arcaneOrb.jpg</file>
     </qresource>
 </RCC>
