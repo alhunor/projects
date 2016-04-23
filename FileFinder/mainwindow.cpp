@@ -209,3 +209,8 @@ void MainWindow::on_searchButton_released()
 }
 
 
+
+void MainWindow::on_pathButton_clicked()
+{
+
+}

@@ -37,6 +37,7 @@ private slots:
     void menu2ClickedSlot();
     void menu3ClickedSlot();
 
+    void on_pathButton_clicked();
 };
 
 #endif // MAINWINDOW_H
