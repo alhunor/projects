@@ -249,6 +249,9 @@
     <ClCompile Include="ExcelExportFX.cpp">
       <Filter>Infrastructure</Filter>
     </ClCompile>
+    <ClCompile Include="valuetrade.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgList.h">
@@ -489,6 +492,9 @@
       <Filter>FX Modelling</Filter>
     </ClInclude>
     <ClInclude Include="grid.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="valueTrade.h">
       <Filter>FX Modelling</Filter>
     </ClInclude>
   </ItemGroup>

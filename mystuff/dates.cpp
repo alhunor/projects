@@ -4,18 +4,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "boost/date_time/gregorian/gregorian.hpp" //include all types plus i/o
 
+/*
 #include "boost/date_time/gregorian/gregorian_types.hpp" //no i/o just types
 
 // returns number of days since 1st Jan 1900 (to agree with Excel conventions)
 int ExcelDate(int year, int month, int day)
 { 
+	Does not agree with Excel for dates between 01 jan 1900 and 29 feb 1900. Excel has the mistake, not boost!!
 	static boost::gregorian::date start(1900,1,1);
 	boost::gregorian::date d(year,  month,  day);
 	boost::gregorian::date_duration duration = d-start;
 	return duration.days() + 2; //+2 needed to agree with Excel dates
 }
+*/
 
 
 int dateFromString(const char* ptr)
@@ -45,10 +47,68 @@ int dateFromString(const char* ptr)
 	else throw "Invalid format";
 
 	if (year>2100) throw "Date is out of scope.";
-	if (year>1900 && year<2100) return ExcelDate(year, month, day);
+	if (year>1900 && year<2100) return YMDToExcelDate(year, month, day);
 	else if (year>50 && year<100) year +=1900; 
 	else if (year<50 && year>=0) year +=2000;
 	else throw "Date is out of scope.";
 	
-	return ExcelDate(year, month, day);
+	return YMDToExcelDate(year, month, day);
 } // int dateFromString(char* ptr)
+
+//http://www.codeproject.com/Articles/2750/Excel-serial-date-to-Day-Month-Year-and-vise-versa
+
+void ExcelDateToYMD(int nSerialDate, int &nYear, int &nMonth, int &nDay)
+{
+	// Excel/Lotus 123 have a bug with 29-02-1900. 1900 is not a
+	// leap year, but Excel/Lotus 123 think it is...
+	if (nSerialDate == 60)
+	{
+		nDay = 29;
+		nMonth = 2;
+		nYear = 1900;
+
+		return;
+	}
+	else if (nSerialDate <= 60)
+	{
+		// Because of the 29-02-1900 bug, any serial date 
+		// under 60 is one off... Compensate.
+		nSerialDate++;
+	}
+
+	// Modified Julian to DMY calculation with an addition of 2415019
+	int l = nSerialDate + 68569 + 2415019;
+	int n = int((4 * l) / 146097);
+	l = l - int((146097 * n + 3) / 4);
+	int i = int((4000 * (l + 1)) / 1461001);
+	l = l - int((1461 * i) / 4) + 31;
+	int j = int((80 * l) / 2447);
+	nDay = l - int((2447 * j) / 80);
+	l = int(j / 11);
+	nMonth = j + 2 - (12 * l);
+	nYear = 100 * (n - 49) + i + l;
+}
+
+int YMDToExcelDate(int nYear, int nMonth, int nDay)
+{
+	// Excel/Lotus 123 have a bug with 29-02-1900. 1900 is not a
+	// leap year, but Excel/Lotus 123 think it is...
+	if (nDay == 29 && nMonth == 02 && nYear == 1900)
+		return 60;
+
+	// DMY to Modified Julian calculatie with an extra substraction of 2415019.
+	long nSerialDate =
+		int((1461 * (nYear + 4800 + int((nMonth - 14) / 12))) / 4) +
+		int((367 * (nMonth - 2 - 12 * ((nMonth - 14) / 12))) / 12) -
+		int((3 * (int((nYear + 4900 + int((nMonth - 14) / 12)) / 100))) / 4) +
+		nDay - 2415019 - 32075;
+
+	if (nSerialDate <= 60)
+	{
+		// Because of the 29-02-1900 bug, any serial date 
+		// under 60 is one off... Compensate.
+		nSerialDate--;
+	}
+
+	return (int)nSerialDate;
+}

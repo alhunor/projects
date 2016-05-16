@@ -262,13 +262,22 @@ Currency toCurrency(const char* str)
 			return currencies[i].ccy;
 		}
 	}
-	throw "Unknown currency";
+	throw "Unknown currency: " + std::string(str);
 } // Currency toCurrency(char* str)
 
 
-void fxQuote::set(float _level, fxQuoteStatus _status=LEVEL)
+FXPair toFXPair(std::string& fgndom)
 {
-	if (status == LEVEL && status == FORMULA)
+	FXPair fx;
+	fx.fgn = toCurrency(fgndom.substr(0, 3).c_str());
+	fx.dom = toCurrency(fgndom.substr(3).c_str());
+	return fx;
+} // FXPair toFXPair(std::string& s)
+
+
+void fxQuote::set(float _level, fxQuoteStatus _status=FXLEVEL)
+{
+	if (status == FXLEVEL && status == FORMULA)
 	{
 		return; // do not overwrite n outright level with a formula
 	}
@@ -296,48 +305,48 @@ fxTable::~fxTable()
 	delete[] prev;
 }
 
-void fxTable::set(Currency fgn, Currency dom, float _level)
+void fxTable::setSpot(FXPair fxp, float _level)
 {
-	if (fgn == dom) return;
+	if (fxp.fgn == fxp.dom) return;
 
-	if (fgn < dom)
+	if (fxp.fgn < fxp.dom)
 	{
-		swap(fgn, dom);
+		swap(fxp.fgn, fxp.dom);
 		_level = 1 / _level;
 	}
-	int pos = (fgn - 1)*fgn / 2+ dom;
+	int pos = (fxp.fgn - 1)*fxp.fgn / 2+ fxp.dom;
 	fx[pos].set(_level);
 
-	fxpairs[fgn].insert(dom);
-	fxpairs[dom].insert(fgn);
+	fxpairs[fxp.fgn].insert(fxp.dom);
+	fxpairs[fxp.dom].insert(fxp.fgn);
 } // void fxTable::set(Currency fgn, Currency dom, float _level)
 
 
 
-void fxTable::setFormula(Currency fgn, Currency dom, float _level)
+void fxTable::setFormula(FXPair fxp, float _level)
 {
-	if (fgn == dom) return;
+	if (fxp.fgn == fxp.dom) return;
 
-	if (fgn < dom)
+	if (fxp.fgn < fxp.dom)
 	{
-		swap(fgn, dom);
+		swap(fxp.fgn, fxp.dom);
 		_level = 1 / _level;
 	}
-	int pos = (fgn - 1)*fgn / 2 + dom;
+	int pos = (fxp.fgn - 1)*fxp.fgn / 2 + fxp.dom;
 	fx[pos].set(_level, FORMULA);
 } // void fxTable::setFormula(Currency fgn, Currency dom, float _level)
 
 
-float fxTable::value(Currency fgn, Currency dom)
+float fxTable::getSpot(FXPair fxp)
 {
-	if (fgn == dom) return 1;
+	if (fxp.fgn == fxp.dom) return 1;
 	bool inv = false;
-	if (fgn < dom)
+	if (fxp.fgn < fxp.dom)
 	{
-		swap(fgn, dom);
+		swap(fxp.fgn, fxp.dom);
 		inv = true;
 	}
-	int pos = (fgn - 1)*fgn / 2 + dom;
+	int pos = (fxp.fgn - 1)*fxp.fgn / 2 + fxp.dom;
 
 	fxQuote& fxq = fx[pos];
 	
@@ -359,10 +368,10 @@ float fxTable::value(Currency fgn, Currency dom)
 			visited[i] = false;
 		}
 		std::list<Currency> tovisit;
-		lookup[fgn] = 1;
-		prev[fgn] = fgn;
+		lookup[fxp.fgn] = 1;
+		prev[fxp.fgn] = fxp.fgn;
 		Currency dom2, fgn2;
-		tovisit.push_back(fgn);
+		tovisit.push_back(fxp.fgn);
 		do
 		{
 			fgn2 = tovisit.front();
@@ -372,9 +381,9 @@ float fxTable::value(Currency fgn, Currency dom)
 			{
 				dom2 = *it;
 				if (lookup[dom2] != -1) continue;
-				lookup[dom2] = lookup[fgn2]*value(fgn2, dom2); // we have a direct quote for fgndom or its inverse
-				setFormula(fgn, dom2, lookup[dom2]);
-				if (dom2 == dom) goto _exit;
+				lookup[dom2] = lookup[fgn2]*getSpot(FXPair(fgn2, dom2)); // we have a direct quote for fgndom or its inverse
+				setFormula(FXPair(fxp.fgn, dom2), lookup[dom2]);
+				if (dom2 == fxp.dom) goto _exit;
 				if (!visited[dom2])
 				{
 					tovisit.push_back(dom2);
@@ -382,7 +391,7 @@ float fxTable::value(Currency fgn, Currency dom)
 			}
 		} while (!tovisit.empty());
 _exit:
-		if (dom2 == dom)
+		if (dom2 == fxp.dom)
 		{
 			fxq.level = lookup[dom2];
 			fxq.dirty = false;

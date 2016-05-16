@@ -186,6 +186,7 @@
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="myError.cpp" />
     <ClCompile Include="randomNumbers.cpp" />
+    <ClCompile Include="valuetrade.cpp" />
     <ClCompile Include="xlwExample.cpp" />
     <ClCompile Include="backTesting.cpp" />
     <ClCompile Include="ipc.cpp" />
@@ -288,6 +289,7 @@
     <ClInclude Include="mathProbability.h" />
     <ClInclude Include="ImageProcessing.h" />
     <ClInclude Include="BlackScholes.h" />
+    <ClInclude Include="valueTrade.h" />
     <ClInclude Include="xlw\CellMatrix.h" />
     <ClInclude Include="xlw\EXCEL32_API.h" />
     <ClInclude Include="xlw\macros.h" />

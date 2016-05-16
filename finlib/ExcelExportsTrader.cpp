@@ -197,7 +197,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 		ret.add("remove", "{handle}");
 		ret.add("clearAll", "");
 
-		return ret.toXlfOper();
+		return labelValuetoXlfOper(ret);
 	} // if (_stricmp(command, "listCommands")==0)
 
 	if (_stricmp(command, "info")==0)
@@ -211,7 +211,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 			ret.add("NbRecords", ts->nbRecords);
 			ret.add("MinTime", (double)ts->rec[0].time);
 			ret.add("MaxTime", (double)ts->rec[ts->nbRecords-1].time);
-			return ret.toXlfOper();
+			return labelValuetoXlfOper(ret);
 		}
 
 		tf = dynamic_cast<TextFile*>((MotherOfAllBaseObjects* )handle[h]);
@@ -221,7 +221,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 			ret.add("Filename", tf->filename);
 			ret.add("nbLines", tf->nbLines());
 			ret.add("FileSize(bytes)", tf->fileSize());
-			return ret.toXlfOper();
+			return labelValuetoXlfOper(ret);
 		}
 
 		throw "Handle does not point to <TimeSeriesFromFile> or <TextFile> type.";
@@ -263,13 +263,13 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 		ret.add("min", min);
 		ret.add("max", max);
 
-		return ret.toXlfOper();
+		return labelValuetoXlfOper(ret);
 	} // if (_stricmp(command, "statistics")==0)
 
 	if (_stricmp(command, "list")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 		int minPos = (int)arg.getNum("minPos");
 		int maxPos = (int)arg.getNum("maxPos");
 		int step = (int)arg.getNum("step");		
@@ -292,7 +292,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "createIndicator")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 		indicatorT* indi = NULL;
 		h = (int)arg.getHandle("handle");
 		if (h>-1) // I think the functionality to update indicators is useless
@@ -317,7 +317,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "createMarket")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 		int maxOrders = (int)arg.getNum("maxOrders");
 		marketT* market = new marketT(maxOrders, &requests, &confirmations); 
 		h = handle.add(market);
@@ -327,7 +327,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "createTrader")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 		int shortLimit = (int)arg.getNum("shortLimit");
 		int longLimit = (int)arg.getNum("longLimit");
 		marketT* market = dynamic_cast<marketT*>((MotherOfAllBaseObjects* )arg.getObj("market"));
@@ -342,7 +342,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "createStrategy")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 		traderT* trader = dynamic_cast<traderT*>((MotherOfAllBaseObjects* )arg.getObj("trader"));
 		if (!trader)
 			throw "Handle does not point to underlying <traderT> type.";
@@ -355,8 +355,8 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "analyse")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
-		
+		labelValueAddXlfOper(arg, Arg);
+
 		ts = dynamic_cast<TimeSeriesFromFile<timeStampedBidAskT>*>((MotherOfAllBaseObjects* )arg.getObj("fileHandle"));
 		if (!ts)
 			throw "Handle does not point to underlying <TimeSeriesFromFile> type.";
@@ -398,7 +398,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "simulate")==0)
 	{
 		labelValue arg;
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 		marketT* market = dynamic_cast<marketT*>((MotherOfAllBaseObjects* )arg.getObj("market"));
 		if (!market)
 			throw "Handle does not point to underlying <marketT> type.";
@@ -425,7 +425,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 	if (_stricmp(command, "report")==0)
 	{
 		labelValue arg; 
-		arg.add(Arg);
+		labelValueAddXlfOper(arg, Arg);
 
 		traderT* trader = dynamic_cast<traderT*>((MotherOfAllBaseObjects* )arg.getObj("trader"));	
 		if (!trader)

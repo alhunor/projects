@@ -47,3 +47,18 @@ void marketData::addFXTable(fxTable *_fxTable)
 	if (fx) delete fx;
 	fx = _fxTable;
 }
+
+double marketData::getFxForward(FXPair fxp, int setDate)
+{
+	double spot = fx->getSpot(fxp);
+	yieldCurve* domCurve = ycs[fxp.dom];
+	yieldCurve* fgnCurve = ycs[fxp.fgn];
+	return spot * domCurve->df(setDate) / fgnCurve->df(setDate);
+};
+
+
+double marketData::df(Currency ccy, int date)
+{
+	yieldCurve* curve = ycs[ccy];
+	return curve->df(date);
+}

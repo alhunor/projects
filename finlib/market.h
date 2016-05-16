@@ -7,7 +7,7 @@
 
 
 
-typedef enum ot {LEVEL, ATMARKET, CANCEL} orderTypeT;
+typedef enum ot {USER_LEVEL, ATMARKET, CANCEL} orderTypeT;
 
 struct HistoricRecordT
 {

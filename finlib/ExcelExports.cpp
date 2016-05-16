@@ -1,16 +1,17 @@
 #define _CRT_SECURE_NO_WARNINGS
 
+
+#include "editDistance.h"
 #include "ExcelConversions.h"
 #include "FileSystems.h"
-#include "LinearAlgebra.h"
-//#include "lm.h"
-#include <levmar.h>
-
-#include "optimizer.h"
-
 #include "hftimer.h"
+#include "LinearAlgebra.h"
+#include <levmar.h>
+//#include "lm.h"
+#include "marketData.h"
 #include "md5.h"
-#include "editDistance.h"
+#include "optimizer.h"
+#include "valueTrade.h"
 
 
 
@@ -41,6 +42,33 @@ R	XLOPER	Values, arrays, and range references.
 
 using namespace xlw;
 using namespace std;
+
+
+
+
+extern "C" LPXLFOPER __declspec(dllexport) xlValueTrade(XlfOper trade, int marketHandle, XlfOper ControlString)
+{
+	EXCEL_BEGIN;
+
+	// Checks if called from the function wizard
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+	labelValue ltd;
+	labelValueAddXlfOper(ltd, trade);
+
+
+	string cs = ControlString.AsString();
+
+	marketData* md;
+	if (handle.exists(marketHandle))
+	{
+		md = (marketData*)handle[marketHandle];
+	} else return XlfOper("Unknown market handle.");
+	
+	return XlfOper(valueTrade(ltd, md, cs));
+	
+	EXCEL_END;
+} // extern "C" LPXLFOPER __declspec(dllexport) xlValueTrade(XlfOper trade, int marketHandle, XlfOper ControlString)
 
 
 extern "C" LPXLFOPER __declspec(dllexport) xlCholesky(XlfOper Matrix)
@@ -139,13 +167,14 @@ extern "C" LPXLFOPER __declspec(dllexport) xlWriteData(XlfOper data, XlfOper lab
 		return XlfOper("Label is missing.");
 
 	labelValue arg;
-	arg.add(data);
+
+	labelValueAddXlfOper(arg, data);
 
 	char* ll = label.AsString();
 
 	arg.setNum(ll, value);
 
-	return XlfOper(arg.toXlfOper());
+	return XlfOper(labelValuetoXlfOper(arg));
 
 	EXCEL_END;
 }
@@ -188,7 +217,9 @@ extern "C" LPXLFOPER __declspec(dllexport) xlFrequencyDistribution(XlfOper data)
 	{
 		arg.add(mapit->first, mapit->second);
 	}
-	return XlfOper(arg.toXlfOper());
+
+
+	return XlfOper(labelValuetoXlfOper(arg));
 	EXCEL_END;
 } // xlFrequencyDistribution(XlfOper data)
 
@@ -271,7 +302,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlGraphAlgoTest(XlfOper TestDescripto
 
 	labelValue lv;
 	if (!TestDescriptor.IsMissing())
-		lv.add(TestDescriptor);
+		labelValueAddXlfOper(lv, TestDescriptor);
 
 	MyMatrix m1 = matrix.AsMatrix();
 
@@ -531,6 +562,19 @@ namespace
     XLRegistration::XLFunctionRegistrationHelper registermd5file
 	(   "xlmd5file", "md5file", "Computes  MD5 code for the file",
         "FinLib", md5fileArgs, 1);
+
+
+//ValueTrade
+	XLRegistration::Arg ValueTradeArgs[] = {
+		{ "Trade", "Labelled trade data", "XLF_OPER" },
+		{ "Market", "Handle to current market", "J" },
+		{ "ControlString", "Array to Control Strings", "XLF_OPER" }
+	};
+
+	XLRegistration::XLFunctionRegistrationHelper registerValueTrade
+		("xlValueTrade", "ValueTrade", "Values a trade",
+			"FinLib", ValueTradeArgs, 3);
+
 
 //Cholesky
     XLRegistration::Arg CholeskyArgs[] = {

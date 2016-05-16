@@ -87,14 +87,14 @@ bool rangeTrader::executeStrategy(double bid, double ask, int currentTime, int t
 		//cout<<nrticks<<"  "<<signal<<endl;
 		if (SGN(signal)==-1)
 		{
-			sn = tra->requestTransaction(sgn(signal), ask, LEVEL, tick, currentTime);
+			sn = tra->requestTransaction(sgn(signal), ask, USER_LEVEL, tick, currentTime);
 			throw "finish conditional orders.";
-			tra->requestTransaction(-sgn(signal), bid-stdev1, LEVEL, tick, currentTime);
+			tra->requestTransaction(-sgn(signal), bid-stdev1, USER_LEVEL, tick, currentTime);
 		}
 		if (SGN(signal)==1)
 		{
-			sn = tra->requestTransaction(sgn(signal), bid, LEVEL, tick, currentTime);
-			tra->requestTransaction(-sgn(signal), ask+stdev1, LEVEL, tick, currentTime);
+			sn = tra->requestTransaction(sgn(signal), bid, USER_LEVEL, tick, currentTime);
+			tra->requestTransaction(-sgn(signal), ask+stdev1, USER_LEVEL, tick, currentTime);
 		}
 
 		return true;
@@ -136,7 +136,7 @@ bool momentsCrossing::executeStrategy(double bid, double ask, int currentTime, i
 		signal = -1; //sell
 		if (memory==1)
 		{
-			tra->requestTransaction(sgn(signal), ask, LEVEL, tick, currentTime);
+			tra->requestTransaction(sgn(signal), ask, USER_LEVEL, tick, currentTime);
 		}
 		memory = -1;
 		return true;	
@@ -146,7 +146,7 @@ bool momentsCrossing::executeStrategy(double bid, double ask, int currentTime, i
 		signal = +1; // buy
 		if (memory==-1)
 		{
-			tra->requestTransaction(sgn(signal), bid, LEVEL, tick, currentTime);
+			tra->requestTransaction(sgn(signal), bid, USER_LEVEL, tick, currentTime);
 		}
 		memory = 1;
 		return true;	

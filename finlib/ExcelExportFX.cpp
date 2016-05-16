@@ -40,7 +40,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlOptionPricer(double forward, double
 
 	labelValue lv;
 	if (!ModelDescriptor.IsMissing())
-		lv.add(ModelDescriptor);
+		labelValueAddXlfOper(lv,ModelDescriptor);
 
 	modelType model;
 	if (lv.getHandle("Model")==-1) 
@@ -178,7 +178,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlSimulatePath(XlfOper Command, XlfOp
 
 
 	labelValue arg;
-	arg.add(Command);
+	labelValueAddXlfOper(arg, Command);
 	const char* command = arg.getStr("command").c_str();
 	if (_stricmp(command, "SimulateDynamics")==0)
 	{
@@ -265,7 +265,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper 
 			fxSpot = (float)fxSpots(i, 1).AsDouble();
 			Currency fgn = toCurrency(fxpair.substr(0, 3).c_str());
 			Currency dom = toCurrency(fxpair.substr(3).c_str());
-			fx->set(fgn, dom, fxSpot);
+			fx->setSpot(FXPair(fgn, dom), fxSpot);
 		}
 		if (fx)
 		{
@@ -288,17 +288,17 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketDelete(int h)
 	if (XlfExcel::Instance().IsCalledByFuncWiz())
 		return XlfOper(true);
 
-	
-	marketData* md = (marketData*)handle[h];
-	if (md)
+
+	marketData* md;
+	if (handle.exists(h))
 	{
+		md = (marketData*)handle[h];
 		delete md;
 		return XlfOper(true);
 	}
-	else
-	{
-		return XlfOper("Unknown market handle.");
-	}
+	else return XlfOper("Unknown market handle.");
+
+
 	EXCEL_END;
 }
 
@@ -311,11 +311,15 @@ extern "C" LPXLFOPER __declspec(dllexport) xlDF(int h, XlfOper CurrencyName, int
 	if (XlfExcel::Instance().IsCalledByFuncWiz())
 		return XlfOper(true);
 
+	if (! handle.exists(h))
+	{
+		return XlfOper("Unknown market handle.");
+	}
 
 	marketData* md = (marketData*)handle[h];
 	if (!md)
 	{
-		return XlfOper("Unknown market handle.");
+		return XlfOper("Corrupted market handle.");
 	}
 	else
 	{
@@ -333,13 +337,18 @@ extern "C" LPXLFOPER __declspec(dllexport) xlDF(int h, XlfOper CurrencyName, int
 } // extern "C" LPXLFOPER __declspec(dllexport) xlDF(int h, XlfOper CurrencyName, int date)
 
 
-extern "C" LPXLFOPER __declspec(dllexport) xlFxSpot(int h, XlfOper FXPair)
+extern "C" LPXLFOPER __declspec(dllexport) xlFxSpot(int h, XlfOper FXPairString)
 {
 	EXCEL_BEGIN;
 
 	// Checks if called from the function wizard
 	if (XlfExcel::Instance().IsCalledByFuncWiz())
 		return XlfOper(true);
+
+	if (!handle.exists(h))
+	{
+		return XlfOper("Unknown market handle.");
+	}
 
 
 	marketData* md = (marketData*)handle[h];
@@ -349,20 +358,52 @@ extern "C" LPXLFOPER __declspec(dllexport) xlFxSpot(int h, XlfOper FXPair)
 	}
 	else
 	{
-		std::string fgndom = FXPair.AsString();
-		Currency fgn = toCurrency(fgndom.substr(0, 3).c_str());
-		Currency dom = toCurrency(fgndom.substr(3).c_str());
+		std::string fgndom = FXPairString.AsString();
+
+		FXPair fxpair = toFXPair(fgndom);
 
 		fxTable* fx = md->getFxTable();
 		if (!fx)
 		{
 			return XlfOper("Market does not have FX spot information.");
 		}
-		double fxspot = fx->value(fgn, dom);
+		double fxspot = fx->getSpot(fxpair);
 		return XlfOper(fxspot);
 	}
 	EXCEL_END;
-} // extern "C" LPXLFOPER __declspec(dllexport) xlDF(int h, XlfOper CurrencyName, int date)
+} // xlDF(int h, XlfOper CurrencyName, int date)
+
+
+extern "C" LPXLFOPER __declspec(dllexport) xlFxForward(int h, XlfOper FXPairString, int setDate)
+{
+	EXCEL_BEGIN;
+
+	// Checks if called from the function wizard
+	if (XlfExcel::Instance().IsCalledByFuncWiz())
+		return XlfOper(true);
+
+	if (!handle.exists(h))
+	{
+		return XlfOper("Unknown market handle.");
+	}
+
+	marketData* md = (marketData*)handle[h];
+	if (!md)
+	{
+		return XlfOper("Corrupted market handle.");
+	}
+	else
+	{
+		std::string fgndom = FXPairString.AsString();
+
+		FXPair fxp = toFXPair(fgndom);
+
+		double FxForward = md->getFxForward(fxp, setDate);
+
+		return XlfOper(FxForward);
+	}
+	EXCEL_END;
+} // xlFxForward(int h, XlfOper FXPairString, int setDate)
 
 
 
@@ -393,7 +434,7 @@ namespace
 		("xlMarketLoad", "MarketDelete", "Delete a marked indentified by its handle.",
 			"FinLib", MarketDeleteArgs, 1);
 
-	//DF
+//DF
 	XLRegistration::Arg DFArgs[] = {
 		{ "marketHandle", "Handle to the market", "J" },
 		{ "CurrencyName", "Currency Name", "XLF_OPER" },
@@ -405,7 +446,7 @@ namespace
 		("xlDF", "DF", "Discount factor.",
 			"FinLib", DFArgs, 3);
 
-	//FXSpot
+//FXSpot
 	XLRegistration::Arg FxSpotArgs[] = {
 		{ "marketHandle", "Handle to the market", "J" },
 		{ "fxpair", "fxpair", "XLF_OPER" } 
@@ -415,6 +456,19 @@ namespace
 	XLRegistration::XLFunctionRegistrationHelper registerFxSpotArgs
 		("xlFxSpot", "fxSpot", "FX spot rate.",
 			"FinLib", DFArgs, 2);
+
+
+//FXForward
+	XLRegistration::Arg FxForwardArgs[] = {
+		{ "marketHandle", "Handle to the market", "J" },
+		{ "fxpair", "fxpair", "XLF_OPER" }, 
+		{ "setDate", "Set Date", "J" }
+	};
+
+
+	XLRegistration::XLFunctionRegistrationHelper registerFxForwardArgs
+		("xlFxForward", "fxForward", "Implied FX Forward rate.",
+			"FinLib", DFArgs, 3);
 
 //OptionPricer
 	XLRegistration::Arg OptionPricerArgs[] = {
