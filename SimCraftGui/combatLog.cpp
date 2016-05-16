@@ -100,7 +100,6 @@ bool combatlog::readLine()
     }
     else if (strcmp(who, "Kettle_Active_prismatic_crystal") == 0)
     {
-     //   return true;
     }
     else
     {
@@ -228,7 +227,6 @@ bool combatlog::readLine()
         else if (strcmp(what1, "mark_of_doom_1") == 0)
         {
             kettle->markOfDoom(time, true, who);  // gains mark of doom
-            qDebug()<<buff<<"\n";
             return true;
         }
         else
@@ -272,7 +270,8 @@ bool combatlog::readLine()
         }
         else if (strcmp(what1, "arcane_charge") == 0)
         {
-            kettle->set(time, ARCANE_CHARGE, -1, true);
+            kettle->set(time, ARCANE_CHARGE, 0, false);
+            // loses them all by ABarr, Evo or timeout.
             return true;
         }
         else if (strcmp(what1, "arcane_missiles") == 0)
@@ -311,7 +310,7 @@ bool combatlog::readLine()
         }
         else if (strcmp(what1, "mark_of_doom") == 0)
         {
-            kettle->markOfDoom(time, false, who); // looses mark of doom
+            kettle->markOfDoom(time, false, who); // loses mark of doom
             return true;
         }
         else if ((amount = asInt(what1)) > 1)
@@ -365,8 +364,10 @@ bool combatlog::readLine()
 		} else if (strcmp(what2, "arcane_blast")==0 || strcmp(what2, "arcane_missiles") == 0 || strcmp(what2, "arcane_barrage") == 0)
         {
             return false;
+        } else if (strcmp(what2, "prismatic_crystal")==0)
+        {
+            return false; // handled via summons
         }
-
         //std::cout << buff << endl;
 
         //vector<pair<float, actionT> > act;
@@ -441,6 +442,7 @@ bool combatlog::readLine()
     else if (strcmp(action, "evocation") == 0)
     {
         // nothing to do here, can be used to follow how many ticks an evocation is lasting
+        kettle->set(time, EVOCATION, 1, false); // loses
         return true;
     }
     else if (strcmp(action, "unstable_magic_explosion") == 0)

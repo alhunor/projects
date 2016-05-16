@@ -8,7 +8,7 @@ DEFINES += QTHUNOR
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = SimCraftGui
 TEMPLATE = app
@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     ../mystuff/filesystems.cpp \
     ../mystuff/tokenizer.cpp \
     ../mystuff/utils.cpp \
-    ../mystuff/editDistance.cpp
+    ../mystuff/editDistance.cpp \
+    qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     arcanemage.h \
@@ -39,7 +40,8 @@ HEADERS  += mainwindow.h \
     ../mystuff/filesystems.h \
     ../mystuff/tokenizer.h \
     ../mystuff/utils.h \
-    ../mystuff/editDistance.h
+    ../mystuff/editDistance.h \
+    qcustomplot.h
 
 FORMS    += mainwindow.ui
 

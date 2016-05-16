@@ -36,6 +36,14 @@ void Plate::init(QFrame* _base, QProgressBar* _durationBar, QLabel* _cdLabel, QL
     }
 }
 
+
+void Plate::reset(QFrame* _base, QProgressBar* _durationBar, QLabel* _pic_duration)
+{
+    base = _base;
+    durationBar = _durationBar;
+    pic_duration = _pic_duration;
+}
+
 // http://www.qcustomplot.com/
 
 void Plate::display(float time)
@@ -51,11 +59,15 @@ void Plate::display(float time)
         //durationBar->setVisible(attribute->second.charges>0);
         durationBar->setValue(time - attribute->first);
     }
-    if (time - attribute->first < attribute->second.cd)
+    int time_till_cd_expires =  attribute->second.cd - (time - attribute->first);
+    if (time_till_cd_expires>0)
     {
         if (pic_cd) pic_cd->setEnabled(false);
-        int time_till_cd_expires =  attribute->second.cd - (time - attribute->first);
         if (cdLabel) cdLabel->setText(QString("%1 s").arg(time_till_cd_expires));
+    } else
+    {
+        if (pic_cd) pic_cd->setEnabled(true);
+        if (cdLabel) cdLabel->setText("");
     }
 } // void Plate::display(float time)
 
@@ -64,6 +76,17 @@ void Plate::display(float time)
 MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->customPlot->addGraph();
+    ui->customPlot->xAxis->setLabel("time");
+    ui->customPlot->yAxis->setLabel("mana");
+    ui->customPlot->graph(0)->setBrush(QBrush(QColor(0, 0, 255, 20)));
+    ui->customPlot->rescaleAxes();
+    // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
+    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    // set title of plot:
+    ui->customPlot->plotLayout()->insertRow(0);
+    ui->customPlot->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->customPlot, "Mana Consumption Profile"));
 
 //    std::pair<float, status> , temporal_power
 //    std::pair<float, status> , weapon_enchant,
@@ -78,8 +101,8 @@ MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainW
     weaponEnchant.init(ui->frame_ench, ui->ench_progressBar1, NULL, NULL, ui->pic_enchant, "L:\\Projects\\SimCraftGui\\enchant.jpg",&kettle.weapon_enchant);
     evocation.init(NULL, NULL, ui->evo_cd, ui->pic_evocation_cd, NULL, "L:\\Projects\\SimCraftGui\\evocation.jpg",&kettle.evocation);
 
-    ui->frame_ao->setVisible(false);
-    ui->frame_sn->setVisible(false);
+    ui->frame_ao_2->setVisible(false);
+    ui->frame_sn_2->setVisible(false);
 
 
     ui->openButton->installEventFilter(this);
@@ -88,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent) :  QMainWindow(parent), ui(new Ui::MainW
     ui->actionList->installEventFilter(this);
 
     init();
+
+
 }
 
 
@@ -133,12 +158,15 @@ void MainWindow::init()
     displayArcaneMage(kettle, log.getTime());
 } // MainWindow::init()
 
+
+
 QString reformat(float f)
 {
    if (100*(f-int(f)>0))
         return QString::number( f, 'f', 2);
    return QString::number( f, 'f', 0);
 }
+
 
 void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
 {
@@ -184,6 +212,14 @@ void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
     palette.setColor(QPalette::WindowText, c);
     ui->mana->setPalette(palette);
 
+    ui->customPlot->graph(0)->addData(time, mana_pct);
+    // set data of dots:
+    // rescale value (vertical) axis to fit the current data:
+    ui->customPlot->graph(0)->rescaleValueAxis();
+    ui->customPlot->graph(0)->rescaleKeyAxis();
+
+    ui->customPlot->replot();
+
 
 // Attributes
     QPalette green;
@@ -194,8 +230,8 @@ void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
     if (kettle.intellectBuff>0) ui->Intellect->setPalette(green); else ui->Intellect->setPalette(black);
     ui->Intellect->setText(QString("Intellect:%1 (%2%)").arg(kettle.stat_value(INTELLECT)).arg(reformat(kettle.stat_percentage(INTELLECT))));
 
-    if (kettle.spellpowerBuff>0) ui->SpellPower->setPalette(green); else ui->SpellPower->setPalette(black);
-    ui->SpellPower->setText(QString("SpellPower:%1").arg(kettle.stat_value(SPELLPOWER)));
+    if (kettle.spellpowerBuff>0 || kettle.intellectBuff) ui->SpellPower->setPalette(green); else ui->SpellPower->setPalette(black);
+    ui->SpellPower->setText(QString("SpellPower:%1").arg(kettle.stat_value(SPELLPOWER)+kettle.intellectBuff));
 
     if (kettle.masteryBuff>0) ui->Mastery->setPalette(green); else ui->Mastery->setPalette(black);
     ui->Mastery->setText(QString("Mastery:%1 (%2%)").arg(kettle.stat_value(MASTERY)).arg(reformat(kettle.stat_percentage(MASTERY))));
@@ -214,7 +250,32 @@ void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
 
 // Qprogressbar with real values: http://www.qtcentre.org/archive/index.php/t-6217.html
 
-//    Availabale abilities
+    if (kettle.prismatic_crystal.second.charges>0)
+    {
+        ui->frame_pc_target->setVisible(true);
+    } else
+    {
+        ui->frame_pc_target->setVisible(false);
+    }
+
+
+
+    if (kettle.doom_nova.second.charges>0)
+    {
+        if (kettle.doomTarget=="Fluffy_Pillow")
+        {
+            ui->frame_doom_2->setVisible(false);
+            doomNova.reset(ui->frame_doom, ui->doom_progressBar1, ui->pic_doom);
+        } else if (kettle.doomTarget=="Kettle_Active_prismatic_crystal")
+        {
+            ui->frame_doom->setVisible(false);
+            doomNova.reset(ui->frame_doom_2, ui->doom_progressBar1_2, ui->pic_doom_2);
+        }
+        ui->doomTarget->setText(QString("DoomTarget = ")+QString::fromStdString(kettle.doomTarget));
+        // TODO repoint doomtargettext to Prismatic Crystal or dragon
+    }
+
+    //    Availabale abilities
     prismaticCrystal.display(time);
     nithramus.display(time);
     hero.display(time);
@@ -224,10 +285,8 @@ void MainWindow::displayArcaneMage(arcaneMage& kettle, float time)
     doomNova.display(time);
     weaponEnchant.display(time);
     evocation.display(time);
-    if (kettle.doom_nova.second.charges>0)
-    {
-        ui->doomTarget->setText(QString("DoomTarget = ")+QString::fromStdString(kettle.doomTarget));
-    }
+
+
     //supernova
 
 } // void MainWindow::displayArcaneMage(arcaneMage& kettle)
@@ -286,3 +345,4 @@ void MainWindow::on_forwardButton_clicked()
     }
     QMainWindow::keyPressEvent(event);
 }*/
+

@@ -576,7 +576,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>341</width>
+      <width>340</width>
       <height>151</height>
      </rect>
     </property>
@@ -810,8 +810,8 @@
    <widget class="QFrame" name="frame_13">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>310</y>
+      <x>360</x>
+      <y>300</y>
       <width>591</width>
       <height>181</height>
      </rect>
@@ -1118,7 +1118,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_ap_3">
+    <widget class="QFrame" name="frame_pc_2">
      <property name="geometry">
       <rect>
        <x>64</x>
@@ -1172,7 +1172,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_ap_4">
+    <widget class="QFrame" name="frame_pm_2">
      <property name="geometry">
       <rect>
        <x>124</x>
@@ -1226,7 +1226,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_ap_5">
+    <widget class="QFrame" name="frame_pot_2">
      <property name="geometry">
       <rect>
        <x>184</x>
@@ -1283,7 +1283,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_ap_6">
+    <widget class="QFrame" name="frame_nit_2">
      <property name="geometry">
       <rect>
        <x>244</x>
@@ -1830,7 +1830,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_sn">
+    <widget class="QFrame" name="frame_sn_2">
      <property name="geometry">
       <rect>
        <x>424</x>
@@ -1884,7 +1884,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_evo">
+    <widget class="QFrame" name="frame_evo_2">
      <property name="geometry">
       <rect>
        <x>304</x>
@@ -1938,7 +1938,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_ao">
+    <widget class="QFrame" name="frame_ao_2">
      <property name="geometry">
       <rect>
        <x>484</x>
@@ -1992,7 +1992,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="frame_ap_7">
+    <widget class="QFrame" name="frame_hero_2">
      <property name="geometry">
       <rect>
        <x>364</x>
@@ -2047,12 +2047,12 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame_14">
+   <widget class="QFrame" name="frame_target">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>180</y>
-      <width>391</width>
+      <width>340</width>
       <height>121</height>
      </rect>
     </property>
@@ -2086,9 +2086,9 @@
     <widget class="QLabel" name="pic_arcanepower_12">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>8</x>
        <y>10</y>
-       <width>191</width>
+       <width>141</width>
        <height>101</height>
       </rect>
      </property>
@@ -2096,7 +2096,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="res.qrc">:/Crocolisk.png</pixmap>
+      <pixmap resource="res.qrc">:/nefarian.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -2105,10 +2105,10 @@
     <widget class="QFrame" name="frame_doom">
      <property name="geometry">
       <rect>
-       <x>200</x>
+       <x>160</x>
        <y>10</y>
        <width>170</width>
-       <height>61</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -2173,24 +2173,170 @@
        <string>%v</string>
       </property>
      </widget>
-     <widget class="QLabel" name="doomTarget">
+    </widget>
+   </widget>
+   <widget class="QCustomPlot" name="customPlot" native="true">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>40</y>
+      <width>441</width>
+      <height>231</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_pc_target">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>340</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <property name="lineWidth">
+     <number>2</number>
+    </property>
+    <widget class="QLabel" name="Versatility_3">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>130</y>
+       <width>181</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Versatility: 10235</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="pic_arcanepower_13">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>8</y>
+       <width>101</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/pc_target.jpg</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_doom_2">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>10</y>
+       <width>170</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <widget class="QLabel" name="pic_doom_2">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>40</y>
-        <width>151</width>
-        <height>16</height>
+        <x>1</x>
+        <y>1</y>
+        <width>32</width>
+        <height>32</height>
        </rect>
       </property>
       <property name="text">
-       <string>DoomTarget : </string>
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="res.qrc">:/doomNova.jpg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="doom_progressBar1_2">
+      <property name="geometry">
+       <rect>
+        <x>35</x>
+        <y>3</y>
+        <width>131</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>15</number>
+      </property>
+      <property name="value">
+       <number>8</number>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+      </property>
+      <property name="textVisible">
+       <bool>true</bool>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="textDirection">
+       <enum>QProgressBar::BottomToTop</enum>
+      </property>
+      <property name="format">
+       <string>%v</string>
       </property>
      </widget>
     </widget>
    </widget>
+   <widget class="QLabel" name="doomTarget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>161</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DoomTarget : </string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header location="global">qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>

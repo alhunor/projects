@@ -15,6 +15,7 @@ struct actionT
 
 struct damageT
 {
+	float time;
 	std::string action;
 	std::string target;
     int amount;
@@ -72,7 +73,7 @@ public:
     void set(float time, flags flag, int state, bool relative);
     void record_action(float time, const char* target, const char* action);
     bool modified;
-    std::vector<std::pair<float, damageT> >  dmg;
+    std::vector<damageT>  dmg;
     std::vector<std::pair<float, actionT> > act;
 
 // flags

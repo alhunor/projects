@@ -28,5 +28,7 @@
         <file>mage2.png</file>
         <file>Crocolisk.png</file>
         <file>arcaneOrb.jpg</file>
+        <file>pc_target.jpg</file>
+        <file>nefarian.png</file>
     </qresource>
 </RCC>

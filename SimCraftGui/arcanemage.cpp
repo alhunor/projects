@@ -199,11 +199,11 @@ void arcaneMage::damage(float time, const char* target, const char* action, int 
 {
     dmgonTarget[target] += amount;
     dmgwithSpell[action] += amount;
-    pair<float, damageT> d;
-    d.first = time;
-    d.second.amount = amount;
-    d.second.action = action;
-    d.second.target = target;
+    damageT d;
+    d.time = time;
+    d.amount = amount;
+    d.action = action;
+    d.target = target;
     dmg.push_back(d);
     record_action(time, target, action);
 //    modified = true;

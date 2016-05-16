@@ -7,16 +7,17 @@
 #include <string>
 #include "arcaneMage.h"
 #include "combatlog.h"
-
+#include "qcustomplot.h"
 
 class Plate
 {
 public:
     Plate() {}
 
-    void init(QFrame* _base, QProgressBar* durationBar, QLabel* _cdLabel, QLabel* _pic_cd, QLabel* _pic_duration, const char* path, std::pair<float, status>* _attribute);
+    void init(QFrame* _base, QProgressBar* _durationBar, QLabel* _cdLabel, QLabel* _pic_cd, QLabel* _pic_duration, const char* path, std::pair<float, status>* _attribute);
     void display(float time);
     QFrame* base;
+    void reset(QFrame* _base, QProgressBar* _durationBar, QLabel* _pic_duration);
 protected:
     QProgressBar* durationBar;
     QLabel* pic_cd, *pic_duration, *cdLabel;
