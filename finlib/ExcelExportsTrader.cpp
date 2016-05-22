@@ -1,10 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "backTesting.h"
-#include "FileSystems.h"
+#include "myStuff/FileSystems.h"
 #include "ExcelConversions.h"
 
-#include "hftimer.h"
-#include "dates.h"
+#include "myStuff/hftimer.h"
+#include "myStuff/dates.h"
 #include "ipc.h"
 #include "market.h"
 #include "statistics.h"

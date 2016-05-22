@@ -53,7 +53,7 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">L:\Projects\3rdparty\boost_1_60_0;L:\Projects\myStuff;L:\Projects\3rdParty\gsl;.\;l:\Projects\3rdparty;l:\Projects\3rdParty\levmar-2.6;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">L:\Projects\3rdparty\boost_1_60_0;L:\Projects\3rdParty\gsl;.\;l:\Projects\3rdparty;l:\Projects\3rdParty\levmar-2.6;L:\Projects;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">L:\Projects\3rdparty\gsl\lib;L:\Projects\3rdparty\boost_1_60_0\lib32-msvc-14.0;L:\Projects\3rdParty\lapack;$(LibraryPath)</LibraryPath>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.xll</TargetExt>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">finlib</TargetName>
@@ -172,6 +172,7 @@
     <ClCompile Include="..\myStuff\hftimer.cpp" />
     <ClCompile Include="..\mystuff\md5.cpp" />
     <ClCompile Include="..\myStuff\optimizer.cpp" />
+    <ClCompile Include="currency.cpp" />
     <ClCompile Include="dataStructures.cpp" />
     <ClCompile Include="ExcelConversions.cpp" />
     <ClCompile Include="ExcelExportFX.cpp" />
@@ -262,12 +263,14 @@
     <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\XlOpenClose.h" />
     <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\xlw.h" />
     <ClInclude Include="..\3rdparty\dSFMT\dSFMT.h" />
+    <ClInclude Include="..\mystuff\binsearch.h" />
     <ClInclude Include="..\myStuff\dates.h" />
     <ClInclude Include="..\mystuff\editDistance.h" />
     <ClInclude Include="..\myStuff\filesystems.h" />
     <ClInclude Include="..\mystuff\md5.h" />
     <ClInclude Include="..\myStuff\MotherOfAllBaseObjects.h" />
     <ClInclude Include="..\myStuff\optimizer.h" />
+    <ClInclude Include="currency.h" />
     <ClInclude Include="dataStructures.h" />
     <ClInclude Include="ExcelConversions.h" />
     <ClInclude Include="fxoption.h" />
@@ -312,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\myStuff\hfimer.doc" />
+    <None Include="Currency holidays.csv" />
     <None Include="deprecated.txt" />
     <None Include="Documentations\TGA.txt" />
     <None Include="ZAZA.csv" />

@@ -1,10 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include "FileSystems.h"
+#include "myStuff/FileSystems.h"
 #include "myError.h"
 #include "ExcelConversions.h"
 #include "ImageProcessing.h"
 
-#include "hftimer.h"
+#include "myStuff/hftimer.h"
 
 
 /*

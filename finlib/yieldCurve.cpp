@@ -1,4 +1,5 @@
 #include "yieldCurve.h"
+#include "currency.h"
 #include <list>
 #include <set>
 #include <vector>
@@ -92,157 +93,6 @@ float yieldCurve::df(int date, InterpolationType it)
 } // float yieldCurve::df(int date, InterpolationType it)
 
 
-struct { Currency ccy; char* s; } currencies[150] = {
-	{ USD,"USD" },
-	{ CHF,"CHF" },
-	{ CAD,"CAD" },
-	{ GBP,"GBP" },
-	{ EUR,"EUR" },
-	{ AUD,"AUD" },
-	{ JPY,"JPY" },
-	{ AED,"AED" },
-	{ AFN,"AFN" },
-	{ ALL,"ALL" },
-	{ AMD,"AMD" },
-	{ ANG,"ANG" },
-	{ AOA,"AOA" },
-	{ ARS,"ARS" },
-	{ AWG,"AWG" },
-	{ AZN,"AZN" },
-	{ BAM,"BAM" },
-	{ BBD,"BBD" },
-	{ BDT,"BDT" },
-	{ BGN,"BGN" },
-	{ BHD,"BHD" },
-	{ BIF,"BIF" },
-	{ BMD,"BMD" },
-	{ BND,"BND" },
-	{ BOB,"BOB" },
-	{ BRL,"BRL" },
-	{ BSD,"BSD" },
-	{ BTN,"BTN" },
-	{ BWP,"BWP" },
-	{ BZD,"BZD" },
-	{ CDF,"CDF" },
-	{ CLP,"CLP" },
-	{ CNY,"CNY" },
-	{ COP,"COP" },
-	{ CRC,"CRC" },
-	{ CUP,"CUP" },
-	{ CVE,"CVE" },
-	{ CZK,"CZK" },
-	{ DJF,"DJF" },
-	{ DKK,"DKK" },
-	{ DOP,"DOP" },
-	{ DZD,"DZD" },
-	{ EGP,"EGP" },
-	{ ERN,"ERN" },
-	{ ETB,"ETB" },
-	{ FJD,"FJD" },
-	{ FKP,"FKP" },
-	{ GEL,"GEL" },
-	{ GHS,"GHS" },
-	{ GIP,"GIP" },
-	{ GMD,"GMD" },
-	{ GNF,"GNF" },
-	{ GTQ,"GTQ" },
-	{ GYD,"GYD" },
-	{ HKD,"HKD" },
-	{ HNL,"HNL" },
-	{ HRK,"HRK" },
-	{ HTG,"HTG" },
-	{ HUF,"HUF" },
-	{ IDR,"IDR" },
-	{ ILS,"ILS" },
-	{ INR,"INR" },
-	{ IQD,"IQD" },
-	{ ISK,"ISK" },
-	{ JMD,"JMD" },
-	{ JOD,"JOD" },
-	{ KES,"KES" },
-	{ KGS,"KGS" },
-	{ KHR,"KHR" },
-	{ KMF,"KMF" },
-	{ KPW,"KPW" },
-	{ KRW,"KRW" },
-	{ KWD,"KWD" },
-	{ KYD,"KYD" },
-	{ KZT,"KZT" },
-	{ LAK,"LAK" },
-	{ LBP,"LBP" },
-	{ LKR,"LKR" },
-	{ LRD,"LRD" },
-	{ LSL,"LSL" },
-	{ LYD,"LYD" },
-	{ MAD,"MAD" },
-	{ MDL,"MDL" },
-	{ MGA,"MGA" },
-	{ MKD,"MKD" },
-	{ MMK,"MMK" },
-	{ MNT,"MNT" },
-	{ MOP,"MOP" },
-	{ MRO,"MRO" },
-	{ MUR,"MUR" },
-	{ MVR,"MVR" },
-	{ MWK,"MWK" },
-	{ MXN,"MXN" },
-	{ MYR,"MYR" },
-	{ MZN,"MZN" },
-	{ NAD,"NAD" },
-	{ NGN,"NGN" },
-	{ NIO,"NIO" },
-	{ NOK,"NOK" },
-	{ NPR,"NPR" },
-	{ NZD,"NZD" },
-	{ OMR,"OMR" },
-	{ PAB,"PAB" },
-	{ PEN,"PEN" },
-	{ PGK,"PGK" },
-	{ PHP,"PHP" },
-	{ PKR,"PKR" },
-	{ PLN,"PLN" },
-	{ PYG,"PYG" },
-	{ QAR,"QAR" },
-	{ RON,"RON" },
-	{ RSD,"RSD" },
-	{ RUB,"RUB" },
-	{ RWF,"RWF" },
-	{ SAR,"SAR" },
-	{ SBD,"SBD" },
-	{ SCR,"SCR" },
-	{ SDG,"SDG" },
-	{ SEK,"SEK" },
-	{ SGD,"SGD" },
-	{ SHP,"SHP" },
-	{ SLL,"SLL" },
-	{ SOS,"SOS" },
-	{ SRD,"SRD" },
-	{ SYP,"SYP" },
-	{ SZL,"SZL" },
-	{ THB,"THB" },
-	{ TJS,"TJS" },
-	{ TMT,"TMT" },
-	{ TND,"TND" },
-	{ TOP,"TOP" },
-	{ TRY,"TRY" },
-	{ TTD,"TTD" },
-	{ TWD,"TWD" },
-	{ TZS,"TZS" },
-	{ UAH,"UAH" },
-	{ UGX,"UGX" },
-	{ UYU,"UYU" },
-	{ UZS,"UZS" },
-	{ VEF,"VEF" },
-	{ VUV,"VUV" },
-	{ WST,"WST" },
-	{ XAF,"XAF" },
-	{ XCD,"XCD" },
-	{ XOF,"XOF" },
-	{ XPF,"XPF" },
-	{ YER,"YER" },
-	{ ZAR,"ZAR" },
-	{ ZMW,"ZMW" } };
-
 
 void yieldCurve::buildFromDFs(std::vector<int>& _dates, std::vector<float>& _dfs)
 {
@@ -251,28 +101,6 @@ void yieldCurve::buildFromDFs(std::vector<int>& _dates, std::vector<float>& _dfs
 	maxDate = dates[dates.size() - 1];
 	hasData= true;
 } // bool yieldCurve::buildFromDFs(std::vector<int>& _dates, std::vector<float>& _dfs)
-
-
-Currency toCurrency(const char* str)
-{
-	for (int i = 0; i < 150; ++i)
-	{
-		if (strcmp(str, currencies[i].s) == 0)
-		{
-			return currencies[i].ccy;
-		}
-	}
-	throw "Unknown currency: " + std::string(str);
-} // Currency toCurrency(char* str)
-
-
-FXPair toFXPair(std::string& fgndom)
-{
-	FXPair fx;
-	fx.fgn = toCurrency(fgndom.substr(0, 3).c_str());
-	fx.dom = toCurrency(fgndom.substr(3).c_str());
-	return fx;
-} // FXPair toFXPair(std::string& s)
 
 
 void fxQuote::set(float _level, fxQuoteStatus _status=FXLEVEL)

@@ -2,8 +2,8 @@
 #define _TimeSeries_H_
 
 #include "dataStructures.h"
-#include "fileSystems.h"
-#include "MotherOfAllBaseObjects.h"
+#include "myStuff/fileSystems.h"
+#include "myStuff/MotherOfAllBaseObjects.h"
 
 class series : public MotherOfAllBaseObjects
 {

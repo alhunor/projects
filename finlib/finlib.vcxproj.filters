@@ -198,9 +198,6 @@
     <ClCompile Include="ExcelExportsArrayFunctions.cpp">
       <Filter>Infrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="..\mystuff\md5.cpp">
-      <Filter>3rdParty</Filter>
-    </ClCompile>
     <ClCompile Include="..\mystuff\editDistance.cpp">
       <Filter>Miscelleneous</Filter>
     </ClCompile>
@@ -250,6 +247,12 @@
       <Filter>Infrastructure</Filter>
     </ClCompile>
     <ClCompile Include="valuetrade.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\md5.cpp">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="currency.cpp">
       <Filter>FX Modelling</Filter>
     </ClCompile>
   </ItemGroup>
@@ -467,9 +470,6 @@
     <ClInclude Include="xlw\xlw.h">
       <Filter>Infrastructure\xlw</Filter>
     </ClInclude>
-    <ClInclude Include="..\mystuff\md5.h">
-      <Filter>3rdParty</Filter>
-    </ClInclude>
     <ClInclude Include="..\mystuff\editDistance.h">
       <Filter>Miscelleneous</Filter>
     </ClInclude>
@@ -497,6 +497,15 @@
     <ClInclude Include="valueTrade.h">
       <Filter>FX Modelling</Filter>
     </ClInclude>
+    <ClInclude Include="..\mystuff\md5.h">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\binsearch.h">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClInclude>
+    <ClInclude Include="currency.h">
+      <Filter>FX Modelling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="deprecated.txt">
@@ -510,6 +519,9 @@
     </None>
     <None Include="..\myStuff\hfimer.doc">
       <Filter>3rdParty\mystuff</Filter>
+    </None>
+    <None Include="Currency holidays.csv">
+      <Filter>Infrastructure</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@
 #ifndef MY_CONTAINERS_H
 #define MY_CONTAINERS_H
 
-#include "matrix.h"
+#include "mystuff/matrix.h"
 
 // Uncomment the line below to use boost matrix
 //#define USE_XLW_WITH_BOOST_UBLAS

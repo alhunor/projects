@@ -1,16 +1,16 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 
-#include "editDistance.h"
+#include "mystuff/editDistance.h"
 #include "ExcelConversions.h"
-#include "FileSystems.h"
-#include "hftimer.h"
+#include "mystuff/FileSystems.h"
+#include "mystuff/hftimer.h"
 #include "LinearAlgebra.h"
 #include <levmar.h>
 //#include "lm.h"
 #include "marketData.h"
-#include "md5.h"
-#include "optimizer.h"
+#include "myStuff/md5.h"
+#include "myStuff/optimizer.h"
 #include "valueTrade.h"
 
 

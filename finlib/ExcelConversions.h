@@ -2,7 +2,7 @@
 #define EXCELCONVERSIONS_H_
 
 #include "dataStructures.h"
-#include "MotherOfAllBaseObjects.h"
+#include "mystuff/MotherOfAllBaseObjects.h"
 //#include "FileSystems.h"
 #include "xlw/xlw.h"
 

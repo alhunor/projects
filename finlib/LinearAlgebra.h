@@ -3,7 +3,7 @@
 
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
-#include "Matrix.h"
+#include "myStuff/Matrix.h"
 
 
 void eigen(double * dataPtr, int n, gsl_vector *eval, gsl_matrix *evec);

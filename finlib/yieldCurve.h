@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include "currency.h"
 #include "dataStructures.h"
 
 
@@ -11,9 +12,6 @@ typedef enum {T1m, T3m, T6m, T12m}	Tenor;
 
 
 typedef enum { FXLEVEL=0, FORMULA, INVALIDQUOTE }	fxQuoteStatus;
-
-Currency toCurrency(const char* str);
-FXPair toFXPair(std::string& fgndom);
 
 float addTenorToDate(float date, Tenor tenor);
 

@@ -1,8 +1,10 @@
 #include "dataStructures.h"
 #include "yieldCurve.h"
-
+#include <fstream>
 
 handleT handle; //global variable
+
+std::map <Currency, std::vector<holiday> > holidays::dates;
 
 
 bool handleT::exists(int h)
@@ -45,7 +47,7 @@ void handleT::clear()
 
 std::string& labelValue::getStr(std::string name)
 {
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		throw "Missing parameter: "+ name;
 	std::string* s = (std::string*)(it->second.p);
@@ -55,7 +57,7 @@ std::string& labelValue::getStr(std::string name)
 
 Currency labelValue::getCurrency(std::string name)
 {
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		throw "Missing parameter: " + name;
 	std::string* s = (std::string*)(it->second.p);
@@ -64,7 +66,7 @@ Currency labelValue::getCurrency(std::string name)
 
 FXPair labelValue::getFXPair(std::string name)
 {
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		throw "Missing parameter: " + name;
 	std::string* s = (std::string*)(it->second.p);
@@ -79,25 +81,30 @@ FXPair labelValue::getFXPair(std::string name)
 
 void* labelValue::getPointer(std::string name)
 { // similar to getObj, but returns pointer to data, or null  if not found
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		return NULL;
 	return it->second.p;
 }
 
 
-double labelValue::getNum(std::string name)
+double labelValue::getNum(std::string name, double defaultValue)
 {
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
-		throw "Missing parameter:" + name;
-	double d = *(double*)(it->second.p);
+	{
+		if (defaultValue==0) throw "Missing parameter:" + name;
+		return defaultValue;
+	}
+		
+	double d = *(double*)((it)->second.p);
 	return d;
 }
 
+
 int labelValue::getHandle(std::string name)
 {	// Similar to getNum, but return -1 if handle is not found
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		return -1;
 	double d = *(double*)(it->second.p);
@@ -107,7 +114,7 @@ int labelValue::getHandle(std::string name)
 
 bool labelValue::setNum(std::string name, double value)
 {
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		return false;
 	*(double*)(it->second.p) = value;
@@ -117,7 +124,7 @@ bool labelValue::setNum(std::string name, double value)
 
 void* labelValue::getObj(std::string name)
 {
-	std::map<std::string, valueT>::iterator it = data.find(name);
+	it = data.find(name);
 	if (it == data.end())
 		throw "Missing parameter: " + name;
 	double d = *(double*)(it->second.p);
@@ -144,9 +151,13 @@ void labelValue::add(std::string name, double value)
 void labelValue::clear()
 {
 
-	for (std::map<std::string, valueT>::iterator it = data.begin(); it != data.end(); ++it)
+	for (it = data.begin(); it != data.end(); ++it)
 	{
 		delete it->second.p;
 	}
 	data.clear();
+	it = data.end();
 }
+
+
+

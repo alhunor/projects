@@ -1,5 +1,7 @@
 #include "marketData.h"
 #include "yieldCurve.h"
+#include <fstream>
+
 
 
 bool marketData::addCurve(Currency c, yieldCurve* yc)
@@ -48,12 +50,32 @@ void marketData::addFXTable(fxTable *_fxTable)
 	fx = _fxTable;
 }
 
-double marketData::getFxForward(FXPair fxp, int setDate)
+double marketData::getFxForward(FXPair fxp, int setDate, double fxSpot, double domRate, double fgnRate)
 {
-	double spot = fx->getSpot(fxp);
-	yieldCurve* domCurve = ycs[fxp.dom];
-	yieldCurve* fgnCurve = ycs[fxp.fgn];
-	return spot * domCurve->df(setDate) / fgnCurve->df(setDate);
+	if (fxSpot == -999)
+	{
+		fxSpot = fx->getSpot(fxp);
+	}
+	double domDF;
+	double fgnDF;
+	if (domRate == -999)
+	{
+		domDF = exp(-(setDate - today()) / 365.25*domRate);
+	} else
+	{
+		yieldCurve* domCurve = ycs[fxp.dom];
+		domDF = domCurve->df(setDate);
+	}
+	if (fgnRate == -999)
+	{
+		fgnDF = exp(-(setDate - today()) / 365.25*fgnRate);
+	} else
+	{
+		yieldCurve* fgnCurve = ycs[fxp.fgn];
+		fgnDF = fgnCurve->df(setDate);
+	}
+
+	return fxSpot * domDF / fgnDF;
 };
 
 

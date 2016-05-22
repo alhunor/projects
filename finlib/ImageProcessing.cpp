@@ -1,6 +1,6 @@
 
 #include "ExcelConversions.h"
-#include "FileSystems.h"
+#include "mystuff/FileSystems.h"
 #include "ImageProcessing.h"
 #include "myError.h"
 #include <WinDef.h>
