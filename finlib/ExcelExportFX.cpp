@@ -6,7 +6,6 @@
 #include "marketData.h"
 #include "yieldCurve.h"
 
-
 /*
 A	Boolean	short (0=false or 1=true)
 B	double	
@@ -230,18 +229,6 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper 
 	// Checks if called from the function wizard
 	if (XlfExcel::Instance().IsCalledByFuncWiz())
 		return XlfOper(true);
-
-//	holidays& holi = holidays::createHolidays();
-	int next = spotDate(EUR, USD, 40084);
-	next = spotDate(USD, TRY, 39856);
-	next = spotDate(GBP, USD, 39984);
-	next = spotDate(EUR, USD, 39932);
-
-	next = spotDate(USD, CAD, 40025);
-	next = spotDate(AUD, NZD, 40094);
-	next = spotDate(USD, BRL, 40127);
-	next = spotDate(USD, MXN, 40127);
-
 
 	if (Curves.IsMissing())
 	{

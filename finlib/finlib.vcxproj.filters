@@ -255,6 +255,9 @@
     <ClCompile Include="currency.cpp">
       <Filter>FX Modelling</Filter>
     </ClCompile>
+    <ClCompile Include="UnitTests.cpp">
+      <Filter>FX Modelling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\xlw\xlw\include\xlw\ArgList.h">

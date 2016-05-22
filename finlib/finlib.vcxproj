@@ -187,6 +187,7 @@
     <ClCompile Include="matrix.cpp" />
     <ClCompile Include="myError.cpp" />
     <ClCompile Include="randomNumbers.cpp" />
+    <ClCompile Include="UnitTests.cpp" />
     <ClCompile Include="valuetrade.cpp" />
     <ClCompile Include="xlwExample.cpp" />
     <ClCompile Include="backTesting.cpp" />
