@@ -2,6 +2,7 @@
 #define _MATRIX_H_
 
 #include <boost/numeric/ublas/matrix.hpp>
+#include <boost/variant.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/shared_array.hpp>
 
@@ -12,19 +13,20 @@ typedef boost::numeric::ublas::matrix<double>::size_type dmat_sizetype;
 template<class T, class und = boost::numeric::ublas::matrix<T> >
 class HuMatrix
 {
-
+protected:
 	mutable boost::shared_ptr<und> matrix;
 	mutable boost::shared_array<T*> mPointer;
 
 public:
 	typedef typename T value_type;
-	//typedef typename boost::numeric::ublas::matrix<T> matrix_type;
+	typedef typename T* pointer;
+	typedef typename boost::numeric::ublas::matrix<T> matrix_type;
 	typedef typename und::size_type size_type;
 	typedef HuMatrix<T, und > self_type;
 	
 	HuMatrix() : matrix(new und() ) {}
 
-	HuMatrix(const size_type& size1, const size_type& size2) : matrix  ((size1>0 && size2>0)? new und(size1, size2): new und() ) {}
+	HuMatrix(const size_type& size1, const size_type& size2) : matrix ((size1>0 && size2>0)? new und(size1, size2): new und() ) {}
 
 	HuMatrix(const self_type& hm) : matrix (hm.matrix), mPointer(hm.mPointer) {}
 
@@ -58,12 +60,12 @@ public:
 
 	size_type size1() const {return (*matrix).size1();}
 	size_type size2() const {return (*matrix).size2();}
-	bool isrowmajor() const {return true;} // should derive from und
+	bool isrowmajor() const {return true;} // XXX TODO should derive it from und
 
 	T* dataptr()
 	{
 		und& undPtr = *matrix;
-		matrix_type::array_type& dataArr = undPtr.data;
+	//	matrix_type::array_type& dataArr = undPtr.data;
 		const int sz = undPtr.size1();
 		if (sz>0)
 			mPointer.reset(new pointer[sz]);
@@ -254,11 +256,37 @@ HuMatrix<T, und> operator*(const T& d, const HuMatrix<T, und> &x)
 	}
 }
 
+
 // multiply matrix with scalar
 template<class T, class  und>
 HuMatrix<T, und> operator*(const HuMatrix<T, und> &x, const T& d)
 {
 	return operator*(d, x);
 }
+
+
+
+typedef boost::variant<double, std::string> BoostVariantT;
+//typedef boost::numeric::ublas::matrix<BoostVariantT> VariantArray;
+
+class VariantArray : public HuMatrix<BoostVariantT>
+{
+public:
+	VariantArray() {}
+	typedef VariantArray self_type;
+	typedef BoostVariantT value_type;
+
+	VariantArray(const size_type& size1, const size_type& size2) : HuMatrix<BoostVariantT>(size1, size2) {}
+
+	VariantArray(const self_type& hm) : HuMatrix<BoostVariantT>(hm) {}
+
+	// create matrix from data pointer
+	VariantArray(const size_type& size1, const size_type& size2, const BoostVariantT* data) : HuMatrix<BoostVariantT>(size1, size2, data) {}
+
+	VariantArray(const std::string& s);
+	VariantArray(double d);
+}
+;
+
 
 #endif

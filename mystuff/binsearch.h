@@ -7,18 +7,18 @@ int binsearch(T key, T* data, int lo, int hi)
 	while (lo <= hi)
 	{
 		//mid = (lo + hi) / 2; -- can overflow
-		mid = ((unsigned int)lo + (unsigned int)hi)) >> 1;
-		midVal = data[mid];
-		if (midVal < key)
+		mid = (( unsigned int)lo + (unsigned int)hi) >> 1;
+		midval = data[mid];
+		if (midval < key)
 		{
-			lo = mid + 1
-		} else if (midVal > key)
+			lo = mid + 1;
+		} else if (midval > key)
 		{
 			hi = mid - 1;
 		} else
 		{
 			return mid; // key found
-		}
-		return -1;  // key not found.
+		}	
 	}
+	return -1; // key not found.
 } // int binsearch(T key, T* data, int lo, int hi)

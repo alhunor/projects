@@ -32,3 +32,14 @@ boost::shared_ptr<dmat> mult (const dmat& x, const dmat& y)
 
 	return res;
 }
+
+
+VariantArray::VariantArray(const std::string& s) : HuMatrix<BoostVariantT>(1,1)
+{
+	(*matrix)(0, 0) = s;
+}
+
+VariantArray::VariantArray(double d) : HuMatrix<BoostVariantT>(1,1)
+{
+	(*matrix)(0, 0) = d;
+}
