@@ -1,9 +1,10 @@
 #ifndef _STRATEGIES_H
 #define _STRATEGIES_H
 
-#include "ExcelConversions.h"
+//#include "ExcelConversions.h"
 #include "statistics.h"
 #include "trader.h"
+#include "dataStructures.h"
 
 class strategyT : public MotherOfAllBaseObjects
 {

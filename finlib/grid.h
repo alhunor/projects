@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
-#include "matrix.h"
+#include "myStuff/matrix.h"
 
 class grid
 {

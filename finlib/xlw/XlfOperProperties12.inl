@@ -291,17 +291,17 @@ namespace xlw { namespace impl {
         {
             switch(fromOper->xltype & 0xFFF)
             {
-                case xltypeMulti:
-                    // need to do a deep copy of each element
-                    toOper->xltype = xltypeMulti;
-                    toOper->val.array.lparray = TempMemory::GetMemory<XLOPER12>(fromOper->val.array.rows * fromOper->val.array.columns);
-                    for(size_t item(0) ; item < (size_t)(fromOper->val.array.rows * fromOper->val.array.columns); ++item)
-                    {
-                        copy(fromOper->val.array.lparray + item, toOper->val.array.lparray + item);
-                    }
-                    toOper->val.array.rows = fromOper->val.array.rows;
-                    toOper->val.array.columns = fromOper->val.array.columns;
-                    break;
+				case xltypeMulti:
+						// need to do a deep copy of each element
+						toOper->xltype = xltypeMulti;
+						toOper->val.array.lparray = TempMemory::GetMemory<XLOPER12>(fromOper->val.array.rows * fromOper->val.array.columns);
+						for(size_t item(0) ; item < (size_t)(fromOper->val.array.rows * fromOper->val.array.columns); ++item)
+						{
+							copy(fromOper->val.array.lparray + item, toOper->val.array.lparray + item);
+						}
+						toOper->val.array.rows = fromOper->val.array.rows;
+						toOper->val.array.columns = fromOper->val.array.columns;
+				break;
                 case xltypeRef:
                     {
                         toOper->xltype = xltypeRef;

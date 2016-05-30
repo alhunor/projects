@@ -138,7 +138,7 @@ HWND xlw::XlfExcel::GetMainWindow()
     XLOPER ret;
     if(Call4(xlGetHwnd, &ret, 0) == xlretSuccess)
     {
-        GetMainWindowStruct getMainWindowStruct = { NULL, ret.val.w};
+        GetMainWindowStruct getMainWindowStruct = { NULL, (unsigned short)ret.val.w};
         EnumWindows(GetMainWindowProc, (LPARAM) &getMainWindowStruct);
 
         if (getMainWindowStruct.hWnd != NULL)

@@ -1,5 +1,6 @@
 #include "marketData.h"
 #include "yieldCurve.h"
+#include "currency.h"
 #include <fstream>
 
 
@@ -14,13 +15,13 @@ bool marketData::addCurve(Currency c, yieldCurve* yc)
 	return true;
 }
 
-bool marketData::addFXVolSurface(Currency c, fxVolSurf* fxvol)
+bool marketData::addFXVolSurface(FXPair fxp, fxVolSurf* fxvol)
 {
 	if (todayDate != fxvol->today())
 	{
 		throw "Inconsistency of dates";
 	}
-	fxvols[c] = fxvol;
+	fxvols[fxp] = fxvol;
 	return true;
 }
 
@@ -31,7 +32,7 @@ marketData::~marketData()
 	{
 		delete it->second;
 	}
-	std::map <Currency, fxVolSurf*>::const_iterator it2 = fxvols.begin();
+	std::map <FXPair, fxVolSurf*>::const_iterator it2 = fxvols.begin();
 	for (; it2 != fxvols.end(); ++it2)
 	{
 		delete it2->second;
@@ -50,6 +51,9 @@ void marketData::addFXTable(fxTable *_fxTable)
 	fx = _fxTable;
 }
 
+
+
+
 double marketData::getFxForward(FXPair fxp, int setDate, double fxSpot, double domRate, double fgnRate)
 {
 	if (fxSpot == -999)
@@ -58,23 +62,24 @@ double marketData::getFxForward(FXPair fxp, int setDate, double fxSpot, double d
 	}
 	double domDF;
 	double fgnDF;
+
+	int spot_date = spotDate(fxp.fgn, fxp.dom, today());
 	if (domRate == -999)
 	{
-		domDF = exp(-(setDate - today()) / 365.25*domRate);
+		domDF = exp(-(setDate - spot_date) / 365.25*domRate);
 	} else
 	{
 		yieldCurve* domCurve = ycs[fxp.dom];
-		domDF = domCurve->df(setDate);
+		domDF = domCurve->df(setDate) / domCurve->df(spot_date);
 	}
 	if (fgnRate == -999)
 	{
-		fgnDF = exp(-(setDate - today()) / 365.25*fgnRate);
+		fgnDF = exp(-(setDate - spot_date) / 365.25*fgnRate);
 	} else
 	{
 		yieldCurve* fgnCurve = ycs[fxp.fgn];
-		fgnDF = fgnCurve->df(setDate);
+		fgnDF = fgnCurve->df(setDate) / fgnCurve->df(spot_date);
 	}
-
 	return fxSpot * domDF / fgnDF;
 };
 

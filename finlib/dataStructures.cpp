@@ -1,48 +1,9 @@
 #include "dataStructures.h"
 #include "yieldCurve.h"
 #include <fstream>
-
-handleT handle; //global variable
+#include "mystuff\motherOfAllBaseObjects.h"
 
 std::map <Currency, std::vector<holiday> > holidays::dates;
-
-
-bool handleT::exists(int h)
-{
-	it = handles.find(h);
-	return it != handles.end();
-}
-
-void*& handleT::operator[](int h)
-{
-	it=handles.find(h);
-	if (it==handles.end())
-		throw "Invalid handle.";
-	return it->second;
-	//return handles[i];
-}
-
-void handleT::remove(int h)
-{
-	it=handles.find(h);
-	if (it==handles.end())
-		return;
-	handles.erase(it);
-}
-
-int handleT::add(void* p)
-{
-	int h = get();
-	(*this)[h] = p;
-	return h;
-}
-
-
-void handleT::clear()
-{
-	handles.clear();
-	n = 0;
-}
 
 
 std::string& labelValue::getStr(std::string name)
@@ -70,13 +31,12 @@ FXPair labelValue::getFXPair(std::string name)
 	if (it == data.end())
 		throw "Missing parameter: " + name;
 	std::string* s = (std::string*)(it->second.p);
-	FXPair fx;
+	
 	if (s->size()!=6) throw "Unknown FX rate: " + *s;
-	fx.fgn = toCurrency(s->substr(0, 3).c_str());
-	fx.dom = toCurrency(s->substr(3).c_str());
-	return fx;
+	Currency fgn = toCurrency(s->substr(0, 3).c_str());
+	Currency dom = toCurrency(s->substr(3).c_str());
+	return FXPair(fgn,dom);
 }
-
 
 
 void* labelValue::getPointer(std::string name)
@@ -158,6 +118,3 @@ void labelValue::clear()
 	data.clear();
 	it = data.end();
 }
-
-
-

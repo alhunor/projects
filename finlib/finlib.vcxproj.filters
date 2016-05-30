@@ -66,9 +66,6 @@
     <ClCompile Include="ExcelExportsTrader.cpp">
       <Filter>Infrastructure</Filter>
     </ClCompile>
-    <ClCompile Include="matrix.cpp">
-      <Filter>Infrastructure</Filter>
-    </ClCompile>
     <ClCompile Include="myError.cpp">
       <Filter>Infrastructure</Filter>
     </ClCompile>
@@ -257,6 +254,12 @@
     </ClCompile>
     <ClCompile Include="UnitTests.cpp">
       <Filter>FX Modelling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\MotherOfAllBaseObjects.cpp">
+      <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\matrix.cpp">
+      <Filter>3rdParty\mystuff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -508,6 +511,9 @@
     </ClInclude>
     <ClInclude Include="currency.h">
       <Filter>FX Modelling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\matrix.h">
+      <Filter>3rdParty\mystuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

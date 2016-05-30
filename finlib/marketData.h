@@ -10,9 +10,9 @@ class marketData : public MotherOfAllBaseObjects
 {
 public:
 	marketData(int date) : todayDate(date), fx(NULL) { }
-	~marketData();
+	virtual ~marketData();
 	bool addCurve(Currency c, yieldCurve* yc);
-	bool addFXVolSurface(Currency c, fxVolSurf* fxvol);
+	bool addFXVolSurface(FXPair fxp, fxVolSurf* fxvol);
 	void addFXTable(fxTable *_fxTable);
 	int today() { return todayDate; }
 	virtual const char* name() { return "marketData";}
@@ -24,7 +24,7 @@ public:
 protected:
 	int todayDate;
 	std::map <Currency, yieldCurve*> ycs;
-	std::map <Currency, fxVolSurf*> fxvols;
+	std::map <FXPair, fxVolSurf*> fxvols;
 	fxTable *fx;
 };
 

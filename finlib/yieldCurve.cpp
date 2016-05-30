@@ -232,3 +232,4 @@ _exit:
 	}
 	return inv ? 1 / fxq.level : fxq.level;
 } // float fxTable::value(Currency fgn, Currency dom)
+

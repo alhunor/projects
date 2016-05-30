@@ -38,6 +38,7 @@
 #include <xlw/XlfRef.h>
 #include <vector>
 #include <string>
+#include "dataStructures.h"
 
 #if defined(_MSC_VER)
 #pragma once
@@ -70,7 +71,8 @@ namespace xlw { namespace impl {
     template<typename LPOPER_TYPE>
     class EXCEL32_API XlfOper
     {
-    private:
+//    private:
+		public:
         //! \name Manage reference to the underlying XLOPER
         //@{
         //! Internal LPXLFOPER/LPXLOPER/LPXLOPER12.
@@ -280,9 +282,98 @@ namespace xlw { namespace impl {
         } // XlfOper(const HuMatrix<T>& matrix)
 
 
+		XlfOper(const ResultT& res, bool force2Columns=true) : lpxloper_(TempMemory::GetMemory<OperType>())
+		{
+			unsigned int nbCols;
+			unsigned int nbRows = res.size();
+
+			if (!force2Columns)
+			{
+				unsigned int maxRows = nbRows;
+				unsigned int totalcols = 5;
+				for (unsigned int i = 0; i < nbRows; ++i)
+				{
+					totalcols += res[i].second.size2();
+					if (res[i].second.size1() > maxRows) maxRows = res[i].second.size1();
+				}
+				OperProps::setArraySize(lpxloper_, maxRows, totalcols);
+				// Initialise with the empty string to avoid excel error from unitialised cells
+				for (int row = 0; row < OperProps::getRows(lpxloper_); ++row)
+				{
+					for (int col = 0; col < OperProps::getCols(lpxloper_); ++col)
+					{
+						LPOPER_TYPE elementOper = OperProps::getElement(lpxloper_, row, col);
+						OperProps::setString(elementOper, "");
+					}
+				}
+
+				unsigned int j = 5;
+				for (unsigned int i = 0; i < nbRows; ++i)
+				{
+					// information about res[i]
+					LPOPER_TYPE elementOper = OperProps::getElement(lpxloper_, i, 0);
+					OperProps::setString(elementOper, res[i].first);
+					// rectangle for res[i] {top left vorner, heightg, width}
+					elementOper = OperProps::getElement(lpxloper_, i, 1);
+					OperProps::setInt(elementOper, j);
+					elementOper = OperProps::getElement(lpxloper_, i, 2);
+					OperProps::setInt(elementOper, 0);
+					elementOper = OperProps::getElement(lpxloper_, i, 3);
+					OperProps::setInt(elementOper, res[i].second.size1());  // height
+					elementOper = OperProps::getElement(lpxloper_, i, 4);
+					OperProps::setInt(elementOper, res[i].second.size2()); // width*/
+					// fill up output
+					for (unsigned short row = 0; row < res[i].second.size1(); ++row)
+					{
+						for (unsigned short col = 0; col < res[i].second.size2(); ++col)
+						{
+							LPOPER_TYPE elementOper = OperProps::getElement(lpxloper_, row, col+j);
+							if (res[i].second(row, col).which() == 0) // double
+							{
+								OperProps::setDouble(elementOper, boost::get<double>(res[i].second(row, col)));
+							}
+							else if (res[i].second(row, col).which() == 1) // std::string
+							{
+								OperProps::setString(elementOper, boost::get<std::string>(res[i].second(row, col)));
+							}
+							else throw "Error in XlfOper(const ResultT& res, ...)";
+						}
+					}
+					j += res[i].second.size2();
+				} // for (unsigned int i = 0; i < nbRows; ++i)
+				return;
+			}
+			// this point is reached only when forcing simplified 2 column output
+			nbCols = 2;
+			OperProps::setArraySize(lpxloper_, nbRows, nbCols);
+
+			for (unsigned int i = 0; i < nbRows; ++i)
+			{
+				LPOPER_TYPE elementOper = OperProps::getElement(lpxloper_, i, 0);
+				OperProps::setString(elementOper, res[i].first);
+				LPOPER_TYPE elementOper2 = OperProps::getElement(lpxloper_, i, 1);
+				if (res[i].second.size1()*res[i].second.size2()>1)
+				{
+					OperProps::setString(elementOper2, "Table output.");
+				}
+				else
+				{
+					if (res[i].second(0, 0).which() == 0) // double
+					{
+						OperProps::setDouble(elementOper2, boost::get<double>(res[i].second(0,0)));
+					}
+					else if (res[i].second(0, 0).which() == 1) // std::string
+					{
+						OperProps::setString(elementOper2, boost::get<std::string>(res[i].second(0, 0)));
+					} 
+					else throw "Error in XlfOper(const ResultT& res, ...)";
+				}
+			}
+		} // XlfOper(const ResultT& res, bool force2Columns=true) : lpxloper_(TempMemory::GetMemory<OperType>())
+
+		
         //! MyArray ctor.
-        XlfOper(const MyArray& values) :
-            lpxloper_(TempMemory::GetMemory<OperType>())
+        XlfOper(const MyArray& values) : lpxloper_(TempMemory::GetMemory<OperType>())
         {
             RW nbRows = (RW)ArrayTraits<MyArray>::size(values);
 

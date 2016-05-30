@@ -1,9 +1,12 @@
 #ifndef _MARKET_H
 #define _MARKET_H
 
+#include <list>
 #include "ipc.h"
+#include "market.h"
 #include "statistics.h"
-#include "excelConversions.h"
+
+//#include "excelConversions.h"
 
 
 
@@ -21,12 +24,13 @@ public:
 	historyT() : n(0) {}
 	~historyT() {clear();}
 	void addd (int tick, double order);
-	void toXlfOper(xlw::XlfOper* xlo);
 	int getRows() {return n;}
 	void clear() {n=0; q.clear();}
+	std::list<HistoricRecordT>::iterator beginHistory() { return q.begin(); }
+	std::list<HistoricRecordT>::iterator endHistory() { return q.end(); }
 protected:
 	int n;
-	list<HistoricRecordT> q;
+	std::list<HistoricRecordT> q;
 };
 
 

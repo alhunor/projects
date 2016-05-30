@@ -1,5 +1,8 @@
-#include "ExcelConversions.h"
+//#include "ExcelConversions.h"
+#include "dataStructures.h"
+#include "mystuff/MotherOfAllBaseObjects.h"
 #include "statistics.h"
+
 #include <iostream>
 
 double* mean::x;

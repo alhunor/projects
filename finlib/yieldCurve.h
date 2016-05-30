@@ -57,9 +57,10 @@ class fxTable
 public:
 	fxTable();
 	~fxTable();
-	void setSpot(FXPair fx, float _level);
-	void setFormula(FXPair fx, float _level);
-	float getSpot(FXPair fx);
+	void setSpot(FXPair fxp, float _level);
+	void setFormula(FXPair fxp, float _level);
+	float getSpot(FXPair fxp);
+
 protected:
 	int n; // number of currencies is n+1
 	fxQuote* fx;

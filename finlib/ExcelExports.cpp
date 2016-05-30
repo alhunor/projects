@@ -46,7 +46,7 @@ using namespace std;
 
 
 
-extern "C" LPXLFOPER __declspec(dllexport) xlValueTrade(XlfOper trade, int marketHandle, XlfOper ControlString)
+extern "C" LPXLFOPER __declspec(dllexport) xlValueTrade(XlfOper tradeData, int marketHandle, XlfOper ControlString, XlfOper force2ColumnOutput)
 {
 	EXCEL_BEGIN;
 
@@ -54,21 +54,44 @@ extern "C" LPXLFOPER __declspec(dllexport) xlValueTrade(XlfOper trade, int marke
 	if (XlfExcel::Instance().IsCalledByFuncWiz())
 		return XlfOper(true);
 	labelValue ltd;
-	labelValueAddXlfOper(ltd, trade);
-
-
-	string cs = ControlString.AsString();
+	labelValueAddXlfOper(ltd, tradeData);
 
 	marketData* md;
 	if (handle.exists(marketHandle))
 	{
 		md = (marketData*)handle[marketHandle];
-	} else return XlfOper("Unknown market handle.");
+	}
+	else return XlfOper("Unknown market handle.");
+
+
+	MyStringArray msa = ControlString.AsStringArray();
+
+	ResultT valres(msa.size());
+
+	trade* trade = NULL;
+	for (unsigned int r = 0; r < msa.size(); ++r)
+	{
+		valres[r].first = msa[r];
+		valres[r].second = valueTrade(ltd, md, msa[r], trade);
+	}
+	delete trade;
+
+	bool forced2ColumnOutput = true;
+	if (force2ColumnOutput.xltype() != xltypeMissing && force2ColumnOutput.xltype() != xltypeNil)
+	{
+		forced2ColumnOutput = force2ColumnOutput.AsBool();
+	}
 	
-	return XlfOper(valueTrade(ltd, md, cs));
+	XlfOper res = XlfOper(valres, forced2ColumnOutput);
+
+//	LPXLFOPER elementOper = XlfOper::OperProps::getElement(res, 0, 4);
+//	XlfOper::OperProps::setString(elementOper, "");  // height
+	
+	return res;
 	
 	EXCEL_END;
 } // extern "C" LPXLFOPER __declspec(dllexport) xlValueTrade(XlfOper trade, int marketHandle, XlfOper ControlString)
+
 
 
 extern "C" LPXLFOPER __declspec(dllexport) xlCholesky(XlfOper Matrix)
@@ -568,12 +591,13 @@ namespace
 	XLRegistration::Arg ValueTradeArgs[] = {
 		{ "Trade", "Labelled trade data", "XLF_OPER" },
 		{ "Market", "Handle to current market", "J" },
-		{ "ControlString", "Array to Control Strings", "XLF_OPER" }
+		{ "ControlString", "Array to Control Strings", "XLF_OPER" },
+		{ "Force two column output", "<true> will flatten InfoMap structure to 2 columns", "XLF_OPER" }
 	};
 
 	XLRegistration::XLFunctionRegistrationHelper registerValueTrade
 		("xlValueTrade", "ValueTrade", "Values a trade",
-			"FinLib", ValueTradeArgs, 3);
+			"FinLib", ValueTradeArgs, 4);
 
 
 //Cholesky

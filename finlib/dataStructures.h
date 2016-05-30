@@ -5,42 +5,52 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <boost/variant.hpp>
+#include <boost/numeric/ublas/matrix.hpp>
 #include "currency.h"
+#include "myStuff/Matrix.h"
 
-//#include <windows.h>
+
+typedef std::vector<std::pair<std::string, VariantArray> > ResultT;
+
+/*
+class variant_type : public boost::static_visitor<variantType>
+{
+	variantType operator()(double d) const { return NUMERIC; }
+	variantType operator()(std::string s) const { return STRING; }
+};
 
 
+struct MyVariant : public BoostVariantT
+{
+public:
+	variantType tipus()
+	{
+		return boost::apply_visitor(variant_type(), *this);
+		// vagy: return this->which();
+	}
+	MyVariant& operator=(double d);
+	MyVariant& operator=(const std::string& s);
+};
+
+MyVariant& MyVariant::operator=(const std::string& s)
+{
+	BoostVariantT::operator=(s);
+	return *this;
+}
+
+MyVariant& MyVariant::operator=(double d)
+{
+	BoostVariantT::operator=(d);
+	return *this;
+}
+*/
 
 typedef struct 
 {
 	time_t time;
 	float bid, ask;
 } timeStampedBidAskT;
-
-
-/////////////   Handles      ///////////////////////////////////
-
-class handleT
-{
-public:
-	handleT() {n=0;}
-
-	int get() {handles[n]=NULL; return n++;}
-	int add(void* p);
-	void*& operator[](int i);
-	void remove(int h);
-	int nbHandles() const {return n;}
-	bool exists(int h);
-	void clear();
-
-private:
-    handleT(handleT const&);         // Don't Implement
-    void operator=(handleT const&); // Don't implement
-	std::map<int, void*> handles;
-	std::map<int, void*>::iterator it;
-	int n;
-};
-
 
 
 struct valueT
@@ -72,6 +82,13 @@ protected:
 	IT it; // iterator set by lookup(name);
 };
 
+/*
+struct resultT
+{
+	MotherOfAllBaseObjects* m;
+	int rows, cols;
+	int h; // handle
+};*/
 
 
 

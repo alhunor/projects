@@ -2,11 +2,12 @@
 
 #include <iostream>
 #include <math.h>
-#include "ExcelConversions.h"
+//#include "ExcelConversions.h"
 #include "ipc.h"
 #include "strategies.h"
 #include "trader.h"
 #include "parameters.h"
+#include "dataStructures.h"
 
 using namespace std;
 

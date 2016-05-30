@@ -430,9 +430,8 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 		traderT* trader = dynamic_cast<traderT*>((MotherOfAllBaseObjects* )arg.getObj("trader"));	
 		if (!trader)
 			throw "Handle does not point to underlying <traderT> type.";
-		XlfOper	ret( trader->tradingHistory.getRows()+1, 2);
 
-		trader->tradingHistory.toXlfOper(&ret);
+		XlfOper ret = toXlfOper(trader->tradingHistory);
 		return ret;
 	} // 	if (_stricmp(command, "report")==0)
 

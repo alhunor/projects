@@ -3,8 +3,9 @@
 
 #include <math.h>
 #include <fstream>
-//#include "filesystems.h"
-#include "ExcelConversions.h"
+#include "dataStructures.h"
+//#include "ExcelConversions.h"
+#include "mystuff/MotherOfAllBaseObjects.h"
 
 
 class indicatorT : public MotherOfAllBaseObjects

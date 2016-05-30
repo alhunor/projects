@@ -279,7 +279,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketLoad(int marketDate, XlfOper 
 }
 
 
-extern "C" LPXLFOPER __declspec(dllexport) xlMarketDelete(int h)
+extern "C" LPXLFOPER __declspec(dllexport) xlFreeHandle(int h)
 {
 	EXCEL_BEGIN;
 
@@ -288,14 +288,12 @@ extern "C" LPXLFOPER __declspec(dllexport) xlMarketDelete(int h)
 		return XlfOper(true);
 
 
-	marketData* md;
 	if (handle.exists(h))
 	{
-		md = (marketData*)handle[h];
-		delete md;
+		handle.remove(h);
 		return XlfOper(true);
 	}
-	else return XlfOper("Unknown market handle.");
+	else return XlfOper("Unknown  handle.");
 
 
 	EXCEL_END;
@@ -409,7 +407,7 @@ extern "C" LPXLFOPER __declspec(dllexport) xlFxForward(int h, XlfOper FXPairStri
 
 namespace
 {
-	//MarketLoad
+//MarketLoad
 	XLRegistration::Arg MarketLoadArgs[] = {
 		{ "marketDate", "Base date for the market", "J" },
 		{ "Curves", "Yield Curves", "XLF_OPER" },
@@ -423,15 +421,15 @@ namespace
 		("xlMarketLoad", "MarketLoad", "Loads a market: DFs, fxSpots, fxVols and irVol.",
 			"FinLib", MarketLoadArgs, 5);
 
-	//MarketDelete
-	XLRegistration::Arg MarketDeleteArgs[] = {
-		{ "handle", "Handle for the market", "J" }
+//FreeHandle deletes markets and other stuff
+	XLRegistration::Arg FreeHandleArgs[] = {
+		{ "handle", "Handle to be deleted", "J" }
 	};
 
 
-	XLRegistration::XLFunctionRegistrationHelper registerMarketDeleteArgs
-		("xlMarketLoad", "MarketDelete", "Delete a marked indentified by its handle.",
-			"FinLib", MarketDeleteArgs, 1);
+	XLRegistration::XLFunctionRegistrationHelper registerFreeHandleArgs
+		("xlFreeHandle", "FreeHandle", "Delete an object indentified by its handle.",
+			"FinLib", FreeHandleArgs, 1);
 
 //DF
 	XLRegistration::Arg DFArgs[] = {

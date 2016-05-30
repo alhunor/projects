@@ -18,23 +18,6 @@ void historyT::addd(int tick, double order)
 }
 
 
-void historyT::toXlfOper(xlw::XlfOper* xlo)
-{
-	xlo->SetElement(0,0, "Tick");
-	xlo->SetElement(0,1, "buy/sell");
-	HistoricRecordT hr;
-
-	int j=1;
-	for (std::list<HistoricRecordT>::iterator it=q.begin(); it!=q.end(); ++it)
-	{
-		hr = *it;
-		xlo->SetElement(j, 0, (double)hr.tick);
-		xlo->SetElement(j, 1, hr.order);
-		j++;
-	}
-} // void historyT::toXlfOper(xlw::XlfOper* xlo)
-
-
 
 
 int orders::addOrder(orderT* order)
