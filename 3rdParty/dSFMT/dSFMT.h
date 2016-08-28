@@ -1,17 +1,7 @@
 /** 
- * @file dSFMT.h 
- *
  * @brief double precision SIMD oriented Fast Mersenne Twister(dSFMT)
  * pseudorandom number generator based on IEEE 754 format.
- *
- * @author Mutsuo Saito (Hiroshima University)
- * @author Makoto Matsumoto (Hiroshima University)
- *
- * Copyright (C) 2007, 2008 Mutsuo Saito, Makoto Matsumoto and
- * Hiroshima University. All rights reserved.
- *
- * The new BSD License is applied to this software.
- * see LICENSE.txt
+
  *
  * @note We assume that your system has inttypes.h.  If your system
  * doesn't have inttypes.h, you have to typedef uint32_t and uint64_t,
