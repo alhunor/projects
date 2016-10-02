@@ -63,22 +63,22 @@ double marketData::getFxForward(FXPair fxp, int setDate, double fxSpot, double d
 	double domDF;
 	double fgnDF;
 
-	int spot_date = spotDate(fxp.fgn, fxp.dom, today());
+//	int spot_date = spotDate(fxp.fgn, fxp.dom, );
 	if (domRate == -999)
 	{
-		domDF = exp(-(setDate - spot_date) / 365.25*domRate);
+		domDF = exp(-(setDate - today()) / 365.25*domRate);
 	} else
 	{
 		yieldCurve* domCurve = ycs[fxp.dom];
-		domDF = domCurve->df(setDate) / domCurve->df(spot_date);
+		domDF = domCurve->df(setDate) / domCurve->df(today());
 	}
 	if (fgnRate == -999)
 	{
-		fgnDF = exp(-(setDate - spot_date) / 365.25*fgnRate);
+		fgnDF = exp(-(setDate - today()) / 365.25*fgnRate);
 	} else
 	{
 		yieldCurve* fgnCurve = ycs[fxp.fgn];
-		fgnDF = fgnCurve->df(setDate) / fgnCurve->df(spot_date);
+		fgnDF = fgnCurve->df(setDate) / fgnCurve->df(today());
 	}
 	return fxSpot * domDF / fgnDF;
 };

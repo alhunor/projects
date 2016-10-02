@@ -40,7 +40,7 @@ FXPair labelValue::getFXPair(std::string name)
 
 
 void* labelValue::getPointer(std::string name)
-{ // similar to getObj, but returns pointer to data, or null  if not found
+{ // similar to getObj, but returns pointer to data, or null if not found
 	it = data.find(name);
 	if (it == data.end())
 		return NULL;

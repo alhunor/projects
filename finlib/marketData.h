@@ -18,6 +18,7 @@ public:
 	virtual const char* name() { return "marketData";}
 	yieldCurve* getCurve(Currency ccy);
 	fxTable* getFxTable() { return fx; }
+	fxVolSurf* getFXVols(FXPair& fxp) { return fxvols[fxp]; }
 	double getFxForward(FXPair fxp, int setDate, double fxSpot = -999, double domRate=-999, double fgnRate=-999);
 	double df(Currency ccy, int date);
 

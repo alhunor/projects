@@ -13,7 +13,7 @@ double black(double F, double K, double sigma, double t, OptionType ot)
 	// prices a call option
 	if (t<0.00000001) return std::max(F-K,0.0);
 	double sigmasqrt = sigma*sqrt(t);
-	double d1 = (log(F/K) + 0.5*sigma*sigma*t) / sigmasqrt;
+	double d1 = (log(F/K) + 0.5*sigmasqrt*sigmasqrt) / sigmasqrt;
 	double nd1 = gaussCdf(d1);
 	double nd2 = gaussCdf(d1-sigmasqrt);
 
@@ -26,6 +26,35 @@ double black(double F, double K, double sigma, double t, OptionType ot)
 		throw "Not implemented";
 	}
 };
+
+
+
+double fxblackScholes(double todayFX, double K, double sigma, double rd, double rf, double tDiffusion, double tDiscount, FXOptionType ot = C)
+{
+	// prices a call option
+	if (tDiffusion<0.00000001) return std::max(todayFX - K, 0.0);
+	double sigmasqrt = sigma*sqrt(tDiffusion);
+	double d1 = (log(todayFX / K) + (rd-rf)*tDiffusion +0.5*sigmasqrt*sigmasqrt) / sigmasqrt;
+	double nd1 = gaussCdf(d1);
+	double nd2 = gaussCdf(d1 - sigmasqrt);
+
+	switch(ot)
+	{
+	case C:
+		return todayFX*nd1*exp(-rf*tDiscount) - K*nd2*exp(-rd*tDiscount);
+	case P:
+		return -todayFX*(1-nd1)*exp(-rf*tDiscount) + K*(1-nd2)*exp(-rd*tDiscount);
+	case D1C:
+	case D2C:
+	case D1P:
+	case D2P:
+		//return F*gaussCdf(d1)-K*gaussCdf(d1-sigmasqrt);
+		throw "Not implemented";
+	}
+
+
+}
+
 
 
 double normalblack(double F, double K, double sigma, double t, OptionType ot)
