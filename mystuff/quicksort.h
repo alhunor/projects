@@ -74,8 +74,7 @@ again:
 template<typename T> // used internally by quick_select and quicksort
 int defaultcompare(T a,T b) {return a<b?-1:(a>b?1:0);}
 
-//template<typename T, int (*compare)(T a,T b)=defaultcompare> 
-template<typename T, int (*compare)(T a,T b)> 
+template<typename T, int (*compare)(T a,T b)=defaultcompare<T> > 
 void quicksort(T* list, int lo, int hi)
 // the function compare should return 1, if a>b, and 0 or less otherwise
 {
@@ -86,7 +85,8 @@ again:
 		return;
 	if (lo<hi)
 	{
-		pivot = (lo+hi)/2;
+		//pivot = (lo+hi)/2;
+		pivot = lo + (hi - lo) / 2; // to avoid overflow
 		swap(&list[lo], &list[pivot]);
 		key=list[lo];
 		i=lo+1;

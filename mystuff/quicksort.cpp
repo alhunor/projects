@@ -58,7 +58,7 @@ int main()
 		list[i] = rand();
 
 //	heap_sort(list, cmpfun, ARRAY_SIZE-1);
-	quicksort(list, 0, ARRAY_SIZE-1);
+	quicksort(&list[0], 0, ARRAY_SIZE-1);
 //	selection_sort(list, 0, ARRAY_SIZE-1);
 //	bubble_sort(list, 0, ARRAY_SIZE-1);
 
