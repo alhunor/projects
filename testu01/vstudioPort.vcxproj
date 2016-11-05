@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="addstr.h" />
+    <ClInclude Include="bbattery.h" />
+    <ClInclude Include="bitset.h" />
+    <ClInclude Include="chrono.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="fbar.h" />
+    <ClInclude Include="fcho.h" />
+    <ClInclude Include="fcong.h" />
+    <ClInclude Include="fdist.h" />
+    <ClInclude Include="ffam.h" />
+    <ClInclude Include="ffsr.h" />
+    <ClInclude Include="finv.h" />
+    <ClInclude Include="fknuth.h" />
+    <ClInclude Include="fmarsa.h" />
+    <ClInclude Include="fmass.h" />
+    <ClInclude Include="fmultin.h" />
+    <ClInclude Include="fnpair.h" />
+    <ClInclude Include="fres.h" />
+    <ClInclude Include="fspectral.h" />
+    <ClInclude Include="fstring.h" />
+    <ClInclude Include="ftab.h" />
+    <ClInclude Include="fvaria.h" />
+    <ClInclude Include="fwalk.h" />
+    <ClInclude Include="gdef.h" />
+    <ClInclude Include="gdefconf.h" />
+    <ClInclude Include="gofs.h" />
+    <ClInclude Include="gofw.h" />
+    <ClInclude Include="mystr.h" />
+    <ClInclude Include="num.h" />
+    <ClInclude Include="num2.h" />
+    <ClInclude Include="rijndael-alg-fst.h" />
+    <ClInclude Include="scatter.h" />
+    <ClInclude Include="scomp.h" />
+    <ClInclude Include="sentrop.h" />
+    <ClInclude Include="sknuth.h" />
+    <ClInclude Include="smarsa.h" />
+    <ClInclude Include="smultin.h" />
+    <ClInclude Include="snpair.h" />
+    <ClInclude Include="sres.h" />
+    <ClInclude Include="sspacings.h" />
+    <ClInclude Include="sspectral.h" />
+    <ClInclude Include="sstring.h" />
+    <ClInclude Include="statcoll.h" />
+    <ClInclude Include="svaria.h" />
+    <ClInclude Include="swalk.h" />
+    <ClInclude Include="swrite.h" />
+    <ClInclude Include="tables.h" />
+    <ClInclude Include="TestU01.h" />
+    <ClInclude Include="tu01_sha1.h" />
+    <ClInclude Include="uautomata.h" />
+    <ClInclude Include="ubrent.h" />
+    <ClInclude Include="ucarry.h" />
+    <ClInclude Include="ucrypto.h" />
+    <ClInclude Include="ucubic.h" />
+    <ClInclude Include="udeng.h" />
+    <ClInclude Include="ufile.h" />
+    <ClInclude Include="ugfsr.h" />
+    <ClInclude Include="ugranger.h" />
+    <ClInclude Include="uinv.h" />
+    <ClInclude Include="uknuth.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ulcg.h" />
+    <ClInclude Include="ulec.h" />
+    <ClInclude Include="umarsa.h" />
+    <ClInclude Include="umrg.h" />
+    <ClInclude Include="unif01.h" />
+    <ClInclude Include="unumrec.h" />
+    <ClInclude Include="uquad.h" />
+    <ClInclude Include="usoft.h" />
+    <ClInclude Include="utaus.h" />
+    <ClInclude Include="utezuka.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="utouzin.h" />
+    <ClInclude Include="uvaria.h" />
+    <ClInclude Include="uweyl.h" />
+    <ClInclude Include="uwu.h" />
+    <ClInclude Include="uxorshift.h" />
+    <ClInclude Include="vectorsF2.h" />
+    <ClInclude Include="wdist.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="addstr.cpp" />
+    <ClCompile Include="bbattery.cpp" />
+    <ClCompile Include="bitset.cpp" />
+    <ClCompile Include="chrono.cpp" />
+    <ClCompile Include="fbar.cpp" />
+    <ClCompile Include="fcho.cpp" />
+    <ClCompile Include="fcong.cpp" />
+    <ClCompile Include="fdist.cpp" />
+    <ClCompile Include="ffam.cpp" />
+    <ClCompile Include="ffsr.cpp" />
+    <ClCompile Include="fftc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="finv.cpp" />
+    <ClCompile Include="fknuth.cpp" />
+    <ClCompile Include="fmarsa.cpp" />
+    <ClCompile Include="fmass.cpp" />
+    <ClCompile Include="fmultin.cpp" />
+    <ClCompile Include="fnpair.cpp" />
+    <ClCompile Include="fres.cpp" />
+    <ClCompile Include="fspectral.cpp" />
+    <ClCompile Include="fstring.cpp" />
+    <ClCompile Include="ftab.cpp" />
+    <ClCompile Include="fvaria.cpp" />
+    <ClCompile Include="fwalk.cpp" />
+    <ClCompile Include="gdef.cpp" />
+    <ClCompile Include="gofs.cpp" />
+    <ClCompile Include="gofw.cpp" />
+    <ClCompile Include="mystr.cpp" />
+    <ClCompile Include="num.cpp" />
+    <ClCompile Include="num2.cpp" />
+    <ClCompile Include="rijndael-alg-fst.cpp" />
+    <ClCompile Include="scatter.cpp" />
+    <ClCompile Include="scomp.cpp" />
+    <ClCompile Include="sentrop.cpp" />
+    <ClCompile Include="sknuth.cpp" />
+    <ClCompile Include="smarsa.cpp" />
+    <ClCompile Include="smultin.cpp" />
+    <ClCompile Include="snpair.cpp" />
+    <ClCompile Include="sres.cpp" />
+    <ClCompile Include="sspacings.cpp" />
+    <ClCompile Include="sspectral.cpp" />
+    <ClCompile Include="sstring.cpp" />
+    <ClCompile Include="statcoll.cpp" />
+    <ClCompile Include="svaria.cpp" />
+    <ClCompile Include="swalk.cpp" />
+    <ClCompile Include="swrite.cpp" />
+    <ClCompile Include="tables.cpp" />
+    <ClCompile Include="tcode.cpp" />
+    <ClCompile Include="tu01_sha1.cpp" />
+    <ClCompile Include="uautomata.cpp" />
+    <ClCompile Include="ubrent.cpp" />
+    <ClCompile Include="ucarry.cpp" />
+    <ClCompile Include="ucrypto.cpp" />
+    <ClCompile Include="ucryptoIS.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ucubic.cpp" />
+    <ClCompile Include="udeng.cpp" />
+    <ClCompile Include="ufile.cpp" />
+    <ClCompile Include="ugfsr.cpp" />
+    <ClCompile Include="ugranger.cpp" />
+    <ClCompile Include="uinv.cpp" />
+    <ClCompile Include="uknuth.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ulcg.cpp" />
+    <ClCompile Include="ulec.cpp" />
+    <ClCompile Include="umarsa.cpp" />
+    <ClCompile Include="umrg.cpp" />
+    <ClCompile Include="unif01.cpp" />
+    <ClCompile Include="unumrec.cpp" />
+    <ClCompile Include="uquad.cpp" />
+    <ClCompile Include="usoft.cpp" />
+    <ClCompile Include="utaus.cpp" />
+    <ClCompile Include="utezuka.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="utouzin.cpp" />
+    <ClCompile Include="uvaria.cpp" />
+    <ClCompile Include="uweyl.cpp" />
+    <ClCompile Include="uwu.cpp" />
+    <ClCompile Include="uxorshift.cpp" />
+    <ClCompile Include="vectorsF2.cpp" />
+    <ClCompile Include="wdist.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{34C931CA-F745-42B8-A22E-9927CB19628D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>vstudioPort</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>L:\Projects\testu01\vstudioPort;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

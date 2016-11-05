@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="addstr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bbattery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bitset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chrono.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fcho.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fcong.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fdist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ffam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ffsr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="finv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fknuth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmarsa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fmultin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fnpair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fspectral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ftab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fvaria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fwalk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gdefconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gofs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gofw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mystr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="num.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="num2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rijndael-alg-fst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sentrop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sknuth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smarsa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smultin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="snpair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sspacings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sspectral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="statcoll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svaria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="swalk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="swrite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestU01.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tu01_sha1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uautomata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ubrent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ucarry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ucrypto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ucubic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="udeng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ufile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ugfsr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ugranger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uinv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uknuth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ulcg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ulec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="umarsa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="umrg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unif01.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unumrec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uquad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="usoft.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utaus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utezuka.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utouzin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uvaria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uweyl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uwu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uxorshift.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorsF2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wdist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="addstr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bbattery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bitset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chrono.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fcho.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fcong.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ffam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ffsr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fknuth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmarsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmultin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fnpair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fres.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fspectral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ftab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fvaria.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fwalk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gdef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mystr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="num.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="num2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rijndael-alg-fst.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sentrop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sknuth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smarsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smultin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="snpair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sres.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sspacings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sspectral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svaria.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="swalk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="swrite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tu01_sha1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uautomata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ubrent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ucarry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ucrypto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ucryptoIS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ucubic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="udeng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ufile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ugfsr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ugranger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uinv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uknuth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ulcg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ulec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="umarsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="umrg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unif01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unumrec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uquad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="usoft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utaus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utezuka.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utouzin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uvaria.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uweyl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uwu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uxorshift.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vectorsF2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fftc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fmass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wdist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fdist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="finv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gofs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gofw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="statcoll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
