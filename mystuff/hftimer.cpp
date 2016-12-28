@@ -1,5 +1,6 @@
 #include "hftimer.h"
-//#include <iostream>
+#include <windows.h>
+
 
 
 #ifdef LINUX

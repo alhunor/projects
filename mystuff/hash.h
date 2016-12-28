@@ -23,5 +23,6 @@ uint64_t hash64shift(uint64_t key);
 uint32_t hash6432shift(uint64_t key);
 
 uint32_t hashString(const char* c, const int len);
+int CRCHash(const char* s);
 
 #endif

@@ -6,7 +6,7 @@
 using namespace std;
 
 unsigned int hashString(const char* key, const int len)
-{
+{// computes hash value for <s>. len = strlen(s) must be provided externally.
     unsigned int hashVal = 0;
  
 	for (int x = 0; x < len; ++x)
@@ -109,3 +109,41 @@ __inline __declspec(naked) uint32_t ror32(uint32_t a, uint32_t width)
 		ret
 	}
 }
+
+
+void addHash(int &h, int ki)
+{ // Do a 5-bit left circular shift of h. Then XOR in ki. Specifically
+	int highorder = h & 0xf8000000;// extract high-order 5 bits from h 
+	h = h << 5; // shift h left by 5 bits
+	h = h ^ (highorder >> 27); // move the highorder 5 bits to the low-order end and XOR into h 
+	h = h ^ ki; // XOR h and ki 
+}
+
+int CRCHash(const char* s)
+{
+	//https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html 
+	// break <s> in 32 bit words
+	int ki = 0;
+	int pos = 0;
+	int hash = 0;
+	int highorder = 0;
+	char spos = s[0];
+	do
+	{
+		ki = ki << 8;
+		if (spos != 0)
+		{
+			ki += spos;
+			pos++;
+			spos = s[pos];
+		};
+		if (pos % 4 == 0)
+		{ // we've got 4 bytes already 
+			addHash(hash, ki);
+			ki = 0;
+		}
+	} while (spos != 0);
+	// last block has less than 4 characters, add them to <h>
+	if (pos % 4 != 0) addHash(hash, ki);
+	return hash;
+} //int CRCHash(const char* s)
