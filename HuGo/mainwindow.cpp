@@ -129,7 +129,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::refreshBoard()
 {
-    qDebug()<<"Refresh";
+    //qDebug()<<"Refresh";
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -151,8 +151,21 @@ void MainWindow::newFile()
 
 void MainWindow::openFile()
 {
-    qDebug()<<"openFile";
-} // void MainWindow::void newFile()
+  QString filters("Proprietary format (*.hug);;Smart Go Files (*.sgf)");
+  QString defaultFilter("Proprietary format (*.hug)");
+
+  QFileDialog dialog(this,  "Open file", QDir::currentPath(), filters);
+  dialog.setDefaultSuffix(defaultFilter);
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  if (dialog.exec() == QDialog::Accepted)
+    {
+      QString selectedFilter = dialog.selectedNameFilter();
+      //qDebug()<<selectedFilter ;
+      QString fileName = dialog.selectedFiles()[0];
+      ui->graphicsView->open(fileName);
+    }
+  setButtons();
+} // void MainWindow::void openFile()
 
 void MainWindow::closeFile()
 {
@@ -170,12 +183,12 @@ void MainWindow::saveFile()
     if (dialog.exec() == QDialog::Accepted)
       {
         QString selectedFilter = dialog.selectedNameFilter();
-        qDebug()<<selectedFilter ;
+        //qDebug()<<selectedFilter ;
         QString fileName = dialog.selectedFiles()[0];
         ui->graphicsView->save(fileName);
       }
     //    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath(), filters, &defaultFilter);
-} // void MainWindow::void newFile()
+} // void MainWindow::void saveFile()
 
 
 void MainWindow::mouseReleaseEvent ( QMouseEvent * event )
@@ -203,7 +216,7 @@ void MainWindow::on_undoButton_clicked()
   // draw stone for the updated board
 //  qDebug()<<"Undo:"<< c->i<<","<<c->j<<","<<c->oldStone<<","<<c->newStone;
 
-  ui->graphicsView->updateBoard(c->i, c->j, c->oldStone);
+  ui->graphicsView->updateBoard(c->i, c->j, c->oldStone, c->nr);
   setButtons();
 }
 
@@ -214,7 +227,8 @@ void MainWindow::on_redoButton_clicked()
   //update board
  // ui->graphicsView->board[m->i][m->j].item = m->stone;
   // draw stone for the updated board
-  ui->graphicsView->updateBoard(c->i, c->j, c->newStone);
+  ui->graphicsView->updateBoard(c->i, c->j, c->newStone, c->nr+1);
+  //c->nr+1 is needed as redo revover configuration post move while unde is pre move
   setButtons();
 }
 

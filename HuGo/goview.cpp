@@ -5,7 +5,7 @@
 #include <QGraphicsScene>
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
-
+#include <fstream>
 
 bool goView::init(MainWindow* _mw)
 {
@@ -117,15 +117,17 @@ void goView::mouseReleaseEvent (QMouseEvent * event)
       stoneT newStone = stoneT((board[i][j].item + action) % (WhiteStone+1)); // cycles through nostone, blackstone and whitestone.
       if (newStone<NoStone) newStone = WhiteStone;
 
-      h.add(i,j, board[i][j].item, newStone);
+      int nr = h.add(i,j, board[i][j].item, newStone);
 
-      updateBoard(i,j, newStone);
+      updateBoard(i,j, newStone, nr);
       mw->setButtons();
   }
 } // void goView::mouseReleaseEvent (QMouseEvent * event)
 
 
-bool goView::updateBoard(int i, int j, stoneT newStone)
+
+
+bool goView::updateBoard(int i, int j, stoneT newStone, int nr)
 {
   // positions are numbered 0..18 x 0..18
 
@@ -136,6 +138,7 @@ bool goView::updateBoard(int i, int j, stoneT newStone)
   {
       // delete current item
       scene->removeItem(board[i][j].icon);
+      scene->removeItem(board[i][j].label);
   }
 
   board[i][j].item = newStone;
@@ -156,6 +159,17 @@ bool goView::updateBoard(int i, int j, stoneT newStone)
   board[i][j].icon->setPos(x0+j*cw-15,y0+i*ch-15);
   board[i][j].icon->setZValue(1);
 
+  // add label
+  board[i][j].nr = nr + h.getOffset();
+  QGraphicsTextItem* ql = scene->addText(QString::number(board[i][j].nr));
+  ql->setDefaultTextColor(board[i][j].item==WhiteStone?Qt::black:Qt::white);
+  ql->setFont(QFont("times", 12));
+  board[i][j].label = ql;
+  int dx = ql->boundingRect().width()/2;
+
+  ql->setPos(x0+j*cw-dx,y0+i*ch-15);
+  board[i][j].label->setZValue(2);
+
   return true;
 } // bool goView::addStone(int i, int j, bool leftclick)
 
@@ -166,16 +180,152 @@ bool goView::save(const QString& filename)
   QString extension = filename.right(3);
   if (extension=="hug")
   {
-      qDebug()<<"Hunor go";
-  } else qDebug()<<extension;
+      std::ofstream out;
+      out.open(filename.toStdString().c_str(), std::ofstream::out | std::ofstream::trunc);
+      if (! out.is_open()) return false;
 
+      int i,j, b, code, sumcode[4] ;
+      sumcode[0]= 0;
+      sumcode[1]= 0;
+      sumcode[2]= 0;
+      sumcode[3]= 0;
+      const int n = 18;
+
+      for (i =0; i<=n; ++i )
+      {
+        for (j =0; j<=n; ++j )
+        {
+            b = board[i][j].item;
+            if (b!=NoStone)
+            {
+               code = b + 3*(j+i*(n+1));
+               sumcode[0]+=code;
+               code = b + 3*(n-i+j*(n+1));
+               sumcode[1]+=code;
+               code = b + 3*(n-j+(n-i)*(n+1));
+               sumcode[2]+=code;
+               code = b + 3*(i+(n-j) *(n+1));
+               sumcode[3]+=code;
+            }
+        } // for (j =0; j<19; ++j )
+      } // for (i =0; i<19; ++i )
+      // now find cannonical rotation
+      int canonical = 0;
+      for (i =0; i<4; ++i )
+      {
+          qDebug() <<sumcode[i];
+          if (sumcode[i]<sumcode[canonical]) canonical = i;
+      }
+      out<<canonical<<std::endl;
+      qDebug() <<"canonical"<<canonical;
+      // iterate again and output cannonical codes
+      for (i =0; i<=n; ++i )
+      {
+        for (j =0; j<=n; ++j )
+        {
+            b = board[i][j].item;
+            if (b!=NoStone)
+            {
+                if (canonical==0) code = b + 3*(j+i*(n+1));
+                if (canonical==1) code = b + 3*(n-i+j*(n+1));
+                if (canonical==2) code = b + 3*(n-j+(n-i)*(n+1));
+                if (canonical==3) code = b + 3*(i+(n-j)*(n+1));
+                out<<code<<std::endl;
+            }
+        } // for (j =0; j<=n; ++j )
+      } // for (i =0; i<=n; ++i )
+      out.close();
+  } else
+  {
+      qDebug()<<"Unsupported"<<extension;
+
+  }
   return true;
 }
 
-
-bool goView::load(const QString& filename)
+void goView::clear()
 {
+  h.clear();
+  const int n = 18;
+  int i,j;
+
+  for (i =0; i<=n; ++i )
+  {
+    for (j =0; j<=n; ++j )
+    {
+        if (board[i][j].item!=NoStone)
+        {
+            // remove current contents from the scene
+            scene->removeItem(board[i][j].icon);
+            scene->removeItem(board[i][j].label);
+            // todo : check if they need to be deleted - probably no for icon and yes for label
+        }
+        board[i][j].item = NoStone;
+        board[i][j].nr =0;
+    }
+} // void goView::clear()
+}
+
+bool goView::open(const QString& filename)
+{
+  std::ifstream in;
+  in.open(filename.toStdString().c_str());
+  if (! in.is_open()) return false;
+
+  clear();
+
+  // TODO determine extension
+
+  // suppose file is in hug format
+
+  // read cannonical
+  int canonical;
+  in>>canonical;
+  // read stone codes
+  int aux, b, i, j;
+  const int n = 18;
+  int nr = 0;
+  while (!in.eof())
+  {
+      in>>aux;
+      i = aux / (3*(n+1));
+      aux %= (3*(n+1));
+      j = aux / 3;
+      b = aux % 3;
+      if (canonical == 0) updateBoard(i, j, (stoneT)b, nr);
+      if (canonical == 1) updateBoard(j, n-i, (stoneT)b, nr);
+      if (canonical == 2) updateBoard(n-i, n-j, (stoneT)b, nr);
+      if (canonical == 3) updateBoard(n-j, i, (stoneT)b, nr);
+      ++nr;
+  }
+  h.setOffset(nr);
+/*
   qDebug()<<"Loading "<<filename;
+  // TODO determine extension
+
+  // suppose file is in hug format
+
+  // read cannonical
+  int cannonical = 3;
+  // read stone code
+  int stones[4] = {64, 71, 133, 137};
+  int nbStones = 4;
+  int aux, b, i, j;
+  const int n = 18;
+  for (int k =0; k<nbStones; ++k )
+  {
+      aux = stones[k];
+      i = aux / (3*(n+1));
+      aux %= (3*(n+1));
+      j = aux / 3;
+      b = aux % 3;
+      qDebug()<<i<<" "<<j<<" "<<b;
+      if (cannonical == 0) updateBoard(i, j, (stoneT)b, k);
+      if (cannonical == 1) updateBoard(j, n-i, (stoneT)b, k);
+      if (cannonical == 2) updateBoard(n-i, n-j, (stoneT)b, k);
+      if (cannonical == 3) updateBoard(n-j, i, (stoneT)b, k);
+  }
+*/
   return true;
 } // bool goView::load(char* filename)
 
@@ -184,41 +334,42 @@ config* history :: undo()
 {
   // poistion always points to the next emplacement where a new stone would be added
 
-  if (position>0)
+  if (pos>0)
   {
-      qDebug()<<"Undo position "<<position;
-    --position;
-    return &data[position];
+//      qDebug()<<"Undo position "<<position;
+    --pos;
+    return &data[pos];
    }
   return NULL;
 }
 
 config* history :: redo()
 {
-  if (position<maxSize)
+  if (pos<maxPos)
   {
-    config * c = &data[position];
-    ++position;
+    config * c = &data[pos];
+    ++pos;
     return c;
    }
   return NULL;
 }
 
 
-void history :: add(int i, int j, stoneT oldStone, stoneT newStone)
+int history :: add(int i, int j, stoneT oldStone, stoneT newStone)
 {
 //  qDebug()<<"Adding ("<< i<<","<<j<<","<<oldStone<<","<< newStone <<")";
-  if (position>0 && i == data[position-1].i && j == data[position-1].j)
+  if (pos>0 && i == data[pos-1].i && j == data[pos-1].j)
   {
   //  qDebug()<<"Changed position "<< position-1;
-    data[position-1].newStone = newStone;
-    return;
+    data[pos-1].newStone = newStone;
+    return pos-1;
   }
-  struct config c(i, j, oldStone, newStone);
-  if (position==maxSize) ++maxSize;
-  if (position==data.size()) data.push_back(c); else data[position] = c;
-  ++position;
+  struct config c(i, j, oldStone, newStone, pos-1);
+  if (pos==maxPos) ++maxPos;
+  if (pos==data.size()) data.push_back(c); else data[pos] = c;
+  ++pos;
   // reset undo if new action done before all undo completed
-  if (position<maxSize) maxSize = position;
+  if (pos<maxPos) maxPos = pos;
+  return pos-1;
 //  qDebug()<<"Added to position "<< position-1;
 }
