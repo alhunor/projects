@@ -14,19 +14,20 @@
     <ProjectName>Finlib</ProjectName>
     <ProjectGuid>{15F2EBE8-BD3A-43A3-B11D-7BE769F5FABB}</ProjectGuid>
     <RootNamespace>Example</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -181,6 +182,7 @@
     <ClCompile Include="ExcelExports.cpp" />
     <ClCompile Include="ExcelExportsArrayFunctions.cpp" />
     <ClCompile Include="ExcelExportsImages.cpp" />
+    <ClCompile Include="ExcelExportsIRModels.cpp" />
     <ClCompile Include="ExcelExportsTrader.cpp" />
     <ClCompile Include="fxoption.cpp" />
     <ClCompile Include="fxVolSurf.cpp" />

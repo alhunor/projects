@@ -46,6 +46,12 @@
     <Filter Include="FX Modelling">
       <UniqueIdentifier>{88d1f4aa-0789-4ed3-8ca6-83d5ce2ff2d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ToyBGM">
+      <UniqueIdentifier>{f8d1bb17-d134-4828-ae8b-18f1ca4ba3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="myStuff">
+      <UniqueIdentifier>{e3255c1d-221c-4d93-8c3f-18c2e4e598a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdparty\dSFMT\dSFMT.cpp">
@@ -260,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="..\mystuff\matrix.cpp">
       <Filter>3rdParty\mystuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ExcelExportsIRModels.cpp">
+      <Filter>Infrastructure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

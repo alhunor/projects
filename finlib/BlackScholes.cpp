@@ -51,8 +51,7 @@ double fxblackScholes(double todayFX, double K, double sigma, double rd, double 
 		//return F*gaussCdf(d1)-K*gaussCdf(d1-sigmasqrt);
 		throw "Not implemented";
 	}
-
-
+	return 0;
 }
 
 
