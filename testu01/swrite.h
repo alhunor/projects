@@ -17,7 +17,7 @@ extern lebool swrite_Counters;        /* Prints counters                */
 
 
 
-extern lebool swrite_Host;
+extern bool swrite_Host;
 
 
 extern char swrite_ExperimentName[];

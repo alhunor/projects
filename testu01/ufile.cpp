@@ -28,6 +28,8 @@
  *
 \*************************************************************************/
 
+#pragma warning (disable : 4267)
+
 #include "config.h"
 #include "gdef.h"
 #include "util.h"

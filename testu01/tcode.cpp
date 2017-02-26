@@ -49,6 +49,61 @@ float ran1(long *idum)
 
 
 
+
+
+#define norm 2.328306549295728e-10
+#define m1 4294967087.0
+#define m2 4294944443.0
+#define a12 1403580.0
+#define a13n 810728.0
+#define a21 527612.0
+#define a23n 1370589.0
+double MRG32k3a(void)
+{
+	static double s10 = 12345, s11 = 12345, s12 = 123, s20 = 12345, s21 = 12345, s22 = 123;
+	long k;
+	double p1, p2;
+	// Component 1 
+	p1 = a12 * s11 - a13n * s10;
+	k = (long) (p1 / m1);
+	p1 -= k * m1;
+	if (p1 < 0.0) p1 += m1;
+	s10 = s11; s11 = s12; s12 = p1;
+	// Component 2 
+	p2 = a21 * s22 - a23n * s20;
+	k = (long)(p2 / m2);
+	p2 -= k * m2; 
+	if (p2 < 0.0) p2 += m2;
+	s20 = s21; s21 = s22; s22 = p2;
+	// Combination 
+	if (p1 <= p2) return ((p1 - p2 + m1) * norm);
+	else return ((p1 - p2) * norm);
+}
+#undef norm
+#undef m1
+#undef m2
+#undef a12
+#undef a13n
+#undef a21
+#undef a23n
+
+
+
+static unsigned int y = 2463534242U;
+unsigned int xorshift(void)
+{
+	y ^= (y << 13);
+	y ^= (y >> 17);
+	return y ^= (y << 5);
+}
+
+
+
+
+
+
+#pragma warning (disable : 4267)
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -191,36 +246,27 @@ static int ProcessLine (char *line)
    }
 }
 
-#include <math.h>
-/**************************************************************************/
-
+/*
 int main (int argc, char *argv[])
 {
-
-	double a = sin(10e25);
-
 	char *p, *q;
-   int isCode = 0;         /* If isCode == TRUE, we are in a region of
-                              valid code; otherwise not. */
+   int isCode = 0;         /* If isCode == TRUE, we are in a region of valid code; otherwise not. 
 
    Init (argc, argv);
 
-   while (NULL != fgets (Line, MaxChar, fin)) { /* Not EOF and no error */
+   while (NULL != fgets (Line, MaxChar, fin)) { // Not EOF and no error
       if (isCode) {
          isCode = ProcessLine (Line);
       } else {
-         /* search for "\def\code" and drop that line: it is not valid code
-            but the definition of the TEX command \code */
+         // search for "\def\code" and drop that line: it is not valid code but the definition of the TEX command \code
          if (strstr (Line, "\\def\\code"))
             ;                             
          else if ((p = strstr (Line, "\\code"))) {
-            /* search for "\code". If "\code" is found on a line with a %
-               before it, then it is a TEX comment and we do not consider
-               it as starting a region of valid code; */
+            // search for "\code". If "\code" is found on a line with a % before it, then it is a TEX comment and we do not consider it as starting a region of valid code; 
             *p = '\0';
             q = strchr (Line, '%');
             if (NULL == q)
-               /* otherwise, it is valid code: process rest of line */
+               // otherwise, it is valid code: process rest of line
                isCode = ProcessLine (p + L1);
          }
       }
@@ -231,7 +277,22 @@ int main (int argc, char *argv[])
    fclose (fin);
    return 0;
 }
+*/
+
+#include "unif01.h"
+#include "bbattery.h"
+#include <math.h>
+#include <conio.h>
 
 
-
-
+void main(void)
+{
+	unif01_Gen *gen;
+	gen = unif01_CreateExternGen01("MRG32k3a", MRG32k3a);
+	bbattery_SmallCrush(gen);
+	unif01_DeleteExternGen01(gen);
+	gen = unif01_CreateExternGenBits("xorshift", xorshift);
+	bbattery_SmallCrush(gen);
+	unif01_DeleteExternGenBits(gen);
+	_getche();
+}

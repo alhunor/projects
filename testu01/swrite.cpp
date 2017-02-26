@@ -28,7 +28,10 @@
  *
 \*************************************************************************/
 
+#pragma warning (disable : 4267)
+
 #include "config.h"
+#include <iostream>
 
 #include "gdef.h"
 #include "util.h"
@@ -54,7 +57,7 @@ lebool swrite_Counters = FALSE;
 lebool swrite_Classes = FALSE;
 lebool swrite_Others = FALSE;
 
-lebool swrite_Host = TRUE;
+bool swrite_Host = false;
 
 char swrite_ExperimentName[LEN + 1] = "";
 
@@ -73,12 +76,10 @@ void swrite_SetExperimentName (char Name[])
 void swrite_Head (unif01_Gen *gen, char *TestName, long N, long n, int r)
 {
    printf ("***********************************************************\n");
-   printf ("HOST = ");
    if (swrite_Host) {
-      gdef_WriteHostName ();
-      printf ("\n");
-   } else
-      printf ("\n\n");
+	   printf("HOST = ");
+	   gdef_WriteHostName ();
+   } 
    util_Assert (gen != NULL, "No generator has been created");
    unif01_WriteNameGen (gen);
    printf ("\n");
