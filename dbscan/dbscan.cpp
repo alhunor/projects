@@ -14,19 +14,6 @@
 int spread2(int index, int cluster_id, point_s *points, int num_points, double epsilon, unsigned int minpts, distance dist, std::vector<int>& neighbours);
 int expand2(int index, int cluster_id, point_s *points, int num_points, double epsilon, unsigned int minpts,  distance dist);
 
-node_s *create_node(int index);
-int append_at_end(int index, epsilon_neighbours_s *en);
-epsilon_neighbours_s *get_epsilon_neighbours(int index, point_s *points, int num_points, double epsilon, distance dist);
-void print_epsilon_neighbours(point_s *points, epsilon_neighbours_s *en);
-void destroy_epsilon_neighbours(epsilon_neighbours_s *en);
-void dbscan(point_s *points, int num_points, double epsilon, int minpts, distance dist);
-int expand(int index, int cluster_id, point_s *points,  int num_points, double epsilon, int minpts, distance dist);
-int spread(int index, epsilon_neighbours_s *seeds, int cluster_id, point_s *points,  int num_points, double epsilon, int minpts, distance dist);
-
-double adjacent_intensity_dist(point_s *a, point_s *b);
-int parse_input(FILE *file, point_s **points, double *epsilon,  int *minpts);
-void print_points(point_s *points, int num_points);
-
 
 // compute epsilon neighbours for point "index"
 void get_epsilon_neighbours2(int index, point_s *points, int num_points, double epsilon, distance dist, std::vector<int>& neighbours)
@@ -119,12 +106,23 @@ void main(void)
 	points p;
 	double epsilon;
 	int minpts;
-	p.readxyFromFile("unbalance.txt"); epsilon = 4500; minpts = 10;
+	//p.readxyFromFile("unbalance.txt"); epsilon = 4500; minpts = 10;
 
 	//p.readxyFromFile("gaussian(k=3, dim=2, n=90).txt"); epsilon = 2; minpts = 5;
 	//p.readxyFromFile("gaussian(k=3, dim=2, n=2158).txt"); epsilon = 2; minpts = 5;
 	
-	//double avg = p.averageDistance(4);
+	//p.readxyFromFile("Aggregation (n=788, k=7, D=2).txt"); epsilon = 1.4; minpts = 6;
+	
+	//p.readxyFromFile("Aggregation (n=788, k=7, D=2).txt"); epsilon = 1.4; minpts = 6;
+	
+	//p.readxyFromFile("jain (n=373, k=2, dim=2).txt"); epsilon = 2.4; minpts = 5;
+	
+	//p.readxyFromFile("spiral (n=312, k=3, dim=2).txt"); epsilon = 2; minpts = 4;
+	
+	p.readxyFromFile("flame (n=240, k=2, dim=2).txt"); epsilon = 1; minpts = 5;
+	
+
+	double avg = p.averageDistance(6);
 
 
 	int num_points = p.numPoints();

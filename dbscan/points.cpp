@@ -81,7 +81,7 @@ void points::savetoBitmap(char* outputFile, unsigned int dim)
 	for (unsigned int i=0; i<nbPoints; ++i)
 	{
 		x = 10+(pts[i].x - minx) * (dim-20) / (maxx-minx);
-		y = 10+(pts[i].y - miny) * (dim-20) / (maxy-miny);
+		y = dim - (10+(pts[i].y - miny) * (dim-20) / (maxy-miny));
 		setCross(image, (unsigned int)x, (unsigned int)y, pts[i].cluster_id); // sets a little cross
 		//image.set_pixel((int)x, (int)y, 255, 0, 0);
 	}

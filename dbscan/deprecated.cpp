@@ -5,6 +5,20 @@
 #include <stdlib.h>
 
 
+node_s *create_node(int index);
+int append_at_end(int index, epsilon_neighbours_s *en);
+epsilon_neighbours_s *get_epsilon_neighbours(int index, point_s *points, int num_points, double epsilon, distance dist);
+void print_epsilon_neighbours(point_s *points, epsilon_neighbours_s *en);
+void destroy_epsilon_neighbours(epsilon_neighbours_s *en);
+void dbscan(point_s *points, int num_points, double epsilon, int minpts, distance dist);
+int expand(int index, int cluster_id, point_s *points,  int num_points, double epsilon, int minpts, distance dist);
+int spread(int index, epsilon_neighbours_s *seeds, int cluster_id, point_s *points,  int num_points, double epsilon, int minpts, distance dist);
+
+double adjacent_intensity_dist(point_s *a, point_s *b);
+int parse_input(FILE *file, point_s **points, double *epsilon,  int *minpts);
+void print_points(point_s *points, int num_points);
+
+
 //#include <stdlib.h>
 
 /*
