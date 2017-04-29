@@ -1,0 +1,220 @@
+SWING_DAMAGE
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#sd
+	targetGuid 9 G
+	masterGuid 10 G
+	hitPoints 11 I
+	maxHitPoints 12 I
+	attackPower  13 I
+	spellPower 14 I
+	resolve 15 I
+	resourceType 16 I
+	resourceAmount 17 I
+	maxResourceAmount 18 I
+#damage
+	xPosition 19 F
+	yPosition 20 F
+	itemLevel 21 I
+	dmgDone 22 I
+	overkill 23 I
+	magicSchool 24 I
+	resisted 25 I
+	blocked 26 I
+	absorbed 27 I
+	critical 28 B
+	glancing 29 B
+	crushing 30 B
+	multistrike 31 B
+SPELL_DAMAGE
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+	spellID 9 I
+	spellSchool 11 H
+#sd
+	targetGuid 12 G
+	masterGuid 13 G
+	hitPoints 14 I
+	maxHitPoints 15 I
+	attackPower  16 I
+	spellPower 17 I
+	resolve 18 I
+	resourceType 19 I
+	resourceAmount 20 I
+	maxResourceAmount 21 I
+#damage
+	xPosition 22 F
+	yPosition 23 F
+	itemLevel 24 I
+	dmgDone 25 I
+	overkill 26 I
+	magicSchool 27 I
+	resisted 28 I
+	blocked 29 I
+	absorbed 30 I
+	critical 31 B
+	glancing 32 B
+	crushing 33 B
+	multistrike 34 B
+SPELL_SUMMON
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+	spellID 9, I
+	targetGuid 10 G
+	masterGuid 11 G
+SPELL_CAST_SUCCESS
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+	spellID 9, I
+	targetGuid 10 G
+	masterGuid 11 G
+SPELL_CAST_START
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+SPELL_CAST_FAILED
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+#failed
+	reason 12 Q
+SPELL_AURA_APPLIED_DOSE
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+#spellaura
+	buffordebuff 12 Q
+#dose amount
+	amount 13 I
+SPELL_AURA_REMOVED_DOSE
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+#spellaura
+	buffordebuff 12 Q
+#dose amount
+	amount 13 I
+SPELL_AURA_APPLIED
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+SPELL_AURA_REMOVED
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+SPELL_AURA_REFRESH
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#spell
+	spellID 9 I
+	spellSchool 11 H
+SWING_DAMAGE_LANDED
+#base
+	sourceGUID 1 G
+	sourceName 2 Q
+	sourceFlags 3 H
+	sourceRaidFlags 4 H
+	destGUID 5 G
+	destName 6, Q
+	destFlags 7 H
+	destRaidFlags 8 H
+#sd
+	targetGuid 9 G
+	masterGuid 10 G
+	hitPoints 11 I
+	maxHitPoints 12 I
+	attackPower  13 I
+	spellPower 14 I
+	resolve 15 I
+	resourceType 16 I
+	resourceAmount 17 I
+	maxResourceAmount 18 I

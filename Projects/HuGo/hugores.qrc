@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>stones black.png</file>
+        <file>stones white.png</file>
+        <file>texture.jpg</file>
+    </qresource>
+    <qresource prefix="/other"/>
+    <qresource prefix="/">
+        <file>stones white.png</file>
+    </qresource>
+</RCC>

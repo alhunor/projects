@@ -1,0 +1,4 @@
+﻿  main.cpp
+l:\projects\simcraftlog\main.cpp(18): warning C4018: '<=': signed/unsigned mismatch
+  simCraftLog.vcxproj -> L:\Projects\simCraftLog\Debug\simCraftLog.exe
+  simCraftLog.vcxproj -> L:\Projects\simCraftLog\Debug\simCraftLog.pdb (Partial PDB)

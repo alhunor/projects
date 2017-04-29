@@ -1,0 +1,32 @@
+
+void analyseHeader(char* filename)
+{
+	FILE* fp = fopen(filename,"rb");
+	int count = 1;
+	int i;
+	machDataT contentLenght, contentType;
+	char buff[16384];
+
+	pattern_init(&contentLenght, "Content-Length:");
+	pattern_init(&contentType, "Content-Type:");
+
+	while (count>0)
+	{
+		count = fread(buff,1,16384,fp);
+		for (i=0; i<count; i++)
+		{
+			if (pattern_match(&contentLenght, buff[i])==2)
+			{
+				printf("Len = %s\n", contentLenght.value);
+			}
+			if (pattern_match(&contentType, buff[i])==2)
+			{
+				printf("Type = %s\n", contentType.value);
+			}
+		} // for(..)
+
+	} // while(..)
+
+	fclose(fp);
+} // void analyseHeader(char* filename)
+

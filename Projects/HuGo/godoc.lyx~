@@ -1,0 +1,144 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A cannonical representaion of go board positons
+\end_layout
+
+\begin_layout Standard
+We are looking for a rotation invariant representation for the board.
+ On an 
+\begin_inset Formula $n*n$
+\end_inset
+
+ board (positions numbered 0..n-1) and stone colors code by the triplet (0-empty,
+ 1-black, 2-white) a stone in position 
+\begin_inset Formula $\left(i,j\right)$
+\end_inset
+
+can be represented by the following numerical code 
+\begin_inset Formula 
+\[
+code\left(i,j,stoneColor\right)=stoneColor+3*\left(i+j*\left(n+1\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The board is represented as the set containing all numerical codes obtained
+ as per the above equation.
+ 
+\end_layout
+
+\begin_layout Standard
+For pattern matching it is important to recognise the rotattions of the
+ same position.
+ If the initial coordiantes are used we say that the code is in its natural
+ unrotated form.
+ Rotation invariance can be achievd by realising that the point
+\begin_inset Formula $\left(i,j\right)$
+\end_inset
+
+rotated clockwise by 90, 180 and 270 degrees has the coordinates: 
+\begin_inset Formula $\left(j,n-1\right)$
+\end_inset
+
+,
+\begin_inset Formula $\left(n-i,n-j\right)$
+\end_inset
+
+and 
+\begin_inset Formula $\left(n-j,i\right)$
+\end_inset
+
+.
+ Replacing the original coordiantes by the rotations 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\left(i,j\right)\rightarrow\left\{ \left(j,n-i\right),\left(n-i,n-j\right),\left(n-j,i\right)\right\} $
+\end_inset
+
+and recomputing the each numerical code using the new coordinates gives
+ the board in the 1st, 2nd and 3rd rotational form.
+ The form that give the minimal sum over all codes is called the cannonical
+ form.
+ We propose to store the board configuration in its canonical form together
+ with the information indicating which rotation has the minimal sumcount
+ (the latter is redondant information, but useful for visual consistency:
+ users can retrieve the saved board as they have seen it last time, without
+ any rotations).
+\end_layout
+
+\end_body
+\end_document

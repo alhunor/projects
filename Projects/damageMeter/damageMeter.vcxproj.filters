@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="LogFiles">
+      <UniqueIdentifier>{11d80acf-371f-490e-8513-c1f1374c624d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sqllight">
+      <UniqueIdentifier>{95c90e9f-cf86-4dd4-ba7d-4bde36752c16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="actors.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mechanics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\hash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\sqlite\sqlite3.c">
+      <Filter>Source Files\sqllight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\dbutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="kettle arcane.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="kettle arcane full.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="arcane full 2.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="archi-log.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="arcane3.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="frost.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+    <Text Include="events.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="summons.txt">
+      <Filter>LogFiles</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="events.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="actors.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mechanics.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\sqlite\sqlite3.h">
+      <Filter>Source Files\sqllight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\tokenizer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\dbutils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

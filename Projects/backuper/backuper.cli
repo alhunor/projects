@@ -1,0 +1,2 @@
+F[-\w\.]+(obj|aux|suo|ncb|hcs)
+D(Debug|Release)

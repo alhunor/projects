@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>Midnight-Crawlers_Looping.mp3</file>
+        <file>M1 Garand Single-SoundBible.com-1941178963.mp3</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>space-background.jpg</file>
+        <file>bullet.gif</file>
+        <file>player2.gif</file>
+        <file>asteroid23.png</file>
+        <file>meteorite.png</file>
+        <file>texture.jpg</file>
+        <file>close.png</file>
+        <file>new.png</file>
+        <file>open.png</file>
+        <file>save.png</file>
+        <file>Blank_Go_board.png</file>
+        <file>black.png</file>
+        <file>white.png</file>
+        <file>redo2.png</file>
+        <file>undo2.png</file>
+        <file>eraser-icon.png</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>

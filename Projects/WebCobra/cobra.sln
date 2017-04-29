@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cobra", "cobra.vcproj", "{34E392F3-E184-4AF1-B2B7-FB733DE77B09}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		using libcurl DLL Debug|Win32 = using libcurl DLL Debug|Win32
+		using libcurl DLL Release|Win32 = using libcurl DLL Release|Win32
+		using libcurl LIB Debug|Win32 = using libcurl LIB Debug|Win32
+		using libcurl LIB Release|Win32 = using libcurl LIB Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl DLL Debug|Win32.ActiveCfg = using libcurl DLL Debug|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl DLL Debug|Win32.Build.0 = using libcurl DLL Debug|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl DLL Release|Win32.ActiveCfg = using libcurl DLL Release|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl DLL Release|Win32.Build.0 = using libcurl DLL Release|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl LIB Debug|Win32.ActiveCfg = using libcurl LIB Debug|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl LIB Debug|Win32.Build.0 = using libcurl LIB Debug|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl LIB Release|Win32.ActiveCfg = using libcurl LIB Release|Win32
+		{34E392F3-E184-4AF1-B2B7-FB733DE77B09}.using libcurl LIB Release|Win32.Build.0 = using libcurl LIB Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,7 @@
+// Stream.cpp: implementation of the Stream class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "Stream.h"
+

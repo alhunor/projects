@@ -1,0 +1,10 @@
+﻿  Compiling CUDA source file kernel.cu...
+  
+  L:\Projects\cudaOne>"F:\cuda\toolkit\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2015 -ccbin "F:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin"  -IF:\cuda\toolkit\include -IF:\cuda\toolkit\include  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\kernel.cu.obj "L:\Projects\cudaOne\kernel.cu" 
+CUDACOMPILE : nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+  kernel.cu
+  cudaOne.vcxproj -> L:\Projects\cudaOne\Debug\cudaOne.exe
+  copy "F:\cuda\toolkit\bin\cudart*.dll" "L:\Projects\cudaOne\Debug\"
+  F:\cuda\toolkit\bin\cudart32_80.dll
+  F:\cuda\toolkit\bin\cudart64_80.dll
+          2 file(s) copied.

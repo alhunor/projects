@@ -1,0 +1,18 @@
+# Ignore lines starting with "#" and empty lines
+# Config file has 3 sections: Settings, Monitor, Exclude
+[Settings]
+
+# Will monitor the files under the [Monitor]. The folders listed here cannot be deleted while the monitoring is active
+# The format is -[Option] Path. Option can be "r" or "n" for recursive or non recursive. 
+# Paths need to finish by "\". (perhaps modify program to understand both with and without trailing "\")
+
+[Monitor]
+-r L:\temp\
+-r C:\temp\
+
+# Any names matching the wildchar expressions below will be ignored
+[Exclude]
+*\debug\*
+*\release\*
+*\.svn\*
+baba
