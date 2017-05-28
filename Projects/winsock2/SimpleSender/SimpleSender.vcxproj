@@ -68,7 +68,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>L:\Projects.oth\3rdParty\boost_1_60_0;L:\Projects;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>L:\Projects.oth\3rdParty\boost_1_60_0;L:\Projects;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -110,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\mystuff\streams.cpp" />
     <ClCompile Include="bitlib.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="fileOnDisk.cpp" />
@@ -117,6 +123,7 @@
     <ClCompile Include="WSAUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\mystuff\streams.h" />
     <ClInclude Include="bitlib.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="fileonDisk.h" />

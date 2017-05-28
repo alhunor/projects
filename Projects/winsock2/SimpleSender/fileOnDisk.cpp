@@ -18,25 +18,18 @@ HANDLE CreateBigFile(const char* name, LARGE_INTEGER size)
 	}
 	SetFilePointerEx(h, size, NULL, FILE_BEGIN);
 	SetEndOfFile(h);
-
-	/*	size.QuadPart = 0;
-	SetFilePointerEx(h, size, NULL, FILE_BEGIN);
-	DWORD bytes;
-	int res = WriteFile(h, "buffalo", 5, &bytes, NULL);*/
-
 	return h;
-}
+} // HANDLE CreateBigFile(const char* name, LARGE_INTEGER size)
 
 
 void fileonDisk::close()
 {
 	if (ptr)
 	{
-		delete[] ptr;
-		ptr = NULL;
-		CloseHandle(h);
 		CloseHandle(hMapFile);
 		CloseHandle(hFile);
+		CloseHandle(h);
+		ptr = NULL;
 	}
 } // void fileonDisk::close()
 
@@ -44,22 +37,22 @@ void fileonDisk::close()
 
 bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 {
-	char tmp[512]; int len;
+	int len;
 
 	if (len = strlen(name) > 500)
 	{
 		std::cout << "File name is too long." << std::endl;
 		return false;
 	}
-	strcpy(tmp, name);
-	strcat(tmp, ".tmp");
+	strcpy(tmpFileName, name);
+	strcat(tmpFileName, ".tmp");
 
 	// create and initialise buffer
 	nbBlocks = size.QuadPart >> (buffSize + 3);
 	nbBlocks++;
 
 	// Create memory mapped file holding buffer[nbBlobks]
-	hFile = CreateFile(tmp, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL); // can't be shared
+	hFile = CreateFile(tmpFileName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL); // can't be shared
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		std::cout << "Error creating memory mapped file" << std::endl;
@@ -81,15 +74,15 @@ bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 } // bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 
 
-bool fileonDisk::writeBlock(unsigned int pos, char* buff, int len)
+int fileonDisk::writeBlock(unsigned int pos, char* buff, int len)
 {
 	LARGE_INTEGER lpos;
 	lpos.LowPart = pos;
 	lpos.HighPart = 0;
-	writeBlock(lpos, buff, len);
-	return true;
+	return writeBlock(lpos, buff, len);
 }
-bool fileonDisk::writeBlock(LARGE_INTEGER pos, char* buff,  int len)
+
+int fileonDisk::writeBlock(LARGE_INTEGER pos, char* buff,  int len)
 {
 	if (pos.QuadPart + len > fileSize.QuadPart)
 	{
@@ -105,7 +98,29 @@ bool fileonDisk::writeBlock(LARGE_INTEGER pos, char* buff,  int len)
 
 	// calculate address in the buffer[] and set the bit describing the block to 1
 	int addr = pos.QuadPart >> buffSize;
-	addr += 1;
 	bv.setbit(addr);
-	return true;
+	return bytes;
 } // bool fileonDisk::writeBlock(LARGE_INTEGER pos, char* buff, int bufflen, int blockID)
+
+
+bool fileonDisk::finalise()
+{
+	for (int i = 0; i < nbBlocks; ++i)
+	{
+		if (!bv.getbit(i)) return false;
+	}
+	UnmapViewOfFile(ptr);
+	CloseHandle(hMapFile);
+	CloseHandle(hFile);
+	CloseHandle(h);
+
+	int e;
+	if (!DeleteFile(tmpFileName))
+	{
+		e = GetLastError();
+
+	}
+
+	ptr = NULL;
+	return true;
+}

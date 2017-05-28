@@ -10,8 +10,8 @@ class client
 public:
 	client();
 	bool connect(const char *szServerIP, const char *port);
-	int send(const char *sendbuf, int len);
-	int sendMultipleChunks(const char* pData, unsigned int nSize);
+	int send(const void * const endbuf, int len);
+	int sendMultipleChunks(const char* fileName, const char* pData, unsigned int nSize);
 	int receive(char *recvbuf, int recvbuflen);
 	void shutdown();
 

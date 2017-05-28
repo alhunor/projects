@@ -1,4 +1,5 @@
 #include "client.h"
+#include "WSAUtils.h"
 #include <winsock2.h>
 #include <stdio.h>
 #include <ws2tcpip.h>
@@ -75,10 +76,10 @@ bool client::connect(const char *szServerIP, const char* port)
 }
 
 
-int client::send(const char *sendbuf, int len)
+int client::send(const void * const sendbuf, int len)
 {
 	// Send an initial buffer
-	int iResult = ::send(ConnectSocket, sendbuf, len, 0);
+	int iResult = ::send(ConnectSocket, (char*)sendbuf, len, 0);
 	if (iResult == SOCKET_ERROR)
 	{
 		printf("Client > send failed with error: %d\n", WSAGetLastError());
@@ -110,45 +111,48 @@ void client::shutdown()
 	WSACleanup();
 }
 
-/*
-struct header
-{
-char code;
-char msg[0];
-};*/
 
-int client::sendMultipleChunks(const char* pData, unsigned int nSize)
+int client::sendMultipleChunks(const char* fileName, const char* pData, unsigned int size)
 {
-
-	BYTE *pSizePacketOrg = (BYTE*)malloc(5);// packet 100 sends data size
-	BYTE *pSizePacket = pSizePacketOrg;//
-	pSizePacket[0] = 100;//
-	pSizePacket++;//
-	*(DWORD*)pSizePacket = nSize;//
+// Send header with <fileName> and <size>
+	int len = strlen(fileName); 
+	BYTE* pSendPacketOrg = (BYTE*)malloc(1+3*4 + len);
+	BYTE* pSendPacket = pSendPacketOrg;
+	pSendPacket[0] = 100;
+	pSendPacket++;
+	*(DWORD*)pSendPacket = size;// lo
+	pSendPacket += 4;
+	*(DWORD*)pSendPacket = 0;// hi
+	pSendPacket += 4;
+	*(DWORD*)pSendPacket = len;
+	pSendPacket += 4;
+	memcpy(pSendPacket, fileName, len);
 
 	printf("Client > Sending 100\n");
 
-	int iResult = send((char*)pSizePacketOrg, 5);
+	int iResult = send(pSendPacketOrg, 13 + len);
 	if (iResult == SOCKET_ERROR)
 	{
 		printf("Client > send 100 with error: %d\n", WSAGetLastError());
 		return -1;
 	}
-	free(pSizePacketOrg);
+	free(pSendPacketOrg);
 
+// Sending bulk of the file
 	unsigned int nWritten = 0;
-	printf("Client > Sending 101\n"); // packet 101 sends the data, in chunks
-	while (nWritten < nSize)
+	printf("Client > Sending 101s\n"); // packet 101 sends the data, in chunks
+	unsigned int nToWrite = 1024;
+	pSendPacketOrg = (BYTE*)malloc(nToWrite + 1 + 4 + 4);
+
+	while (nWritten < size)
 	{
-		unsigned int nToWrite = 1024;
-		unsigned int Remaining = nSize - nWritten;
-		printf("Client > nToWrite %d nRemaining %d\n", nToWrite, Remaining);
+		unsigned int Remaining = size - nWritten;
+		//printf("Client > nToWrite %d nRemaining %d\n", nToWrite, Remaining);
 		if (Remaining <= nToWrite)
 		{
 			nToWrite = Remaining;
-			printf("Client > Remaining smaller or equal to write. Writing %d.\n", nToWrite);
+			//printf("Client > Remaining smaller or equal to write. Writing %d.\n", nToWrite);
 		}
-		BYTE *pSendPacketOrg = (BYTE*)malloc(nToWrite + 1 + 4 + 4);
 		BYTE* pSendPacket = pSendPacketOrg;
 		pSendPacket[0] = 101;
 		pSendPacket++;
@@ -157,32 +161,31 @@ int client::sendMultipleChunks(const char* pData, unsigned int nSize)
 		*(DWORD*)pSendPacket = nToWrite;
 		pSendPacket += 4;
 		memcpy(pSendPacket, (pData + nWritten), nToWrite);
-		//  Sleep(100);
-		//      Sleep(20);
+		Sleep(100);
 		int nBytesWritten = send((char*)pSendPacketOrg, nToWrite + 9);
 		if (nBytesWritten == SOCKET_ERROR)
 		{
 			printf("Client > send 101 : %d:%d with error: %d\n", nWritten, nToWrite, WSAGetLastError());
 			return -1;
 		}
-		free(pSendPacketOrg);
-		printf("Client > written %d bytes.\n", nBytesWritten);
+		///printf("Client > written %d bytes.\n", nBytesWritten);
 		nWritten += nBytesWritten - 9; // -9 because of the information before the data
-
 	} // while (nWritten < nSize)
+	free(pSendPacketOrg);
 
-	  /*	char buff[3];
-	  if (nWritten == nSize) // if finished sending everything, wait for a response from the server
-	  {
-	  int nResponse = receive(buff, 3);
-	  if (nResponse == 1)
-	  {
-	  if (((BYTE*)buff)[0] == 201) // server notified finished recieving
-	  {
-	  printf("Client > Server finished recieving the file...");
-	  }
-	  }
-	  }*/
+// Wait for ACK
+	char buff[3];
+	if (nWritten == size) // if finished sending everything, wait for a response from the server
+	{
+		int nResponse = receive(buff, 3);
+		if (nResponse == 1)
+		{
+			if (((BYTE*)buff)[0] == 201) // server notified finished recieving
+			{
+				printf("Client > Server finished recieving the file...\n");
+			}
+		}
+	}
 
 	printf("Client > Sending 102\n"); // confirming the end of the transmission
 	BYTE pEndPacket = 102;
