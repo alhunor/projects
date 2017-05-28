@@ -1,6 +1,9 @@
 #pragma warning (disable : 4996)
-#include "streams.h"
 
+#include <boost/shared_ptr.hpp>
+#include <winsock2.h>
+#include <windows.h>
+#include "streams.h"
 
 bool isWhiteSpace(char c)
 {
@@ -14,24 +17,16 @@ bool isWhiteSpace(char c)
 	};
 }
 
-void binstream::preload() // virtual member implemnted for files
-{
-	if (!fileStream) return;
-	DWORD nbBytes;
-	inbuffer -= pos;
-	if (inbuffer>0)
-	{	// check for overlap - should not be a problem if buffer is much bigger than data items
-		memcpy(buffer, &buffer[pos], inbuffer);
-	};
-	pos = 0;
-	ReadFile(f, buffer + inbuffer, buffersize - inbuffer, &nbBytes, NULL);
-	inbuffer += nbBytes;
-}
-
+// XXX TODO : streamReader
 
 bool streamReader::read_bool()
 {
-	if (pos>inbuffer - 1) preload();
+restart:
+	if (pos > inbuffer - 1)
+	{
+		preload();
+		goto restart;
+	}
 	bool b = *((bool*)&buffer[pos]);
 	++pos;
 	return b;
@@ -39,11 +34,14 @@ bool streamReader::read_bool()
 
 char streamReader::read_byte()
 {
-	if (pos>inbuffer - 1) preload();
+restart:
+	if (pos > inbuffer - 1)
+	{
+		preload();
+		goto restart;
+	}
 	return buffer[pos++];
 }
-
-
 
 
 bool streamReader::getToken(char* dest, int tokenLen, char separator, bool ignoreWhiteSpaces)
@@ -51,7 +49,7 @@ bool streamReader::getToken(char* dest, int tokenLen, char separator, bool ignor
 	if (isWhiteSpace(separator)) throw "Bad separator.";
 
 	if (tokenLen>inbuffer) preload();
-	//	if (tokenLen>inbuffer) throw "tokenLen>StreamSize.";;
+	//	if (tokenLen>inbuffer) throw "tokenLen>StreamSize.";
 
 	int size = 0, localpos = pos;
 	char c;
@@ -91,17 +89,25 @@ bool streamReader::getToken(char* dest, int tokenLen, char separator, bool ignor
 
 __int16 streamReader::read_int16()
 {
-	if (pos>inbuffer - 2) preload();
+restart:
+	if (pos > inbuffer - 2)
+	{
+		preload();
+		goto restart;
+	}
 	int i = *((__int16*)&buffer[pos]);
 	pos += 2;
 	return i;
 }
 
-
-
 int streamReader::read_int()
 {
-	if (pos>inbuffer - 4) preload();
+restart:
+	if (pos > inbuffer - 4)
+	{
+		preload();
+		goto restart;
+	}
 	int i = *((int*)&buffer[pos]);
 	pos += 4;
 	return i;
@@ -110,7 +116,13 @@ int streamReader::read_int()
 
 int streamReader::read_bigendianint()
 {
-	if (pos>inbuffer - 4) preload();
+restart:
+	if (pos > inbuffer - 4)
+	{
+		preload();
+		goto restart;
+	}
+
 	int i = (unsigned char)buffer[pos++];
 	i = (i << 8) + (unsigned char)buffer[pos++];
 	i = (i << 8) + (unsigned char)buffer[pos++];
@@ -120,7 +132,12 @@ int streamReader::read_bigendianint()
 
 double streamReader::read_double()
 {
-	if (pos>inbuffer - 8) preload();
+restart:
+	if (pos > inbuffer - 8)
+	{
+		preload();
+		goto restart;
+	}
 	double d = *((double*)&buffer[pos]);
 	pos += 8;
 	return d;
@@ -128,19 +145,28 @@ double streamReader::read_double()
 
 __int64 streamReader::read_int64()
 {
-	if (pos>inbuffer - 8) preload();
+restart:
+	if (pos > inbuffer - 8)
+	{
+		preload();
+		goto restart;
+	}
 	__int64 i64 = *((__int64*)&buffer[pos]);
 	pos += 8;
 	return i64;
 }
 
 
-
 wchar_t* streamReader::read_wchar()
 {
 	wchar_t* wc; //shared ptr would be better
 	int len = read_int();
-	if (pos>inbuffer - len * 2) preload();
+restart:
+	if (pos > inbuffer - len * 2)
+	{
+		preload();
+		goto restart;
+	}
 	wc = new wchar_t[len + 1];
 	memcpy(wc, &buffer[pos], len * 2);
 	pos += len * 2;
@@ -152,7 +178,12 @@ boost::shared_ptr<wchar_t> streamReader::read_wchar_sptr()
 {
 	wchar_t* wc;
 	int len = read_int();
-	if (pos>inbuffer - len * 2) preload();
+restart:
+	if (pos > inbuffer - len * 2)
+	{
+		preload();
+		goto restart;
+	}
 	wc = new wchar_t[len + 1];
 	memcpy(wc, &buffer[pos], len * 2);
 	pos += len * 2;
@@ -163,9 +194,15 @@ boost::shared_ptr<wchar_t> streamReader::read_wchar_sptr()
 
 char* streamReader::read_char()
 {
+	// reads Pascal type string, lenght  followed by char[len]. Terminal Null is added after read, not part of the stream
 	char* c; //shared ptr would be better
 	int len = read_int();
-	if (pos>inbuffer - len) preload();
+restart:
+	if (pos > inbuffer - len)
+	{
+		preload();
+		goto restart;
+	}
 	c = new char[len + 1];
 	memcpy(c, &buffer[pos], len);
 	pos += len;
@@ -231,7 +268,12 @@ int streamReader::getline(char* dataPtr, int len)
 
 int streamReader::readblock(void* dataPtr, int len)
 {
-	if (pos>inbuffer - len) preload();
+restart:
+	if (pos > inbuffer - len)
+	{
+		preload();
+		goto restart;
+	}
 	memcpy(dataPtr, &buffer[pos], len);
 	pos += len;
 	return len;
@@ -241,7 +283,12 @@ int streamReader::readblock(void* dataPtr, int len)
 void streamReader::skip(int len)
 {
 	//	if (writable) throw myError("Skip work only in read only mode.");
-	if (pos>inbuffer - len) preload();
+restart:
+	if (pos > inbuffer - len)
+	{
+		preload();
+		goto restart;
+	}
 	pos += len;
 }
 
@@ -284,7 +331,7 @@ bool binstream::open(const wchar_t* filename)
 
 	inbuffer = 0;
 	pos = 0;
-	fileStream = true;
+//	fileStream = true;
 
 	if (buffersize<2)
 		throw "Buffer should be at least 2 characters long.";
@@ -340,13 +387,12 @@ void binstream::testforUnicode()
 		// Skip header for UTF8 encoding
 		pos += 3;
 	}
+	// XXX TODO - this version only works with 2 byte per character unicodes.
+	// we should check the encoding and fail opening if the file is in a different encoding
 }
 
 void binstream::close()
 {
-	if (!fileStream)
-		return;
-
 	if (buffer)
 	{
 		delete[] buffer;
@@ -422,9 +468,6 @@ void binstream::write_double(double d)
 }
 
 
-
-
-
 void binstream::write_wchar(wchar_t* wc)
 {
 	int len = wcslen(wc);
@@ -446,3 +489,52 @@ void binstream::write_char(const char* c)
 	pos += len;
 }
 
+
+void binstream::preload() // virtual member implemnted for files
+{
+	DWORD nbBytes;
+	inbuffer -= pos;
+	if (inbuffer>0)
+	{// check for overlap - should not be a problem if buffer is much bigger than data items
+		memcpy(buffer, &buffer[pos], inbuffer);
+	};
+	pos = 0;
+	ReadFile(f, buffer + inbuffer, buffersize - inbuffer, &nbBytes, NULL);
+	inbuffer += nbBytes;
+} // void binstream::preload()
+
+
+void tcpStreamReader::preload()
+{
+	if (eofFlag)
+	{
+		return;
+	}
+
+	// determine amount of free space in the buffer and position where the data can de read
+	inbuffer -= pos;
+	if (inbuffer>0)
+	{// check for overlap - should not be a problem if buffer is much bigger than data items
+		memcpy(buffer, &buffer[pos], inbuffer);
+	};
+	pos = 0;
+	int nrecvret = recv(S, buffer + inbuffer, buffersize - inbuffer, 0);
+	if (nrecvret == 0)
+	{
+		eofFlag = true;
+	} else if (nrecvret < 0)
+	{
+		int error = WSAGetLastError();
+		printf("Server > recv() failed due to errno = %d\n", error);
+	}
+	inbuffer += nrecvret;
+}
+
+
+bool tcpStreamReader::eof()
+{
+	if (pos<inbuffer)
+		return false;
+
+	return eofFlag; // end of the memory stream
+}

@@ -2,13 +2,14 @@
 
 #include <boost/shared_ptr.hpp>
 #include <windows.h>
+#include <winsock2.h>
 
 
 class streamReader
 {
 public:
 	streamReader(int _buffersize = 32000, char* _dataPtr=NULL) : buffersize(_buffersize), buffer(_dataPtr) {}
-	virtual ~streamReader() { close(); }
+	virtual ~streamReader() {}
 	bool read_bool();
 	char read_byte(); // 8 bit byte
 	void skip(int len); // advances the cursor by "len" bytes. This data will be ignored.
@@ -26,22 +27,19 @@ public:
 	// Returns number of characters read by last getline() operation
 	// result is undefined if getline has not been called yet
 	int gcount() { return bytesread; }
-	char* read_char();
+	char* read_char(); // // reads Pascal type string, 
 	virtual bool eof();
 	bool eof(int localpos);
 	char getchar();
-
 
 protected:
 	char* buffer;
 	int buffersize; // max size of the buffer
 	int pos; // current position for read/write
 	int bytesread; // set by getline
-	virtual void close() = 0;
 	virtual void preload() = 0;
 	int inbuffer; // number of characters currently in the buffer
 	bool unicode;
-
 };
 
 
@@ -52,12 +50,13 @@ public:
 	binstream(bool _writable = false, int _buffersize = 32000) : opened(false), failbit(true), writable(_writable), streamReader(_buffersize, NULL) {}
 	binstream(const char* filename, bool _writable, int _buffersize = 32000);
 	binstream(const wchar_t* filename, bool _writable, int _buffersize = 32000);
-	binstream(int _buffersize, char* dataPtr) : writable(false), streamReader(_buffersize, dataPtr), failbit(false), opened(true), fileStream(false)
+	binstream(int _buffersize, char* dataPtr) : writable(false), streamReader(_buffersize, dataPtr), failbit(false), opened(true) //, fileStream(false)
 	{
 		testforUnicode(); 
 		inbuffer = _buffersize; 
 		pos = 0;
 	}
+	~binstream() { close(); }
 
 	void write_bool(bool b);
 	bool fail() { return failbit; }
@@ -76,11 +75,11 @@ public:
 	bool open(const char* filename);
 
 protected:
-	bool fileStream;
+//	bool fileStream;
 	HANDLE f;
 	void flush();
 	void testforUnicode();
-	virtual void close();
+	void close();
 	virtual void preload();
 
 	bool writable;
@@ -90,10 +89,14 @@ protected:
 }; // binstream
 
 
-class tcpstreamReader : public streamReader
+class tcpStreamReader : public streamReader
 {
 public:
-
+	// should be called with a Socket S that is already opened. Will not close the soecket when the object is destroyed, left to the caller.
+	tcpStreamReader(SOCKET in, int len, char* buff) : streamReader(len, buff), S(in), eofFlag(false) {}
+	virtual bool eof();
 protected:
-
+	virtual void preload(); // contains blocking code
+	SOCKET S;
+	bool eofFlag;
 }; // tcpstreamReader
