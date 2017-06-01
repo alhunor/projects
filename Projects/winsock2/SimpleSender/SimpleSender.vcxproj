@@ -119,6 +119,7 @@
     <ClCompile Include="bitlib.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="fileOnDisk.cpp" />
+    <ClCompile Include="jetblue.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WSAUtils.cpp" />
   </ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="bitlib.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="fileonDisk.h" />
+    <ClInclude Include="jetBlue.h" />
     <ClInclude Include="WSAUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -21,11 +21,38 @@ HANDLE CreateBigFile(const char* name, LARGE_INTEGER size)
 	return h;
 } // HANDLE CreateBigFile(const char* name, LARGE_INTEGER size)
 
+void CreateDirectoryForFile(const char* path)
+{
+	char folder[MAX_PATH];
+	ZeroMemory(folder, MAX_PATH);
+	DWORD err;
+	const char *end = strchr(path, '\\');
+	if (path[1] == ':')
+	{
+		end = strchr(++end, '\\');
+	}
+	while (end != NULL)
+	{
+		strncpy(folder, path, end - path + 1);
+
+		if (!CreateDirectory(folder, NULL))
+		{
+			err = GetLastError();
+			if (err != ERROR_ALREADY_EXISTS)
+			{
+				// ignore
+			}
+		}
+		end = strchr(++end, '\\');
+	}
+} // void CreateDirectoryForFile(const char* path)
+
 
 void fileonDisk::close()
 {
 	if (ptr)
 	{
+		UnmapViewOfFile(ptr);
 		CloseHandle(hMapFile);
 		CloseHandle(hFile);
 		CloseHandle(h);
@@ -37,17 +64,37 @@ void fileonDisk::close()
 
 bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 {
-	int len;
+	int len = len = strlen(name);
 
-	if (len = strlen(name) > 500)
+	if (len + rootlen > 500)
 	{
 		std::cout << "File name is too long." << std::endl;
 		return false;
 	}
-	strcpy(tmpFileName, name);
-	strcat(tmpFileName, ".tmp");
 
-	// create and initialise buffer
+	strcpy(tmpFileName, root);
+	if (name[1] == ':')
+	{ // comes with full path, including drive
+		tmpFileName[rootlen] = name[0];
+		tmpFileName[rootlen+1] = 0;
+		strcat(tmpFileName+rootlen, name+2);
+	} else
+	{
+		if (name[0] == '\\' || name[0] == '/')
+		{
+			name++;
+		}
+		strcat(tmpFileName + rootlen, name);
+	}
+
+	CreateDirectoryForFile(tmpFileName);
+	// create data file
+	h = CreateBigFile(tmpFileName, size);
+	fileSize = size;
+
+	// create and initialise buffer. The buffer is replicated in a memory mapped file.
+
+	strcat(tmpFileName, ".tmp");
 	nbBlocks = size.QuadPart >> (buffSize + 3);
 	nbBlocks++;
 
@@ -65,10 +112,6 @@ bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 	// zero the memory and then init the bitVector
 	memset(ptr, 0, nbBlocks);
 	bv.init(nbBlocks * 8, ptr);
-
-	// create data file
-	h = CreateBigFile(name, size);
-	fileSize = size;
 
 	return true;
 } // bool fileonDisk::create(const char* name, LARGE_INTEGER size)

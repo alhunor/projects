@@ -11,6 +11,8 @@
 #include "bitlib.h"
 #include "client.h"
 #include "fileOnDisk.h"
+#include "jetBlue.h"
+
 #include "myStuff/streams.h"
 
 #include "WSAUtils.h"
@@ -41,7 +43,8 @@ void RecvThread(SOCKET clientsocket)
 //	FILE* file;
 
 
-	fileonDisk fod(10); // bufflen = 2^10 (1k)
+	fileonDisk fod(10, "L:\\temp\\"); // bufflen = 2^10 (1k)
+
 	do
 	{
 		BYTE msgID = tcp.read_byte();
@@ -190,6 +193,8 @@ DWORD WINAPI start(LPVOID lpParam)
 
 int main(int argc, char **argv)
 {
+	jb();
+	
 	char* pData; // "file" data
 	int nSize = 32 * 1000 * 1000; // "file" size, 
 	nSize = 5000; // "file" size, 
@@ -207,8 +212,8 @@ int main(int argc, char **argv)
 	client cli;
 	cli.connect("127.0.0.1", "1234");
 
-	cli.sendMultipleChunks("sent.dat", pData, nSize);
-	cli.sendMultipleChunks("sent3.dat", pData, nSize);
+	cli.sendMultipleChunks("L:\\sent.dat", pData, nSize);
+	cli.sendMultipleChunks("tata\\sent3.dat", pData, nSize);
 	cli.sendMultipleChunks("sent5.dat", pData, nSize);
 
 	// shutdown the connection since no more data will be sent
