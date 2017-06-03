@@ -121,14 +121,21 @@
     <ClCompile Include="fileOnDisk.cpp" />
     <ClCompile Include="jetblue.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Table.cpp" />
     <ClCompile Include="WSAUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\mystuff\streams.h" />
     <ClInclude Include="bitlib.h" />
     <ClInclude Include="client.h" />
+    <ClInclude Include="Column.h" />
+    <ClInclude Include="Database.h" />
+    <ClInclude Include="esepp.h" />
     <ClInclude Include="fileonDisk.h" />
+    <ClInclude Include="Instance.h" />
     <ClInclude Include="jetBlue.h" />
+    <ClInclude Include="Session.h" />
+    <ClInclude Include="Table.h" />
     <ClInclude Include="WSAUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -196,7 +196,7 @@ int main(int argc, char **argv)
 	jb();
 	
 	char* pData; // "file" data
-	int nSize = 32 * 1000 * 1000; // "file" size, 
+ 	int nSize = 32 * 1000 * 1000; // "file" size, 
 	nSize = 5000; // "file" size, 
 	pData = (char*)malloc(nSize); // for now these are allocated instead of reading a file
 	for (int i = 0; i < nSize; i++)
