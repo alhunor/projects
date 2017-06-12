@@ -189,11 +189,14 @@ DWORD WINAPI start(LPVOID lpParam)
 } // DWORD WINAPI start(LPVOID lpParam)
 
 
-
+#include "blockQueue.h"
 
 int main(int argc, char **argv)
 {
-	jb();
+///	jb();
+
+	bool b = blockQueueTest();
+
 	
 	char* pData; // "file" data
  	int nSize = 32 * 1000 * 1000; // "file" size, 

@@ -117,9 +117,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\mystuff\streams.cpp" />
     <ClCompile Include="bitlib.cpp" />
+    <ClCompile Include="BlockQueue.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="fileOnDisk.cpp" />
     <ClCompile Include="jetblue.cpp" />
+    <ClCompile Include="jet_database.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="WSAUtils.cpp" />
@@ -127,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\mystuff\streams.h" />
     <ClInclude Include="bitlib.h" />
+    <ClInclude Include="blockQueue.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="Column.h" />
     <ClInclude Include="Database.h" />
@@ -134,6 +137,7 @@
     <ClInclude Include="fileonDisk.h" />
     <ClInclude Include="Instance.h" />
     <ClInclude Include="jetBlue.h" />
+    <ClInclude Include="jet_table.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="WSAUtils.h" />

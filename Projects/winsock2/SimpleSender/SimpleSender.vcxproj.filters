@@ -42,6 +42,12 @@
     <ClCompile Include="Table.cpp">
       <Filter>esent</Filter>
     </ClCompile>
+    <ClCompile Include="jet_database.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WSAUtils.h">
@@ -79,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="Session.h">
       <Filter>esent</Filter>
+    </ClInclude>
+    <ClInclude Include="jet_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="blockQueue.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
