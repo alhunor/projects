@@ -1,12 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-//#include <winsock.h>
+#include <conio.h>
+#include <iostream>
+#include <stdlib.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
-#include <iostream>
-#include <stdlib.h>
-#include <conio.h>
 
 #include "bitlib.h"
 #include "client.h"
@@ -195,7 +194,30 @@ int main(int argc, char **argv)
 {
 ///	jb();
 
-	bool b = blockQueueTest();
+	memoryMappedFile mmf;
+	if (!mmf.open("L:\\readme.txt"))
+	{
+		int errorCode = mmf.getlastError();
+		cout << "Error = " << errorCode <<endl;
+		return errorCode;
+	}
+	LARGE_INTEGER li = mmf.getSize();
+	int size = li.LowPart ;
+	cout << "Size = " << size <<endl;
+	
+	const char* buff = "This has been added recently";
+	int bufflen = strlen(buff);
+	mmf.write(80, buff, bufflen);
+
+	char*p = mmf.getPtr();
+	for (int i = 0; i < size; ++i)
+	{
+		cout << p[i];
+	}
+	memcpy(p+90, buff,bufflen);
+	mmf.close();
+
+	//bool b = blockQueueTest();
 
 	
 	char* pData; // "file" data

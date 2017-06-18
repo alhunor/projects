@@ -123,7 +123,6 @@
     <ClCompile Include="jetblue.cpp" />
     <ClCompile Include="jet_database.h" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Table.cpp" />
     <ClCompile Include="WSAUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -131,15 +130,9 @@
     <ClInclude Include="bitlib.h" />
     <ClInclude Include="blockQueue.h" />
     <ClInclude Include="client.h" />
-    <ClInclude Include="Column.h" />
-    <ClInclude Include="Database.h" />
-    <ClInclude Include="esepp.h" />
     <ClInclude Include="fileonDisk.h" />
-    <ClInclude Include="Instance.h" />
     <ClInclude Include="jetBlue.h" />
     <ClInclude Include="jet_table.h" />
-    <ClInclude Include="Session.h" />
-    <ClInclude Include="Table.h" />
     <ClInclude Include="WSAUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

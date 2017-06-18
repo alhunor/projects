@@ -36,17 +36,14 @@
     <ClCompile Include="..\..\mystuff\streams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jetblue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Table.cpp">
-      <Filter>esent</Filter>
-    </ClCompile>
-    <ClCompile Include="jet_database.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="BlockQueue.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jet_database.h">
+      <Filter>esent</Filter>
+    </ClCompile>
+    <ClCompile Include="jetblue.cpp">
+      <Filter>esent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,32 +62,14 @@
     <ClInclude Include="..\..\mystuff\streams.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jetBlue.h">
+    <ClInclude Include="blockQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Column.h">
-      <Filter>esent</Filter>
-    </ClInclude>
-    <ClInclude Include="Database.h">
-      <Filter>esent</Filter>
-    </ClInclude>
-    <ClInclude Include="esepp.h">
-      <Filter>esent</Filter>
-    </ClInclude>
-    <ClInclude Include="Instance.h">
-      <Filter>esent</Filter>
-    </ClInclude>
-    <ClInclude Include="Table.h">
-      <Filter>esent</Filter>
-    </ClInclude>
-    <ClInclude Include="Session.h">
+    <ClInclude Include="jetBlue.h">
       <Filter>esent</Filter>
     </ClInclude>
     <ClInclude Include="jet_table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="blockQueue.h">
-      <Filter>Header Files</Filter>
+      <Filter>esent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

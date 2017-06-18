@@ -3,6 +3,36 @@
 #include <windows.h>
 #include "bitlib.h"
 
+class memoryMappedFile
+{
+public:
+	memoryMappedFile() : ptr(NULL) {}
+	~memoryMappedFile() { close(); }
+
+	bool create(const char* filename, LARGE_INTEGER size);
+	bool create(const char* filename, int size)
+	{
+		LARGE_INTEGER li;
+		li.QuadPart = size;
+		return create(filename, li);
+	};
+	bool open(const char* filename);
+	void close();
+	bool write(LARGE_INTEGER pos, const char* buff, int bufflen); // resizes file if required
+	bool write(unsigned int pos, const char* buff, int bufflen);
+
+	int getlastError() { return GetLastError(); }
+	char* getPtr() { return ptr; }
+	LARGE_INTEGER getSize() { return fileSize; }
+
+protected:
+	bool resize(LARGE_INTEGER newSize);
+	HANDLE hFile, hMapFile;
+	char* ptr;
+	LARGE_INTEGER fileSize;
+};
+
+
 class fileonDisk
 {
 public:
@@ -15,14 +45,14 @@ public:
 	bool finalise();
 	void close();
 protected:
+	memoryMappedFile mmf;
 	int buffSize;
 	LARGE_INTEGER fileSize;
-	unsigned char * ptr; // holds information on block to indicate which ones are full
+	char * ptr; // holds information on block to indicate which ones are full
 	int nbBlocks;
-	HANDLE hFile, hMapFile, h;
+	HANDLE h;
 	bitVector bv;
 	const char* root;
 	int rootlen; // rootlen = strlen(root);
 	char tmpFileName[512]; // holds name of temporary file which will be delted by finalise() after the reception has completed.
 };
-

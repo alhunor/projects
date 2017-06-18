@@ -52,9 +52,7 @@ void fileonDisk::close()
 {
 	if (ptr)
 	{
-		UnmapViewOfFile(ptr);
-		CloseHandle(hMapFile);
-		CloseHandle(hFile);
+		mmf.close();
 		CloseHandle(h);
 		ptr = NULL;
 	}
@@ -64,7 +62,7 @@ void fileonDisk::close()
 
 bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 {
-	int len = len = strlen(name);
+	int len = strlen(name);
 
 	if (len + rootlen > 500)
 	{
@@ -99,16 +97,19 @@ bool fileonDisk::create(const char* name, LARGE_INTEGER size)
 	nbBlocks++;
 
 	// Create memory mapped file holding buffer[nbBlobks]
-	hFile = CreateFile(tmpFileName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL); // can't be shared
+	mmf.create(tmpFileName, nbBlocks);
+	ptr = mmf.getPtr();
+
+/*	hFile = CreateFile(tmpFileName, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL); // can't be shared
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		std::cout << "Error creating memory mapped file" << std::endl;
 		return false;
 	}
-	hMapFile = CreateFileMapping(hFile, _In_opt_ NULL, PAGE_READWRITE, 0, nbBlocks, NULL);
+	hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, nbBlocks, NULL);
 
 	ptr = (unsigned char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, nbBlocks);
-
+*/
 	// zero the memory and then init the bitVector
 	memset(ptr, 0, nbBlocks);
 	bv.init(nbBlocks * 8, ptr);
@@ -152,9 +153,7 @@ bool fileonDisk::finalise()
 	{
 		if (!bv.getbit(i)) return false;
 	}
-	UnmapViewOfFile(ptr);
-	CloseHandle(hMapFile);
-	CloseHandle(hFile);
+	mmf.close();
 	CloseHandle(h);
 
 	int e;
@@ -165,5 +164,81 @@ bool fileonDisk::finalise()
 	}
 
 	ptr = NULL;
+	return true;
+}
+
+
+bool memoryMappedFile::create(const char* fileName, LARGE_INTEGER size)
+{
+	// create data file
+	CreateDirectoryForFile(fileName);
+	hFile = CreateBigFile(fileName, size);
+
+	// map view
+	hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, size.HighPart, size.LowPart, NULL);
+	ptr = (char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0); // map the whole file
+	fileSize = size;
+	return true;
+}
+
+
+bool memoryMappedFile::open(const char* fileName)
+{
+	hFile = CreateFile(fileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL); // can't be shared;
+	if (hFile == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+	GetFileSizeEx(hFile, &fileSize);
+
+	hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, 0, NULL);
+	ptr = (char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0); // map the whole file
+
+	return true;
+}
+
+void memoryMappedFile::close()
+{
+	if (!ptr) return;
+	UnmapViewOfFile(ptr);
+	CloseHandle(hMapFile);
+	CloseHandle(hFile);
+	ptr = NULL;
+}
+
+bool memoryMappedFile::resize(LARGE_INTEGER newSize)
+{
+	if (!ptr) return false;
+	if (!::SetFilePointerEx(hFile, newSize, 0, FILE_BEGIN)) return false;
+	if (!::SetEndOfFile(hFile)) return false;
+
+	UnmapViewOfFile(ptr);
+	ptr = (char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0); // map the whole file
+
+	fileSize = newSize;
+	return true;
+}
+
+bool memoryMappedFile::write(unsigned int pos, const char* buff, int bufflen)
+{
+	LARGE_INTEGER li;
+	li.QuadPart = pos;
+	return write(li, buff, bufflen);
+
+}
+
+bool memoryMappedFile::write(LARGE_INTEGER pos, const char* buff, int bufflen)
+{
+	if (pos.QuadPart + bufflen >= fileSize.QuadPart)
+	{
+		LARGE_INTEGER newSize;
+		newSize.QuadPart = pos.QuadPart * 2;
+		if (pos.QuadPart + bufflen >= fileSize.QuadPart)
+		{
+			newSize.QuadPart = pos.QuadPart + bufflen;
+		}
+		resize(newSize);
+	}
+	memcpy(ptr + pos.QuadPart, buff, bufflen);
 	return true;
 }
