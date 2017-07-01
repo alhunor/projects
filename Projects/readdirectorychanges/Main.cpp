@@ -31,11 +31,12 @@
 //#include "stdafx.h"
 #include <iostream>
 #include <stdio.h>
+#include <Strsafe.h>
 #include "ReadDirectoryChanges.h"
 
 
 LPCWSTR ExplainAction( DWORD dwAction );
-bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, char* buf );
+bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, wchar_t* buf );
 
 
 //
@@ -45,6 +46,64 @@ bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, char* buf );
 // You can add a directory to the monitoring list by typing the directory
 // name and hitting Enter. Notifications will pause while you type.
 
+
+
+class winError
+{
+public:
+	winError() = delete;
+	winError(DWORD dw)
+	{
+		FormatMessage(
+			FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			FORMAT_MESSAGE_FROM_SYSTEM |
+			FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL,
+			dw,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			(LPTSTR)&lpMsgBuf,
+			0, NULL);
+	}
+	LPCTSTR ErrorMessage() { return (LPCTSTR)lpMsgBuf; }
+
+	~winError()
+	{
+		LocalFree(lpMsgBuf);
+	}
+
+protected:
+	LPVOID lpMsgBuf;
+}; // class winError
+
+
+void ErrorExit(LPTSTR lpszFunction)
+{
+	// Retrieve the system error message for the last-error code
+
+	LPVOID lpMsgBuf;
+	LPVOID lpDisplayBuf;
+	DWORD dw = GetLastError();
+
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		dw,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPTSTR)&lpMsgBuf,
+		0, NULL);
+
+	// Display the error message and exit the process
+
+	lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
+	StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), 	TEXT("%s failed with error %d: %s"), lpszFunction, dw, lpMsgBuf);
+	MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK);
+
+	LocalFree(lpMsgBuf);
+	LocalFree(lpDisplayBuf);
+	//ExitProcess(dw);
+} // void ErrorExit(LPTSTR lpszFunction)
 
 void main()
 {
@@ -56,15 +115,13 @@ void main()
 	//bool b = changes.szWildMatch8(L"tata*", L"tataba");
 	changes.readConfigFile("config.txt");
 
-	//changes.AddDirectory(_tgetenv(_T("USERPROFILE")), true, dwNotificationFlags);
-//	changes.AddDirectory(_T("E:\\"), false, dwNotificationFlags);
-	//changes.AddDirectory(_T("C:\\Temp\\"), true, dwNotificationFlags);
-
 	HANDLE hStdIn =  ::GetStdHandle(STD_INPUT_HANDLE);
 	const HANDLE handles[] = { hStdIn, changes.GetWaitHandle() };
 
-	char buf[MAX_PATH];
+	wchar_t buf[MAX_PATH];
 	bool bTerminate = false;
+	DWORD dwAction;
+	std::wstring wstrFilename;
 
 	while (!bTerminate)
 	{
@@ -76,35 +133,52 @@ void main()
 			// Shift keys, and more.  Delegate to TryGetKeyboardInput().
 			// TryGetKeyboardInput sets bTerminate to true if the user hits Esc.
 			if (TryGetKeyboardInput(hStdIn, bTerminate, buf))
-				changes.AddDirectory(CString(buf), false, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME);
+			{
+				changes.AddDirectory(buf, false, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME);
+			}
 			break;
 		case WAIT_OBJECT_0 + 1:
 			// We've received a notification in the queue.
+			if (changes.CheckOverflow())
 			{
-				DWORD dwAction;
-				CString wstrFilename;
-				if (changes.CheckOverflow())
-					wprintf(L"Queue overflowed.\n");
-				else
+				wprintf(L"Queue overflowed.\n");
+			} else
+			{
+				changes.Pop(dwAction, wstrFilename);
+				if (changes.Excluded(wstrFilename))
 				{
-					changes.Pop(dwAction, wstrFilename);
-					std::wstring ws = wstrFilename;
-					if (changes.Excluded(ws))
-					{
-						wprintf(L"Excluded %s: \n", (const WCHAR *)wstrFilename);
-					}
-					wprintf(L"%s %s\n", ExplainAction(dwAction), (const WCHAR *)wstrFilename);
-					if (!(dwAction & FILE_ACTION_REMOVED))
-					{
-						// Exclude delete as conversion between long and short names does not work any more
-						WCHAR baba[500], tata[500];
-						GetLongPathNameW(wstrFilename, baba, 500);
-						wprintf(L"Long : %s\n", baba);
-						GetShortPathNameW(wstrFilename, tata, 500);
-						wprintf(L"Short : %s\n", tata);
-					}
+					wprintf(L"Excluded %s: \n", wstrFilename.c_str());
 				}
-			}
+				wprintf(L"%s %s\n", ExplainAction(dwAction), wstrFilename.c_str());
+
+				WCHAR baba[500];
+				DWORD res;
+				res = GetLongPathNameW(wstrFilename.c_str(), baba, 500);
+				if (res == 0)
+				{
+					res = GetLastError();
+					winError w(res);
+					wprintf(L"%s\n", w.ErrorMessage());
+
+					//ErrorExit(L"GetLongPathNameW");
+					//res = GetLastError();
+				} else
+				{
+					wprintf(L"Long : %s\n", baba);
+				}
+				res = GetShortPathNameW(wstrFilename.c_str(), baba, 500);
+				if (res == 0)
+				{
+					res = GetLastError();
+					winError w(res);
+					wprintf(L"%s\n", w.ErrorMessage());
+
+					//ErrorExit(L"GetShortPathNameW");
+				} else
+				{
+					wprintf(L"Short : %s\n", baba);
+				}
+			} // else branch of if (changes.CheckOverflow())
 			break;
 		case WAIT_IO_COMPLETION:
 			// Nothing to do.
@@ -136,7 +210,7 @@ LPCWSTR ExplainAction( DWORD dwAction )
 	}
 }
 
-bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, char* buf )
+bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, wchar_t* buf )
 {
 	DWORD dwNumberOfEventsRead=0;
 	INPUT_RECORD rec = {0};
@@ -150,7 +224,7 @@ bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, char* buf )
 			bTerminate = true;
 		else if (rec.Event.KeyEvent.wVirtualKeyCode > VK_HELP)
 		{
-			if (!gets_s(buf, MAX_PATH))	// End of file, usually Ctrl-Z
+			if (!fgetws(buf, MAX_PATH, stdin))	// End of file, usually Ctrl-Z
 				bTerminate = true;
 			else
 				return true;

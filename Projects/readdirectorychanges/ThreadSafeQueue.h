@@ -28,6 +28,7 @@
 
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 #include <windows.h>
+#include "myStuff/mutex.h"
 
 #include <list>
 
@@ -54,15 +55,16 @@ public:
 
 	void push(C& c)
 	{
-		CComCritSecLock<CComAutoCriticalSection> lock( m_Crit, true );
+		m_Crit.Lock();
 		push_back( c );
-		lock.Unlock();
+		m_Crit.Unlock();
 
 		if (!::ReleaseSemaphore(m_hSemaphore, 1, NULL))
 		{
 			// If the semaphore is full, then take back the entry.
-			lock.Lock();
+			m_Crit.Lock();
 			pop_back();
+			m_Crit.Unlock();
 			if (GetLastError() == ERROR_TOO_MANY_POSTS)
 			{
 				m_bOverflow = true;
@@ -72,7 +74,7 @@ public:
 
 	bool pop(C& c)
 	{
-		CComCritSecLock<CComAutoCriticalSection> lock( m_Crit, true );
+		m_Crit.Lock();
 
 		// If the user calls pop() more than once after the
 		// semaphore is signaled, then the semaphore count will
@@ -86,6 +88,7 @@ public:
 
 		c = front();
 		pop_front();
+		m_Crit.Unlock();
 
 		return true;
 	}
@@ -93,12 +96,13 @@ public:
 	// If overflow, use this to clear the queue.
 	void clear()
 	{
-		CComCritSecLock<CComAutoCriticalSection> lock( m_Crit, true );
+		m_Crit.Lock();
 
 		for (DWORD i=0; i<size(); i++)
 			WaitForSingleObject(m_hSemaphore, 0);
 
 		__super::clear();
+		m_Crit.Unlock();
 
 		m_bOverflow = false;
 	}
@@ -113,7 +117,7 @@ public:
 protected:
 	HANDLE m_hSemaphore;
 
-	CComAutoCriticalSection m_Crit;
+	CriticalSection m_Crit;
 
 	bool m_bOverflow;
 };

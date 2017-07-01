@@ -9,6 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="mystuff">
+      <UniqueIdentifier>{4e2325b9-a851-4b65-9b80-c6f59a04b1a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReadDirectoryChanges.h">
@@ -19,6 +22,9 @@
     </ClInclude>
     <ClInclude Include="ReadDirectoryChangesPrivate.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mystuff\mutex.h">
+      <Filter>mystuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

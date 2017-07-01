@@ -1,43 +1,21 @@
-//
 //	The MIT License
-//
 //	Copyright (c) 2010 James E Beveridge
-//
-//	Permission is hereby granted, free of charge, to any person obtaining a copy
-//	of this software and associated documentation files (the "Software"), to deal
-//	in the Software without restriction, including without limitation the rights
-//	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//	copies of the Software, and to permit persons to whom the Software is
-//	furnished to do so, subject to the following conditions:
-//
-//	The above copyright notice and this permission notice shall be included in
-//	all copies or substantial portions of the Software.
-//
-//	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//	THE SOFTWARE.
 
 
 //	This sample code is for my blog entry titled, "Understanding ReadDirectoryChangesW"
 //	http://qualapps.blogspot.com/2010/05/understanding-readdirectorychangesw.html
-//	See ReadMe.txt for overview information.
 
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 
 #include <vector>
-#include <atlbase.h>
-#include <atlstr.h>
+//#include <windows.h>
+#include <atlbase.h> /// XXX TODO remove this headerfile
+//#include <atlstr.h>
 
 class CReadDirectoryChanges;
 
 
 class CReadChangesServer;
-
-///////////////////////////////////////////////////////////////////////////
 
 // All functions in CReadChangesRequest run in the context of the worker thread.
 // One instance of this object is created for each call to AddDirectory().
@@ -55,8 +33,7 @@ public:
 	// The dwSize is the actual number of bytes sent to the APC.
 	void BackupBuffer(DWORD dwSize)
 	{
-		// We could just swap back and forth between the two
-		// buffers, but this code is easier to understand and debug.
+		// We could just swap back and forth between the two buffers, but this code is easier to understand and debug.
 		memcpy(&m_BackupBuffer[0], &m_Buffer[0], dwSize);
 	}
 
@@ -81,7 +58,7 @@ protected:
 	// Parameters from the caller for ReadDirectoryChangesW().
 	DWORD		m_dwFilterFlags;
 	BOOL		m_bIncludeChildren;
-	CStringW	m_wstrDirectory;
+	std::wstring	m_wstrDirectory;
 
 	// Result of calling CreateFile().
 	HANDLE		m_hDirectory;
