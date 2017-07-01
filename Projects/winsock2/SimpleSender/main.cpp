@@ -10,7 +10,6 @@
 #include "bitlib.h"
 #include "client.h"
 #include "fileOnDisk.h"
-#include "jetBlue.h"
 
 #include "myStuff/streams.h"
 
@@ -193,7 +192,7 @@ DWORD WINAPI start(LPVOID lpParam)
 int main(int argc, char **argv)
 {
 ///	jb();
-
+/*
 	memoryMappedFile mmf;
 	if (!mmf.open("L:\\readme.txt"))
 	{
@@ -216,7 +215,7 @@ int main(int argc, char **argv)
 	}
 	memcpy(p+90, buff,bufflen);
 	mmf.close();
-
+	*/
 	//bool b = blockQueueTest();
 
 	

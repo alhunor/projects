@@ -69,7 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>L:\Projects.oth\3rdParty\boost_1_60_0;L:\Projects;$(IncludePath)</IncludePath>
+    <IncludePath>L:\Projects\mystuff;L:\Projects.oth\3rdParty\boost_1_60_0;L:\Projects;$(IncludePath)</IncludePath>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>L:\Projects.oth\3rdParty\boost_1_60_0;L:\Projects;$(IncludePath)</IncludePath>
@@ -80,6 +81,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <OptimizeReferences>false</OptimizeReferences>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,24 +122,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\mystuff\dates.cpp" />
+    <ClCompile Include="..\..\mystuff\editDistance.cpp" />
+    <ClCompile Include="..\..\mystuff\filesystems.cpp" />
     <ClCompile Include="..\..\mystuff\streams.cpp" />
     <ClCompile Include="bitlib.cpp" />
     <ClCompile Include="BlockQueue.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="fileOnDisk.cpp" />
-    <ClCompile Include="jetblue.cpp" />
-    <ClCompile Include="jet_database.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WSAUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\mystuff\filesystems.h" />
     <ClInclude Include="..\..\mystuff\streams.h" />
     <ClInclude Include="bitlib.h" />
     <ClInclude Include="blockQueue.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="fileonDisk.h" />
-    <ClInclude Include="jetBlue.h" />
-    <ClInclude Include="jet_table.h" />
     <ClInclude Include="WSAUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

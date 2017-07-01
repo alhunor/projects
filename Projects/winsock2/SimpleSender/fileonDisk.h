@@ -2,36 +2,7 @@
 
 #include <windows.h>
 #include "bitlib.h"
-
-class memoryMappedFile
-{
-public:
-	memoryMappedFile() : ptr(NULL) {}
-	~memoryMappedFile() { close(); }
-
-	bool create(const char* filename, LARGE_INTEGER size);
-	bool create(const char* filename, int size)
-	{
-		LARGE_INTEGER li;
-		li.QuadPart = size;
-		return create(filename, li);
-	};
-	bool open(const char* filename);
-	void close();
-	bool write(LARGE_INTEGER pos, const char* buff, int bufflen); // resizes file if required
-	bool write(unsigned int pos, const char* buff, int bufflen);
-
-	int getlastError() { return GetLastError(); }
-	char* getPtr() { return ptr; }
-	LARGE_INTEGER getSize() { return fileSize; }
-
-protected:
-	bool resize(LARGE_INTEGER newSize);
-	HANDLE hFile, hMapFile;
-	char* ptr;
-	LARGE_INTEGER fileSize;
-};
-
+#include "myStuff/fileSystems.h"
 
 class fileonDisk
 {

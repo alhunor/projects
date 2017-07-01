@@ -9,12 +9,8 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="esent">
-      <UniqueIdentifier>{5cb03602-b1d4-4672-932b-3ee9880c20b1}</UniqueIdentifier>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{026012c0-af6e-44d1-9bae-d993cef0df7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,26 +20,29 @@
     <ClCompile Include="WSAUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bitlib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fileOnDisk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mystuff\streams.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BlockQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jet_database.h">
-      <Filter>esent</Filter>
+    <ClCompile Include="..\..\mystuff\editDistance.cpp">
+      <Filter>Dependencies</Filter>
     </ClCompile>
-    <ClCompile Include="jetblue.cpp">
-      <Filter>esent</Filter>
+    <ClCompile Include="..\..\mystuff\filesystems.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mystuff\streams.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="bitlib.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mystuff\dates.cpp">
+      <Filter>Dependencies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,17 +58,14 @@
     <ClInclude Include="fileonDisk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\mystuff\streams.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="blockQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="jetBlue.h">
-      <Filter>esent</Filter>
+    <ClInclude Include="..\..\mystuff\streams.h">
+      <Filter>Dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="jet_table.h">
-      <Filter>esent</Filter>
+    <ClInclude Include="..\..\mystuff\filesystems.h">
+      <Filter>Dependencies</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

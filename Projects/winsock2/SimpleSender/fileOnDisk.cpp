@@ -1,52 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "fileonDisk.h"
+#include "myStuff/fileSystems.h"
 #include <windows.h>
 #include <iostream>
 
 
 #pragma warning (disable :4244 4334)
-
-// Creates a file of size <size> and return a handle to it. The file is open.
-HANDLE CreateBigFile(const char* name, LARGE_INTEGER size)
-{
-	HANDLE h = CreateFile(name, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (h == INVALID_HANDLE_VALUE)
-	{
-		std::cout << "Error creating file" << std::endl;
-		return INVALID_HANDLE_VALUE;
-	}
-	SetFilePointerEx(h, size, NULL, FILE_BEGIN);
-	SetEndOfFile(h);
-	return h;
-} // HANDLE CreateBigFile(const char* name, LARGE_INTEGER size)
-
-void CreateDirectoryForFile(const char* path)
-{
-	char folder[MAX_PATH];
-	ZeroMemory(folder, MAX_PATH);
-	DWORD err;
-	const char *end = strchr(path, '\\');
-	if (path[1] == ':')
-	{
-		end = strchr(++end, '\\');
-	}
-	while (end != NULL)
-	{
-		strncpy(folder, path, end - path + 1);
-
-		if (!CreateDirectory(folder, NULL))
-		{
-			err = GetLastError();
-			if (err != ERROR_ALREADY_EXISTS)
-			{
-				// ignore
-			}
-		}
-		end = strchr(++end, '\\');
-	}
-} // void CreateDirectoryForFile(const char* path)
-
 
 void fileonDisk::close()
 {
@@ -164,81 +124,5 @@ bool fileonDisk::finalise()
 	}
 
 	ptr = NULL;
-	return true;
-}
-
-
-bool memoryMappedFile::create(const char* fileName, LARGE_INTEGER size)
-{
-	// create data file
-	CreateDirectoryForFile(fileName);
-	hFile = CreateBigFile(fileName, size);
-
-	// map view
-	hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, size.HighPart, size.LowPart, NULL);
-	ptr = (char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0); // map the whole file
-	fileSize = size;
-	return true;
-}
-
-
-bool memoryMappedFile::open(const char* fileName)
-{
-	hFile = CreateFile(fileName, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL); // can't be shared;
-	if (hFile == INVALID_HANDLE_VALUE)
-	{
-		return false;
-	}
-	GetFileSizeEx(hFile, &fileSize);
-
-	hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, 0, NULL);
-	ptr = (char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0); // map the whole file
-
-	return true;
-}
-
-void memoryMappedFile::close()
-{
-	if (!ptr) return;
-	UnmapViewOfFile(ptr);
-	CloseHandle(hMapFile);
-	CloseHandle(hFile);
-	ptr = NULL;
-}
-
-bool memoryMappedFile::resize(LARGE_INTEGER newSize)
-{
-	if (!ptr) return false;
-	if (!::SetFilePointerEx(hFile, newSize, 0, FILE_BEGIN)) return false;
-	if (!::SetEndOfFile(hFile)) return false;
-
-	UnmapViewOfFile(ptr);
-	ptr = (char*)MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0); // map the whole file
-
-	fileSize = newSize;
-	return true;
-}
-
-bool memoryMappedFile::write(unsigned int pos, const char* buff, int bufflen)
-{
-	LARGE_INTEGER li;
-	li.QuadPart = pos;
-	return write(li, buff, bufflen);
-
-}
-
-bool memoryMappedFile::write(LARGE_INTEGER pos, const char* buff, int bufflen)
-{
-	if (pos.QuadPart + bufflen >= fileSize.QuadPart)
-	{
-		LARGE_INTEGER newSize;
-		newSize.QuadPart = pos.QuadPart * 2;
-		if (pos.QuadPart + bufflen >= fileSize.QuadPart)
-		{
-			newSize.QuadPart = pos.QuadPart + bufflen;
-		}
-		resize(newSize);
-	}
-	memcpy(ptr + pos.QuadPart, buff, bufflen);
 	return true;
 }
