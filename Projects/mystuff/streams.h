@@ -1,8 +1,8 @@
 #pragma once
 
 #include <boost/shared_ptr.hpp>
-#include <windows.h>
 #include <winsock2.h>
+#include <windows.h>
 
 
 class streamReader

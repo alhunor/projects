@@ -1,18 +1,24 @@
-#ifndef _FILESYSTEM_H_
-#define _FILESYSTEM_H_
+#ifndef _FILESYSTEMs_H_
+#define _FILESYSTEMs_H_
 
 #include <boost/shared_ptr.hpp>
 #include <queue>
 #include <list>
+#include "mutex.h"
 #include <windows.h>
 #include "MotherOfAllBaseObjects.h"
-#include "mutex.h"
 
 
 typedef boost::shared_ptr<char> SPC;
 
 
+
 const int MAXPATH = 512;
+
+// Creates a file of size <size> and return a handle to it. The file is open.
+HANDLE CreateBigFile(const char* name, LARGE_INTEGER size);
+void CreateDirectoryForFile(const char* path);
+
 
 bool ShowOpenFileDialog(char* FileName, int FileNameLength, char* filter);
 
@@ -228,5 +234,37 @@ protected:
 // XXX measure the spead.
 int nbLines(const char* filename);
 int nbLines2(const char* filename);
+
+
+class memoryMappedFile
+{
+public:
+	memoryMappedFile() : ptr(NULL) {}
+	~memoryMappedFile() { close(); }
+
+	bool create(const char* filename, LARGE_INTEGER size);
+	bool create(const char* filename, int size)
+	{
+		LARGE_INTEGER li;
+		li.QuadPart = size;
+		return create(filename, li);
+	};
+	bool open(const char* filename);
+	void close();
+	bool write(LARGE_INTEGER pos, const char* buff, int bufflen); // resizes file if required
+	bool write(unsigned int pos, const char* buff, int bufflen);
+
+	int getlastError() { return GetLastError(); }
+	char* getPtr() { return ptr; }
+	LARGE_INTEGER getSize() { return fileSize; }
+
+protected:
+	bool resize(LARGE_INTEGER newSize);
+	HANDLE hFile, hMapFile;
+	char* ptr;
+	LARGE_INTEGER fileSize;
+};
+
+
 
 #endif

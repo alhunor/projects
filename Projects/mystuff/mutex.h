@@ -25,4 +25,55 @@ private:
 	HANDLE hMutex;
 };
 
+
+
+
+
+// Adapted from Microsoft ATL classes
+class CriticalSection
+{
+public:
+	CriticalSection() throw()
+	{
+		memset(&m_sec, 0, sizeof(CRITICAL_SECTION));
+		Init();
+	}
+
+	~CriticalSection()
+	{
+	}
+
+	HRESULT Lock() throw()
+	{
+		::EnterCriticalSection(&m_sec);
+		return S_OK;
+	}
+
+	HRESULT Unlock() throw()
+	{
+		::LeaveCriticalSection(&m_sec);
+		return S_OK;
+	}
+	HRESULT Init() throw()
+	{
+		HRESULT hRes = S_OK;
+		;
+		if (! ::InitializeCriticalSectionEx(&m_sec, 0, 0))
+		{
+			hRes = HRESULT_FROM_WIN32(GetLastError());
+		}
+
+		return hRes;
+	}
+
+	HRESULT Term() throw()
+	{
+		::DeleteCriticalSection(&m_sec);
+		return S_OK;
+	}
+	CRITICAL_SECTION m_sec;
+};
+
+
+
 #endif
