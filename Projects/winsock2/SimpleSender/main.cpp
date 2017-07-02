@@ -216,7 +216,7 @@ int main(int argc, char **argv)
 	memcpy(p+90, buff,bufflen);
 	mmf.close();
 	*/
-	//bool b = blockQueueTest();
+	bool b = blockQueueTest();
 
 	
 	char* pData; // "file" data
