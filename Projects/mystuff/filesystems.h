@@ -5,6 +5,7 @@
 #include <queue>
 #include <list>
 #include "mutex.h"
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "MotherOfAllBaseObjects.h"
 
@@ -251,8 +252,12 @@ public:
 	};
 	bool open(const char* filename);
 	void close();
-	bool write(LARGE_INTEGER pos, const char* buff, int bufflen); // resizes file if required
-	bool write(unsigned int pos, const char* buff, int bufflen);
+	bool write(LARGE_INTEGER pos, const char* source, int bufflen); // resizes file if required
+	bool write(unsigned int pos, const char* source, int bufflen);
+
+	bool read(unsigned int pos, char* dest, int bufflen);
+
+	bool isOpen() { return ptr != NULL; }
 
 	int getlastError() { return GetLastError(); }
 	char* getPtr() { return ptr; }

@@ -26,6 +26,9 @@
     <ClInclude Include="..\mystuff\mutex.h">
       <Filter>mystuff</Filter>
     </ClInclude>
+    <ClInclude Include="..\mystuff\errors.h">
+      <Filter>mystuff</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ReadDirectoryChanges.cpp">
@@ -36,6 +39,9 @@
     </ClCompile>
     <ClCompile Include="ReadDirectoryChangesPrivate.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mystuff\errors.cpp">
+      <Filter>mystuff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

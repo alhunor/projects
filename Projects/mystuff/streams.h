@@ -2,6 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <winsock2.h>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 

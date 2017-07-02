@@ -31,7 +31,6 @@
 //#include "stdafx.h"
 #include <iostream>
 #include <stdio.h>
-#include <Strsafe.h>
 #include "ReadDirectoryChanges.h"
 
 
@@ -48,62 +47,6 @@ bool TryGetKeyboardInput( HANDLE hStdIn, bool &bTerminate, wchar_t* buf );
 
 
 
-class winError
-{
-public:
-	winError() = delete;
-	winError(DWORD dw)
-	{
-		FormatMessage(
-			FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			FORMAT_MESSAGE_FROM_SYSTEM |
-			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,
-			dw,
-			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			(LPTSTR)&lpMsgBuf,
-			0, NULL);
-	}
-	LPCTSTR ErrorMessage() { return (LPCTSTR)lpMsgBuf; }
-
-	~winError()
-	{
-		LocalFree(lpMsgBuf);
-	}
-
-protected:
-	LPVOID lpMsgBuf;
-}; // class winError
-
-
-void ErrorExit(LPTSTR lpszFunction)
-{
-	// Retrieve the system error message for the last-error code
-
-	LPVOID lpMsgBuf;
-	LPVOID lpDisplayBuf;
-	DWORD dw = GetLastError();
-
-	FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM |
-		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
-		dw,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		(LPTSTR)&lpMsgBuf,
-		0, NULL);
-
-	// Display the error message and exit the process
-
-	lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
-	StringCchPrintf((LPTSTR)lpDisplayBuf, LocalSize(lpDisplayBuf) / sizeof(TCHAR), 	TEXT("%s failed with error %d: %s"), lpszFunction, dw, lpMsgBuf);
-	MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK);
-
-	LocalFree(lpMsgBuf);
-	LocalFree(lpDisplayBuf);
-	//ExitProcess(dw);
-} // void ErrorExit(LPTSTR lpszFunction)
 
 void main()
 {
@@ -151,6 +94,7 @@ void main()
 				}
 				wprintf(L"%s %s\n", ExplainAction(dwAction), wstrFilename.c_str());
 
+	/*			Conversion between Short and Long names not needed. My Win10 has disabled short names.
 				WCHAR baba[500];
 				DWORD res;
 				res = GetLongPathNameW(wstrFilename.c_str(), baba, 500);
@@ -178,6 +122,7 @@ void main()
 				{
 					wprintf(L"Short : %s\n", baba);
 				}
+*/
 			} // else branch of if (changes.CheckOverflow())
 			break;
 		case WAIT_IO_COMPLETION:

@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCKAPI_ // define this before including windows.h to make sure the latter excludes "winsock.h"
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <commdlg.h>
 
 #include <boost/shared_ptr.hpp>
 #include "dates.h"
@@ -820,27 +822,33 @@ bool memoryMappedFile::resize(LARGE_INTEGER newSize)
 	return true;
 }
 
-bool memoryMappedFile::write(unsigned int pos, const char* buff, int bufflen)
+bool memoryMappedFile::write(unsigned int pos, const char* source, int nbBytes)
 {
 	LARGE_INTEGER li;
 	li.QuadPart = pos;
-	return write(li, buff, bufflen);
+	return write(li, source, nbBytes);
 
 }
 
-bool memoryMappedFile::write(LARGE_INTEGER pos, const char* buff, int bufflen)
+bool memoryMappedFile::write(LARGE_INTEGER pos, const char* source, int nbBytes)
 {
-	if (pos.QuadPart + bufflen >= fileSize.QuadPart)
+	if (pos.QuadPart + nbBytes >= fileSize.QuadPart)
 	{
 		LARGE_INTEGER newSize;
 		newSize.QuadPart = pos.QuadPart * 2;
-		if (pos.QuadPart + bufflen >= fileSize.QuadPart)
+		if (pos.QuadPart + nbBytes >= fileSize.QuadPart)
 		{
-			newSize.QuadPart = pos.QuadPart + bufflen;
+			newSize.QuadPart = pos.QuadPart + nbBytes;
 		}
 		resize(newSize);
 	}
-	memcpy(ptr + pos.QuadPart, buff, bufflen);
+	memcpy(ptr + pos.QuadPart, source, nbBytes);
 	return true;
 }
 
+bool memoryMappedFile::read(unsigned int pos, char* dest, int nbBytes)
+{
+	if (pos + nbBytes >= fileSize.QuadPart) return false;
+	memcpy(dest, ptr+pos, nbBytes);
+	return false;
+}
