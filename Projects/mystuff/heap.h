@@ -12,6 +12,7 @@ class minHeap
 public:
 	minHeap() : internalStorage(true), data(* new LightVector<T>()) {}
 	minHeap(LightVector<T> _data) : data(_data), internalStorage(false) {}
+	minHeap(int initialSize) : data(*new LightVector<T>(initialSize)), internalStorage(false) {}
 	~minHeap() {if (internalStorage) delete &data;}
 	typedef T value_type;
 	T popTop(bool makeheap=true);

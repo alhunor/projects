@@ -9,8 +9,8 @@ template<class T> class LightVector;
 template<class T>
 class und
 {
-private:
-//public:
+//private:
+public:
 	typedef typename T value_type;
 	und(unsigned int _allocatedSize) : allocatedSize(_allocatedSize), nb(0), hasSpecial(false) {if (allocatedSize>0) data = new T[allocatedSize]; }
 	und(const und& u);
@@ -149,9 +149,9 @@ public:
 	typedef LightVector<T> self_type;
 
 	LightVector() : und_data(new und<T>(0)) {}
-	LightVector(const unsigned int initialSize) : und_data( new und<T>(initialSize)) { }
-	LightVector(const unsigned int initialSize, T* values) : und_data( new und<T>(initialSize)) { und_data->setSize(initialSize); und_data->fill(initialSize, values); }
-	LightVector(const unsigned int initialSize, T value) : und_data( new und<T>(initialSize)) { und_data->fill(v); }
+	explicit LightVector(const unsigned int initialSize) : und_data(new und<T>(initialSize)) { }
+	explicit LightVector(const unsigned int initialSize, T* values) : und_data( new und<T>(initialSize)) { und_data->setSize(initialSize); und_data->fill(initialSize, values); }
+	explicit LightVector(const unsigned int initialSize, T value) : und_data( new und<T>(initialSize)) { und_data->setSize(initialSize);  und_data->fill(value); }
 
 	LightVector(const LightVector<T>& v) : und_data(new und<T>(*(v.und_data))) {}
 	~LightVector() {  }
@@ -166,7 +166,12 @@ public:
 	int contains(T element) {return und.contains(element); } // returns position if found, else -1
 	T& operator[](int pos);
 	const T& operator[](int pos) const;
-	void push_back(T element) {und_data->push_back(element);}
+	void push_back(T element)
+	{
+		und<T>* und = und_data.get();
+		und->push_back(element);
+		//und_data->push_back(element);
+	}
 	T* dataPtr() {return und->dataPtr();}
 };
 

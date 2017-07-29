@@ -15,7 +15,7 @@ class HuMatrix
 {
 protected:
 	mutable boost::shared_ptr<und> matrix;
-	mutable boost::shared_array<T*> mPointer;
+	mutable boost::shared_array<T> mPointer;
 
 public:
 	typedef typename T value_type;
@@ -72,10 +72,10 @@ public:
 		else
 			throw "Empty matrix";
 		T* p = mPointer.get();
-		matrix_type::itterator1 iter1 = undPtr.begin();
+		matrix_type::iterator1 iter1 = undPtr.begin();
 
 		for (int i=0; i<sz; ++i)
-			p[i] = &(*iter1++);
+			p[i] = *iter1++;
 		return p;
 	} // T* dataptr()
 
@@ -89,7 +89,7 @@ public:
 		else
 			throw "Empty matrix";
 		const T* p = const_cast<const T*>(mPointer.get());
-		matrix_type::itterator1 iter1 = undPtr.begin();
+		matrix_type::iterator1 iter1 = undPtr.begin();
 
 		for (int i=0; i<sz; ++i)
 			p[i] = &(*iter1++);
