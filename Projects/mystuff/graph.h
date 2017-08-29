@@ -61,19 +61,19 @@ protected:
 
 
 template <class underlying>
-class const_iterator
+class const_iterator_imp
 {
 public:
-	const_iterator(int vertex, int neighbour, const underlying& _und) : self(vertex), current(neighbour), und(_und) { }
-	const_iterator<underlying>& operator++();
-	bool operator!=(const_iterator<underlying>& lhs)
+	const_iterator_imp(int vertex, int pos, const underlying& _und) : self(vertex), currentPos(pos), und(_und) { }
+	const_iterator_imp<underlying>& operator++();
+	int operator*();
+	bool operator!=(const_iterator_imp<underlying>& lhs)
 	{ 
-		bool b = self != lhs.self || current != lhs.current;
+		bool b = self != lhs.self || currentPos != lhs.currentPos;
 		return b; 
 	}
-	int operator*() { return current; }
 protected:
-	int self, current;
+	int self, currentPos;
 	const underlying& und;
 };
 
@@ -81,6 +81,7 @@ template <typename EdgeCost = double>
 class adjacencyMatrix // implements directed graphs
 {
 public:
+	typedef const_iterator_imp<adjacencyMatrix<EdgeCost> > const_iterator;
 	adjacencyMatrix() = delete;
 	adjacencyMatrix(unsigned int _nbVerices) : nbVerices(_nbVerices), mat(NULL)
 	{
@@ -173,20 +174,20 @@ public:
 		(*mat)(i, j) = cost;
 	}
 
-	const_iterator<adjacencyMatrix<EdgeCost> > end(int vertex)
+	const_iterator end(int vertex)
 	{
-		const_iterator<adjacencyMatrix<EdgeCost> > ci(vertex, nbVerices, *this);
+		const_iterator ci(vertex, nbVerices, *this);
 		return ci;
 	}
 
-	const_iterator<adjacencyMatrix<EdgeCost> > begin(int vertex)
+	const_iterator begin(int vertex)
 	{
 		int i;
 		for (i = 0; i < nbVerices; ++i)
 		{
 			if ((*mat)(vertex, i) != 0) break;
 		}
-		const_iterator<adjacencyMatrix<EdgeCost> > ci(vertex, i, *this);
+		const_iterator ci(vertex, i, *this);
 		return ci;
 	}
 
@@ -196,10 +197,12 @@ public:
 protected:
 };
 
-//template <typename InfoType = double>
+template <typename EdgeCost = double>
 class adjacencyList
 {
 public:
+	typedef const_iterator_imp<adjacencyList<EdgeCost> > const_iterator;
+
 	adjacencyList() = delete;
 	adjacencyList(unsigned int _nbVerices) : nbVerices(_nbVerices)
 	{
@@ -210,12 +213,13 @@ public:
 			//connections[i].upsize(1);
 		}
 	}
-	int valemnce(int v) { return connections[v].size(); }
+	int valence(int v) { return connections[v].size(); }
 	void clear()
 	{
 		if (nbVerices == 0) return;
 		delete[] connections;
 		connections = NULL;
+		nbEdges = 0;
 		//delete[] EdgeInfo;
 	}
 	void insertEdge(unsigned int i, unsigned int j) // inserts directed edge i->j
@@ -225,22 +229,60 @@ public:
 		// save cost of the edge i->j
 	}
 
-protected:
+	const_iterator begin(int vertex)
+	{
+		if (connections[vertex].size() > 0)
+		{
+			const_iterator ci(vertex, connections[vertex][0], *this);
+		}
+		
+		return ci;
+	}
+
+	const_iterator end(int vertex)
+	{
+		const_iterator ci(vertex, nbVerices, *this);
+		return ci;
+	}
+
+// change it to protected later
+	int nbVerices, nbEdges;
 	LightVector<unsigned int>* connections; // connections[a] contains all nodes b, such as (a, b) is an edge a->b
+protected:
 	//LightVector<double>* weight; // EdgeInfo[min(a,b)] contains the number of vertex connecting a to b.
-	int nbVerices;
 };
 
 
 
-const_iterator<adjacencyMatrix<int> >& const_iterator<adjacencyMatrix<int> >::operator++()
+const_iterator_imp<adjacencyMatrix<int> >& const_iterator_imp<adjacencyMatrix<int> >::operator++()
 {
-	HuMatrix<int>& m = (*und.mat);
-	for (++current; current < und.nbVerices; ++current)
+	const HuMatrix<int>& m = (*und.mat);
+
+	for (++currentPos; currentPos < und.nbVerices; ++currentPos)
 	{
-		if (m(self, current) != 0) break;
+		if (m(self, currentPos) != 0) break;
 	}
 	return *this;
+}
+
+int const_iterator_imp<adjacencyMatrix<int> >::operator*()
+{ 
+	return currentPos;
+}
+
+
+const_iterator_imp<adjacencyList<int> >& const_iterator_imp<adjacencyList<int> >::operator++()
+{
+	const LightVector<unsigned int>& vect = (und.connections)[self];
+	++currentPos;
+	if (currentPos == vect.size()) currentPos = und.nbVerices;
+	return *this;
+}
+
+int const_iterator_imp<adjacencyList<int> >::operator*()
+{
+	const LightVector<unsigned int>& vect = (und.connections)[self];
+	return vect[currentPos];
 }
 
 struct EdgeT
@@ -250,23 +292,26 @@ struct EdgeT
 	bool operator<(const EdgeT& lhs) { return cost < lhs.cost; }
 };
 
+
+
 template <typename InfoType, class underlying = adjacencyMatrix<int> >
 class Graph
 {
 public:
 	Graph() : Graph(0) {}
-	Graph(int _nbNodes) : und(_nbNodes), hasEdgeList(false) {}
+	Graph(int _nbNodes) : und(_nbNodes), mHasEdgeList(false) {}
 	~Graph()
 	{
 		und.clear();
 	}
+	typedef typename underlying::const_iterator const_iterator;
 
-	const_iterator<underlying> begin(int vertex)
+	const_iterator begin(int vertex)
 	{
 		return und.begin(vertex);
 	}
 
-	const_iterator<underlying> end(int vertex)
+	const_iterator end(int vertex)
 	{
 		return und.end(vertex);
 	}
@@ -279,18 +324,19 @@ public:
 	void insertEdge(unsigned int a, unsigned int b)
 	{
 		und->insertEdge(a, b);
-		hasEdgeList = false; // change it to false as information is potentially outdated. Can be optimised tu update instead of total rebuild
+		mHasEdgeList = false; // change it to false as information is potentially outdated. Can be optimised tu update instead of total rebuild
 	}
 
-	void buildEdgeList()
+	const std::vector<EdgeT>& buildEdgeList(bool sorted = false)
 	{
+		if (mHasEdgeList) return edgeList;
 		edgeList.clear();
 		// iterate through all vertices and edges
 		int dest;// , i(0);
-		unsigned int  nbVerices = getNbVerices();
+		unsigned int  nbVerices = getNbVertices();
 		for (unsigned int v = 0; v < nbVerices; ++v)
 		{
-			for (const_iterator<adjacencyMatrix<int> > ci = begin(v); ci != end(v); ++ci)
+			for (const_iterator ci = begin(v); ci != end(v); ++ci)
 			{
 				dest = *ci;
 				EdgeT edge;
@@ -300,338 +346,443 @@ public:
 				edgeList.push_back(edge);
 			}
 		}
-		hasEdgeList = true;
+		mHasEdgeList = true;
+		if (sorted)
+		{
+			sort(edgeList.begin(), edgeList.end());
+		}
+		return edgeList;
 	}
 
 // basic package
-
-	void bfs(int v) // breadth first search starting from vertex v
-	{
-		std::queue<int> q;
-		vector<int> visited;
-		int nbVerices = getNbVerices();
-		visited.resize(nbVerices);
-		int i;
-		for (i = 0; i < nbVerices; ++i)
-		{
-			visited[i] = false;
-		} 
-		visited[v] = true;
-		q.push(v);
-		int inqueue = 1;
-		while (! q.empty())
-		{
-			v = q.front(); q.pop();
-			cout << v << "  ";
-			// get all neighbours of "v";
-			
-			for (const_iterator<adjacencyMatrix<int> > ci = begin(v); ci !=end(v); ++ci)
-			{
-				i = *ci;
-				if (!visited[i])
-				{
-					visited[i] = true;
-					q.push(i);
-					++inqueue;
-				}
-			}
-			if (inqueue == nbVerices)
-			{
-				while (!q.empty())
-				{
-					v = q.front(); q.pop();
-					cout << v << "  ";
-				}
-				break;
-			}
-		}
-		cout << endl;
-	} // void bfs(int v) 
-
-	void dfs(int v) // depth first search starting from vertex v
-	{
-		std::stack<int> st;
-		vector<int> visited;
-		int nbVerices = getNbVerices();
-		visited.resize(nbVerices);
-		int i;
-		for (i = 0; i < nbVerices; ++i)
-		{
-			visited[i] = false;
-		}
-		st.push(v);
-
-		while (!st.empty())
-		{
-			v = st.top(); st.pop();
-			if (visited[v]) continue;
-			visited[v] = true;
-			cout << v << "  ";
-			// get all neighbours of "v";
-
-			for (const_iterator<adjacencyMatrix<int> > ci = begin(v); ci != end(v); ++ci)
-			{
-				i = *ci;
-				if (!visited[i])
-				{
-					st.push(i);
-				}
-			}
-		} // while (!st.empty())
-		cout << endl;
-	} // void dfs(int v) 
-
-	void prim(int v) // Prim'algorithm starting from vertex v
-	{
-		cout << "Prim (array)";
-		int nbVerices = getNbVerices();
-		int* prio = new int[nbVerices];
-		int* parent = new int[nbVerices];
-		bool* inMST = new bool[nbVerices];
-		int i;
-		int togo = nbVerices-1; // number of vertices to be still processed
-		for (i = 0; i < nbVerices; ++i)
-		{
-			prio[i] = INT_MAX;
-			inMST[i] = false; // NULL
-			parent[i] = -1;  // none
-		}
-		prio[v] = 0;
-		int minpos = v;
-		inMST[v] = true;
-
-		while (togo > 0)
-		{
-			// "v" is the vertex with lowest priority that has just been added to the MST
-
-			// for all edges (v, dest) such as dest is not in the MST, set priority to edge_cost(v, dest) if it is smaller than prio[dest]
-			int dest;
-			for (const_iterator<adjacencyMatrix<int> > ci = begin(v); ci != end(v); ++ci)
-			{
-				dest = *ci;
-				int ec = edge_cost(v, dest);
-				if (ec < prio[dest] && !inMST[dest])
-				{
-					prio[dest] = ec;
-					parent[dest] = v;
-				}
-			}
-
-			// find lowest prio vertex in "dest"
-			dest = 0; // find cheapest edge out of it
-			while (inMST[dest]) ++dest;
-			for (i = 0; i < nbVerices; ++i)
-			{	// chose lowest priority node that has not yet been selected
-				if ((prio[i] < prio[dest]) && (! inMST[i])) dest = i;
-			}
-			if (prio[dest] == INT_MAX) // found disconnected component
-			{
-				prio[dest]=0; // restart the algo from
-			}
-			else
-			{// add edge (v, dest) to MST
-				cout << "(" << parent[dest] << "," << dest << ") ";
-			}
-			--togo;
-			v = dest;
-			inMST[v] = true;
-		}
-
-		cout << endl;
-
-		delete[] inMST;
-		delete[] prio;
-		delete[] parent;
-	} // void prim(int v) 
-
-	void prim2(int v) // Prim'algorithm starting from vertex v, uses priority queue
-	{
-		cout << "Prim (priority queue)";
-
-		int nbVerices = getNbVerices();
-		int* prio = new int[nbVerices];
-		int* parent = new int[nbVerices];
-		bool* inMST = new bool[nbVerices];
-		int i;
-
-		for (i = 0; i <nbVerices; ++i)
-		{
-			prio[i] = INT_MAX;
-			inMST[i] = false; // NULL
-			parent[i] = -1;  // none
-		}
-
-		prio[v] = 0;
-		minHeap< std::pair<int, int> > pq(nbVerices);
-		pq.push(std::make_pair(0, v)); // (priority, vertexNo)
-		std::pair<int, int> top;
-
-		while (! pq.empty())
-			{
-			// "v" is the vertex with lowest priority that has just been added to the MST
-			top = pq.popTop();
-			v = top.second;
-			inMST[v] = true;
-
-			// explore all (v, dest) outgoing edges from "v"
-			int dest;
-			for (const_iterator<adjacencyMatrix<int> > ci = begin(v); ci != end(v); ++ci)
-			{
-				dest = *ci;
-				int ec = edge_cost(v, dest);
-				// if dest is not already in the MST and we found a shorter path to it.
-				if (ec < prio[dest] && !inMST[dest])
-				{
-					prio[dest] = ec; // Set priority od "dest" to edge_cost(v, dest)
-					parent[dest] = v; // indicate that "dest" has been best reached from "v". This will be needed to geerate the edges later
-					pq.push(std::make_pair(ec, dest)); // push the new vertex into the priority queue
-				}
-			}
-		}
-		
-		// Output the edge list for the MST
-		for (i = 0; i < nbVerices; ++i)
-		{
-			if (parent[i] != -1) // exclude parent[starting node] which is -1
-			{
-				cout << "(" << parent[i] << "," << i << ") ";
-			}
-		}
-		
-		cout << endl;
-
-		delete[] inMST;
-		delete[] prio;
-		delete[] parent;
-	} // void prim(int v) 
-
-	void kruskal(int v)
-	{
-		cout << "Kruskal : ";
-
-		// build and sort edge list
-		if (!hasEdgeList)
-		{
-			buildEdgeList();
-		}
-		sort(edgeList.begin(), edgeList.end());
-		/*for (vector<EdgeT>::const_iterator ci = edgeList.begin(); ci != edgeList.end(); ++ci)
-		{
-			cout << "(" << ci->start << "," << ci->end << ") "<< ci->cost<<"  "<<endl;
-		}*/
-
-		// initilaise every vertex in a different set, uses efficient disjoint set data structure
-		int nbVerices = getNbVerices();
-		int nbEdges = getNbEdges();
-		disjointSet partitions(nbVerices);
-
-		int inMST = 0; // number of vertices in the MST
-		// we will iterate through all edges starting from the cheapest
-	 
-		for (int edge = 0; edge < nbEdges; ++edge )
-		{
-			// skip edges from the same partition
-			if (partitions.find(edgeList[edge].start) == partitions.find(edgeList[edge].end)) continue;
-			cout << "(" << edgeList[edge].start <<","<< edgeList[edge].end << ") ";
-			partitions.merge(edgeList[edge].start, edgeList[edge].end);
-			++inMST;
-			if (inMST == nbVerices - 1) // first insert adds two vertices, but we only count 1
-			{
-				break;
-			}
-		}
-		cout << endl;
-	}
-
-	void dijkstra(int v)
-	{	// requires all edges to have positive cost
-		// finds shortest paths from "v" to all other nodes
-		cout << "Dijkstra : "<<endl;
-		int nbVerices = getNbVerices();
-		int nbEdges = getNbEdges();
-
-		int* distance = new int[nbVerices];
-		int* parent = new int[nbVerices];
-
-		for (int i = 0; i <nbVerices; ++i)
-		{
-			distance[i] = INT_MAX;
-			parent[i] = -1;  // none
-		}
-
-		distance[v] = 0;
-
-		minHeap< std::pair<int, int> > pq(nbVerices);
-		pq.push(std::make_pair(0, v)); // (priority, vertexNo)
-		std::pair<int, int> top;
-
-		while (!pq.empty())
-		{
-			// "v" is the vertex with lowest cost
-			top = pq.popTop();
-			v = top.second;
-
-			int dest;
-			for (const_iterator<adjacencyMatrix<int> > ci = begin(v); ci != end(v); ++ci)
-			{
-				dest = *ci;
-				int ec = edge_cost(v, dest);
-				// if we found a shorter path to it "dest"
-				if (ec + distance[v] < distance[dest])
-				{
-					distance[dest] = ec  + distance[v]; // Set distance to new lower value
-					parent[dest] = v; // indicate that "dest" has been best reached from "v"
-					pq.push(std::make_pair(distance[dest], dest)); // push the new vertex into the priority queue
-				}
-			}
-		}
-
-		int j;
-		for (int i = 0; i <nbVerices; ++i)
-		{
-			cout << i;
-			j = parent[i];
-			while (j != -1) 
-			{
-				cout << " <- "<< j;
-				j = parent[j];
-			}
-			cout << " : " << distance[i] << endl;
-		}
-
-		delete[] distance;
-		delete[] parent;
-	}
-
-	void floydWarshall() {}
-
-	void bellmanFord(int v) {}
-
-	void maximumFlow() {}
 
 ///Advanced package
 	void borouvka(int v) {}
 
 	// add near linear time MST algo by Tarjan
 
-	void 
 
 	unsigned int valence(unsigned int v) const { return und->valence(v); }
-	bool load(const char* fileName) { return und.load(fileName); }
+	bool load(const char* fileName)
+	{
+		if (mHasEdgeList)
+		{
+			edgeList.clear();
+			mHasEdgeList = false;
+		}
+		return und.load(fileName);
+	}
 
 	//void completeVertexInfo();
 	//int neighbour(unsigned int i, unsigned int j);
 //	void initEdgeTraversee() {a=0; b=0; itt=0;}
 //	Edge nextEdge();
 	unsigned int getNbEdges() const { return und.nbEdges;}
-	unsigned int getNbVerices() const { return und.nbVerices;}
+	unsigned int getNbVertices() const { return und.nbVerices;}
+	bool hasEdgeList() { return mHasEdgeList; }
 
 private:
 	underlying und;
 	unsigned int a,b, itt;//used for vertex traversee
-	bool hasEdgeList;
+	bool mHasEdgeList;
 	std::vector<EdgeT> edgeList;
 };
+
+
+
+
+template <class Graph>
+void bfs(Graph& g, int v) // breadth first search starting from vertex v
+{
+	std::queue<int> q;
+	vector<int> visited;
+	int nbVerices = g.getNbVertices();
+	visited.resize(nbVerices);
+	int i;
+	for (i = 0; i < nbVerices; ++i)
+	{
+		visited[i] = false;
+	}
+	visited[v] = true;
+	q.push(v);
+	int inqueue = 1;
+	while (!q.empty())
+	{
+		v = q.front(); q.pop();
+		cout << v << "  ";
+		// get all neighbours of "v";
+
+		for (Graph::const_iterator ci = g.begin(v); ci != g.end(v); ++ci)
+		{
+			i = *ci;
+			if (!visited[i])
+			{
+				visited[i] = true;
+				q.push(i);
+				++inqueue;
+			}
+		}
+		if (inqueue == nbVerices)
+		{
+			while (!q.empty())
+			{
+				v = q.front(); q.pop();
+				cout << v << "  ";
+			}
+			break;
+		}
+	}
+	cout << endl;
+} // void bfs(int v) 
+
+
+template <class Graph>
+void dfs(Graph& g, int v) // depth first search starting from vertex v
+{
+	std::stack<int> st;
+	vector<int> visited;
+	int nbVerices = g.getNbVertices();
+	visited.resize(nbVerices);
+	int i;
+	for (i = 0; i < nbVerices; ++i)
+	{
+		visited[i] = false;
+	}
+	st.push(v);
+
+	while (!st.empty())
+	{
+		v = st.top(); st.pop();
+		if (visited[v]) continue;
+		visited[v] = true;
+		cout << v << "  ";
+		// get all neighbours of "v";
+
+		for (Graph::const_iterator ci = g.begin(v); ci != g.end(v); ++ci)
+		{
+			i = *ci;
+			if (!visited[i])
+			{
+				st.push(i);
+			}
+		}
+	} // while (!st.empty())
+	cout << endl;
+} // void dfs(int v) 
+
+template <class Graph>
+void prim(Graph& g, int v) // Prim'algorithm starting from vertex v
+{
+	cout << "Prim (array)";
+	int nbVerices = g.getNbVertices();
+	int* prio = new int[nbVerices];
+	int* parent = new int[nbVerices];
+	bool* inMST = new bool[nbVerices];
+	int i;
+	int togo = nbVerices - 1; // number of vertices to be still processed
+	for (i = 0; i < nbVerices; ++i)
+	{
+		prio[i] = INT_MAX;
+		inMST[i] = false; // NULL
+		parent[i] = -1;  // none
+	}
+	prio[v] = 0;
+	int minpos = v;
+	inMST[v] = true;
+
+	while (togo > 0)
+	{
+		// "v" is the vertex with lowest priority that has just been added to the MST
+
+		// for all edges (v, dest) such as dest is not in the MST, set priority to edge_cost(v, dest) if it is smaller than prio[dest]
+		int dest;
+		for (Graph::const_iterator ci = g.begin(v); ci != g.end(v); ++ci)
+		{
+			dest = *ci;
+			int ec = g.edge_cost(v, dest);
+			if (ec < prio[dest] && !inMST[dest])
+			{
+				prio[dest] = ec;
+				parent[dest] = v;
+			}
+		}
+
+		// find lowest prio vertex in "dest"
+		dest = 0; // find cheapest edge out of it
+		while (inMST[dest]) ++dest;
+		for (i = 0; i < nbVerices; ++i)
+		{	// chose lowest priority node that has not yet been selected
+			if ((prio[i] < prio[dest]) && (!inMST[i])) dest = i;
+		}
+		if (prio[dest] == INT_MAX) // found disconnected component
+		{
+			prio[dest] = 0; // restart the algo from
+		}
+		else
+		{// add edge (v, dest) to MST
+			cout << "(" << parent[dest] << "," << dest << ") ";
+		}
+		--togo;
+		v = dest;
+		inMST[v] = true;
+	}
+
+	cout << endl;
+
+	delete[] inMST;
+	delete[] prio;
+	delete[] parent;
+} // void prim(int v) 
+
+template <class Graph>
+void prim2(Graph& g, int v) // Prim'algorithm starting from vertex v, uses priority queue
+{
+	cout << "Prim (priority queue)";
+
+	int nbVerices = g.getNbVertices();
+	int* prio = new int[nbVerices];
+	int* parent = new int[nbVerices];
+	bool* inMST = new bool[nbVerices];
+	int i;
+
+	for (i = 0; i <nbVerices; ++i)
+	{
+		prio[i] = INT_MAX;
+		inMST[i] = false; // NULL
+		parent[i] = -1;  // none
+	}
+
+	prio[v] = 0;
+	minHeap< std::pair<int, int> > pq(nbVerices);
+	pq.push(std::make_pair(0, v)); // (priority, vertexNo)
+	std::pair<int, int> top;
+
+	while (!pq.empty())
+	{
+		// "v" is the vertex with lowest priority that has just been added to the MST
+		top = pq.popTop();
+		v = top.second;
+		inMST[v] = true;
+
+		// explore all (v, dest) outgoing edges from "v"
+		int dest;
+		for (Graph::const_iterator ci = g.begin(v); ci != g.end(v); ++ci)
+		{
+			dest = *ci;
+			int ec = g.edge_cost(v, dest);
+			// if dest is not already in the MST and we found a shorter path to it.
+			if (ec < prio[dest] && !inMST[dest])
+			{
+				prio[dest] = ec; // Set priority od "dest" to edge_cost(v, dest)
+				parent[dest] = v; // indicate that "dest" has been best reached from "v". This will be needed to geerate the edges later
+				pq.push(std::make_pair(ec, dest)); // push the new vertex into the priority queue
+			}
+		}
+	}
+
+	// Output the edge list for the MST
+	for (i = 0; i < nbVerices; ++i)
+	{
+		if (parent[i] != -1) // exclude parent[starting node] which is -1
+		{
+			cout << "(" << parent[i] << "," << i << ") ";
+		}
+	}
+
+	cout << endl;
+
+	delete[] inMST;
+	delete[] prio;
+	delete[] parent;
+} // void prim(int v) 
+
+template <class Graph>
+void kruskal(Graph& g, int v)
+{
+	cout << "Kruskal : ";
+	// build and sort edge list
+	const std::vector<EdgeT>& edgeList = g.buildEdgeList(true);
+
+	// initilaise every vertex in a different set, uses efficient disjoint set data structure
+	int nbVerices = g.getNbVertices();
+	int nbEdges = g.getNbEdges();
+	disjointSet partitions(nbVerices);
+
+	int inMST = 0; // number of vertices in the MST
+				   // we will iterate through all edges starting from the cheapest
+
+	for (int edge = 0; edge < nbEdges; ++edge)
+	{
+		// skip edges from the same partition
+		if (partitions.find(edgeList[edge].start) == partitions.find(edgeList[edge].end)) continue;
+		cout << "(" << edgeList[edge].start << "," << edgeList[edge].end << ") ";
+		partitions.merge(edgeList[edge].start, edgeList[edge].end);
+		++inMST;
+		if (inMST == nbVerices - 1) // first insert adds two vertices, but we only count 1
+		{
+			break;
+		}
+	}
+	cout << endl;
+}
+
+template <class Graph>
+void dijkstra(Graph& g, int v)
+{	// requires all edges to have positive cost
+	// finds shortest paths from "v" to all other nodes
+	cout << "Dijkstra : " << endl;
+	int nbVerices = g.getNbVertices();
+	int nbEdges = g.getNbEdges();
+
+	int* distance = new int[nbVerices];
+	int* parent = new int[nbVerices];
+
+	for (int i = 0; i <nbVerices; ++i)
+	{
+		distance[i] = INT_MAX;
+		parent[i] = -1;  // none
+	}
+
+	distance[v] = 0;
+
+	minHeap< std::pair<int, int> > pq(nbVerices);
+	pq.push(std::make_pair(0, v)); // (priority, vertexNo)
+	std::pair<int, int> top;
+
+	while (!pq.empty())
+	{
+		// "v" is the vertex with lowest cost
+		top = pq.popTop();
+		v = top.second;
+
+		int dest;
+		for (Graph::const_iterator ci = g.begin(v); ci != g.end(v); ++ci)
+		{
+			dest = *ci;
+			int ec = g.edge_cost(v, dest);
+			// if we found a shorter path to it "dest"
+			if (ec + distance[v] < distance[dest])
+			{
+				distance[dest] = ec + distance[v]; // Set distance to new lower value
+				parent[dest] = v; // indicate that "dest" has been best reached from "v"
+				pq.push(std::make_pair(distance[dest], dest)); // push the new vertex into the priority queue
+			}
+		}
+	}
+
+	int j;
+	for (int i = 0; i <nbVerices; ++i)
+	{
+		cout << i;
+		j = parent[i];
+		while (j != -1)
+		{
+			cout << " <- " << j;
+			j = parent[j];
+		}
+		cout << " : " << distance[i] << endl;
+	}
+
+	delete[] distance;
+	delete[] parent;
+}
+
+
+template <class Graph>
+void khan(Graph& g) // topological sorting for a DAG. Throws error if the graph has a cycle
+{
+	cout << "Khan : ";
+	const std::vector<EdgeT>& edgeList = g.buildEdgeList(true);
+
+
+	int nbVertices = g.getNbVertices();
+	// Compute number of incoming edges for each vertex
+	int* incoming = new int[nbVertices]; // incoming[v] has number of incoming edges for vertex "v"
+	for (int i = 0; i < nbVertices; ++i)
+	{
+		incoming[i] = 0;
+	}
+	for (vector<EdgeT>::const_iterator ci = edgeList.begin(); ci != edgeList.end(); ++ci)
+	{
+		//cout << "(" << ci->start << "," << ci->end << ") "<< ci->cost<<"  "<<endl;
+		++incoming[ci->end];
+	}
+
+	queue<int> vertices;
+	// push in q all vertices that have no incoming edge
+	for (int i = 0; i < nbVertices; ++i)
+	{
+		if (incoming[i] == 0) // no incoming edge
+		{
+			vertices.push(i);
+		}
+	}
+
+	int nbRemainingEdges = g.getNbEdges(); /// how many edges remain in the graph
+	int v, dest;
+	while (!vertices.empty())
+	{
+		v = vertices.front();
+		vertices.pop();
+		cout << v << " ";
+		// Scan edges originating from "v"
+		for (Graph::const_iterator ci = g.begin(v); ci != g.end(v); ++ci)
+		{
+			dest = *ci;
+			--incoming[dest];
+			if (incoming[dest] == 0) // no more incoming edge to dest, push it to "vertices"
+			{
+				vertices.push(dest);
+			}
+			--nbRemainingEdges;
+		}
+	}
+
+
+	//	delete[] incoming;
+
+	// 
+	if (nbRemainingEdges > 0)
+	{
+		const char* errorMsg = "Error, the graph has a cycle.";
+		cout << errorMsg << endl;
+		throw errorMsg;
+	}
+	cout << endl;
+}
+
+
+template <class Graph>
+void floydWarshall(Graph& g) {}
+
+template <class Graph>
+void bellmanFord(Graph& g, int v) {}
+
+template <class Graph>
+void maximumFlow(Graph& g) {}
+
+template <class Graph>
+void travellingSalesMan(Graph& g) {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
