@@ -32,6 +32,12 @@
     <None Include="example2.html">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="gog2.html">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="RR.html">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parser.h">

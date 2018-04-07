@@ -149,6 +149,8 @@
     <None Include="example.html" />
     <None Include="example2.html" />
     <None Include="gog.html" />
+    <None Include="gog2.html" />
+    <None Include="RR.html" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parser.h" />
