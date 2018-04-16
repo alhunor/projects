@@ -146,7 +146,7 @@ void remove(parser& p, const char* tag)
 	//finder f("H2");
 	while (n = p.find(n, tag))
 	{
-		list(n, 0, false);
+		n->list(0, false);
 		cout << endl;
 		m = n;
 		n = n->succ();
@@ -155,33 +155,74 @@ void remove(parser& p, const char* tag)
 }
 
 
-void main()
+void process_FTSE100()
 {
 	parser p;
+	p.parseFile("FTSE_100.htm");
+	p.buildParseTree();
+
+
+	node* n;
+	n = p.find("td");
+	do
+	{
+		n = p.find(n, "td");
+		cout << n->child(0)->attribute << " , ";
+		n = n->succ();
+		n = p.find(n, "td");
+		cout << n->child(0)->text << " , ";
+		n = n->succ();
+		n = p.find(n, "td");
+		cout << n->child(0)->text << endl;
+		n = n->succ();
+	} while (n);
+}
+
+void main()
+{
+	process_FTSE100();
+
+	parser p, p2;
 	//p.open("gog.html");
 	//p.open("rr.html");
-	p.open("example2.html");
+	p2.parseFile("example2.html");
+	p.parseString("<html> <head> </head> <body> </body> </html>"); 
+
 	bool b = p.buildParseTree();
+	b = p2.buildParseTree();
 	//preOrder(&p.root, 0);
 	//list_email_adresses(p);
 //	list_links(p);
 //	list_ngramms(p);
 	//cout <<"Stripped:" <<strip(" \n Bab h! \n\n\n\n") << endl;;
 
-	remove(p, "H2");
+	//remove(p, "H2");
 	//list(p.getRoot()->children[0], 0, true); 
 //	remove(p, "P");
-	remove(p, "A");
+	//remove(p, "A");
 
 
-	list(p.getRoot(), 0, true);
+	p.list(0, true);
 
-	node* n = p.find("P");
-	list(n, 0, false);
-	n = n->next();
-	list(n, 0, false);
+	node* n = p.find("BOdY");
+	if (n)
+	{
+		node* m = p2.find("H2");
+		n->attachChild(m); // adds m as last child of n
+		m = p2.find("H1");
+		n->attachChild(m); // adds m as last child of n
+		//n->list(0, true);
+	}
+	p.list(0, true);
 
-	list(p.getRoot(), 0, true);
+	cout << "original\n";
+
+	p2.list(0, true);
+
+	ofstream out;
+	out.open("out.thml");
+	p.list(0, true, out);
+	out.close();
 
 //_exit:
 	cout << "Press any key to exit.." << endl;

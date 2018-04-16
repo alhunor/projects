@@ -143,16 +143,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="node.cpp" />
     <ClCompile Include="parser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="example.html" />
     <None Include="example2.html" />
+    <None Include="FTSE_100.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="FTSE_100_Index.htm">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="gog.html" />
     <None Include="gog2.html" />
     <None Include="RR.html" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="node.h" />
     <ClInclude Include="parser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

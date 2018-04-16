@@ -8,49 +8,16 @@
 
 //using namespace std;
 
-std::string Empty = "";
 std::string Document = "Document";
 
 std::set<std::string> tagsWithoutEnd = { "BR", "HR", "IMG", "META", "LINK", "INPUT", "WBR", "PARAM" };
 std::set<std::string> tagsWithOptionalEnd = { "P" };
 
 
-bool parser::open(const char fileName[])
+bool parser::parseString(const char* buff)
 {
-	in.open(fileName);
-	// TODO check that file exists and return error message if not
-
-	return validParse = true;
-} // bool parser::open(const char* fileName)
-
-
-
-
-void node::erase()
-{
-	// XXX TODO check this function
-	node* p = parent;
-
-	// remove from parent
-	std::vector<node* >::iterator it = std::find(p->children.begin(), p->children.end(), this);
-	std::vector<node* >::iterator it2 = it;
-	for (; it != p->children.end(); ++it)
-	{
-		(*it)->nr--;
-	}
-
-	p->children.erase(it2);
-
-	// then delete subtree;
-	parent = NULL;
-	node * tmp = leftmost();
-	node * tmp2;
-	while (tmp)
-	{
-		tmp2 = tmp;
-		tmp = succ(tmp);
-		delete tmp2;
-	}
+	in = new std::stringstream(buff, std::ios_base::in);
+	return (validParse = true);
 }
 
 
@@ -81,10 +48,12 @@ again:
 	text = "";
 	char c;
 	states state = BEGIN;
+	if (in->eof()) return false;
+
 	do
 	{
-		c = in.get();
-		if (in.eof())
+		c = in->get();
+		if (in->eof())
 		{
 			return false;
 		}
@@ -135,7 +104,7 @@ again:
 			return validParse = false;
 		}
 	} while (state != END);
-	if (c == '<') in.unget();
+	if (c == '<') in->unget();
 	if (tag != "" && text != "")
 	{
 		throw "TAG and token are exclusive";
@@ -148,8 +117,8 @@ again:
 		std::string s = "";
 		do
 		{
-			c = toupper(in.get());
-			if (in.eof())
+			c = toupper(in->get());
+			if (in->eof())
 			{
 				return false;
 			}
@@ -279,84 +248,3 @@ node* parser::find(node* start, finder* funcObj)
 	return NULL;
 }
 
-
-
-bool inset(char c, const char* mask)
-{
-	size_t len = strlen(mask);
-	for (int i = 0; i < len; ++i)
-	{
-		if (c == mask[i]) return true;
-	}
-	return false;
-}
-
-
-
-std::string nspaces(int level, int prettify)
-{
-	if (level < 1 || !prettify) return "";
-
-	std::string s = "";
-	while (level > 0)
-	{
-		s += " ";
-		--level;
-	}
-	return s;
-}
-
-std::string strip(const std::string& s, const char* premask = " \n\t\r", const char* postmask = " \n\t\r")
-{
-	int i = 0;
-	std::string ret = "";
-	while (inset(s[i], premask) && i < s.length())
-	{
-		++i;
-	}
-	while (i < s.length())
-	{
-		ret += s[i];
-		++i;
-	}
-	i = ret.length() - 1;
-
-	while (i > -1 && inset(ret[i], postmask))
-	{
-		ret.pop_back();
-		--i;
-	}
-	return ret;
-} // string strip(const string& s, const char* premask = " \n\t\r", const char* postmask = " \n\t\r")
-
-
-bool list(node* n, int k, bool prettify)
-{
-	if (!n) return true;
-
-	if (n->text != Empty)
-	{
-		std::string s = strip(n->text, " \n\t\r", " \n\t\r");
-		std::cout << nspaces(k, prettify) << s;
-		if (prettify) std::cout << std::endl;
-		return true;
-	}
-	std::cout << nspaces(k, prettify) << "<" << n->tag;
-	if (n->attribute != Empty)
-	{
-		std::cout << " " << n->attribute;
-	}
-	std::cout << ">";
-	if (n->nbChildren() > 0 && prettify) std::cout << std::endl;
-	for (int i = 0; i < n->nbChildren(); ++i)
-	{
-		list(n->child(i), k + 1, prettify);
-	}
-	if (!isWithoutEnd(n->tag))
-	{
-		std::cout << nspaces(k, prettify) << "</" << n->tag << ">";
-	}
-
-	if (prettify) std::cout << std::endl;
-	return true;
-} // bool list(node* n, int k)

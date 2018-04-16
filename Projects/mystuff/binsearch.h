@@ -22,3 +22,31 @@ int binsearch(T key, T* data, int lo, int hi)
 	}
 	return -1; // key not found.
 } // int binsearch(T key, T* data, int lo, int hi)
+
+
+// more generic implmentation
+template <typename R, typename K>
+int binsearch(K key, R* data, int lo, int hi)
+{
+	int mid;
+	R midval;
+	while (lo <= hi)
+	{
+		//mid = (lo + hi) / 2; -- can overflow
+		mid = ((unsigned int)lo + (unsigned int)hi) >> 1;
+		midval = data[mid];
+		if (midval < key)
+		{
+			lo = mid + 1;
+		}
+		else if (midval > key)
+		{
+			hi = mid - 1;
+		}
+		else
+		{
+			return mid; // key found
+		}
+	}
+	return -1; // key not found.
+} // int binsearch(T key, T* data, int lo, int hi)

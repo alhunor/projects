@@ -21,6 +21,9 @@
     <ClCompile Include="parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="gog.html">
@@ -38,9 +41,18 @@
     <None Include="RR.html">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="FTSE_100_Index.htm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="FTSE_100.htm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parser.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
