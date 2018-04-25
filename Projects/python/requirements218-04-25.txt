@@ -1,0 +1,15 @@
+cycler==0.10.0
+decorator==4.3.0
+matplotlib==2.1.2
+networkx==2.1
+nltk==3.2.5
+numpy==1.14.0
+pandas==0.22.0
+pyparsing==2.2.0
+python-dateutil==2.6.1
+pytz==2018.3
+scikit-learn==0.19.1
+scimpy==0.0.dev1
+scipy==1.0.0
+six==1.11.0
+sklearn==0.0

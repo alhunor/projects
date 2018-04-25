@@ -1,0 +1,101 @@
+Link	Name	Ticker	Sector
+/wiki/3i	3i	 III 	 Financial Services
+/wiki/Admiral_Group	Admiral Group	 ADM 	 Nonlife Insurance
+/wiki/Anglo_American_plc	Anglo American plc	 AAL 	 Mining
+/wiki/Antofagasta_PLC	Antofagasta PLC	 ANTO 	 Mining
+/wiki/Ashtead_Group	Ashtead Group	 AHT 	 Support Services
+/wiki/Associated_British_Foods	Associated British Foods	 ABF 	 Food Producers
+/wiki/AstraZeneca	AstraZeneca	 AZN 	 Pharmaceuticals & Biotechnology
+/wiki/Aviva	Aviva	 AV. 	 Life Insurance
+/wiki/BAE_Systems	BAE Systems	 BA. 	 Aerospace & Defense
+/wiki/Barclays	Barclays	 BARC 	 Banks
+/wiki/Barratt_Developments	Barratt Developments	 BDEV 	 Household Goods & Home Construction
+/wiki/Berkeley_Group_Holdings	Berkeley Group Holdings	 BKG 	 Household Goods & Home Construction
+/wiki/BHP	BHP	 BLT 	 Mining
+/wiki/BP	BP	 BP. 	 Oil & Gas Producers
+/wiki/British_American_Tobacco	British American Tobacco	 BATS 	 Tobacco
+/wiki/British_Land	British Land	 BLND 	 Real Estate Investment Trusts
+/wiki/BT_Group	BT Group	 BT.A 	 Fixed Line Telecommunications
+/wiki/Bunzl	Bunzl	 BNZL 	 Support Services
+/wiki/Burberry	Burberry	 BRBY 	 Personal Goods
+/wiki/Carnival_Corporation_%26_plc	Carnival Corporation & plc	 CCL 	 Travel & Leisure
+/wiki/Centrica	Centrica	 CNA 	 Gas-Water-Multiutilities
+/wiki/Coca-Cola_HBC_AG	Coca-Cola HBC AG	 CCH 	 Beverages
+/wiki/Compass_Group	Compass Group	 CPG 	 Support Services
+/wiki/CRH_plc	CRH plc	 CRH 	 Construction & Materials
+/wiki/Croda_International	Croda International	 CRDA 	 Chemicals
+/wiki/DCC_plc	DCC plc	 DCC 	 Support Services
+/wiki/Diageo	Diageo	 DGE 	 Beverages
+/wiki/Direct_Line_Group	Direct Line Group	 DLG 	 Nonlife Insurance
+/wiki/EasyJet	EasyJet	 EZJ 	 Travel & Leisure
+/wiki/Evraz	Evraz	 EVR 	 Industrial Metals & Mining
+/wiki/Experian	Experian	 EXPN 	 Support Services
+/wiki/Ferguson_plc	Ferguson plc	 FERG 	 Support Services
+/wiki/Fresnillo_plc	Fresnillo plc	 FRES 	 Mining
+/wiki/G4S	G4S	 GFS 	 Support Services
+/wiki/GKN	GKN	 GKN 	 Automobiles & Parts
+/wiki/GlaxoSmithKline	GlaxoSmithKline	 GSK 	 Pharmaceuticals & Biotechnology
+/wiki/Glencore	Glencore	 GLEN 	 Mining
+/wiki/Halma_plc	Halma plc	 HLMA 	 Electronic & Electrical Equipment
+/wiki/Hargreaves_Lansdown	Hargreaves Lansdown	 HL. 	 Financial Services
+/wiki/HSBC	HSBC	 HSBA 	 Banks
+/wiki/Imperial_Brands	Imperial Brands	 IMB 	 Tobacco
+/wiki/Informa	Informa	 INF 	 Media
+/wiki/InterContinental_Hotels_Group	InterContinental Hotels Group	 IHG 	 Travel & Leisure
+/wiki/International_Airlines_Group	International Airlines Group	 IAG 	 Travel & Leisure
+/wiki/Intertek	Intertek	 ITRK 	 Support Services
+/wiki/ITV_plc	ITV plc	 ITV 	 Media
+/wiki/Johnson_Matthey	Johnson Matthey	 JMAT 	 Chemicals
+/wiki/Just_Eat	Just Eat	 JE. 	 General Retailers
+/wiki/Kingfisher_plc	Kingfisher plc	 KGF 	 General Retailers
+/wiki/Landsec	Landsec	 LAND 	 Real Estate Investment Trusts
+/wiki/Legal_%26_General	Legal & General	 LGEN 	 Life Insurance
+/wiki/Lloyds_Banking_Group	Lloyds Banking Group	 LLOY 	 Banks
+/wiki/London_Stock_Exchange_Group	London Stock Exchange Group	 LSE 	 Financial Services
+/wiki/Marks_%26_Spencer	Marks & Spencer	 MKS 	 General Retailers
+/wiki/Mediclinic_International	Mediclinic International	 MDC 	 Health Care Equipment & Services
+/wiki/Micro_Focus	Micro Focus	 MCRO 	 Software & Computer Services
+/wiki/Mondi	Mondi	 MNDI 	 Forestry & Paper
+/wiki/Morrisons	Morrisons	 MRW 	 Food & Drug Retailers
+/wiki/National_Grid_plc	National Grid plc	 NG. 	" Gas, Water, Multiutilities"
+/wiki/Next_plc	Next plc	 NXT 	 General Retailers
+/wiki/NMC_Health	NMC Health	 NMC 	 Health Care Equipment & Services
+/wiki/Old_Mutual	Old Mutual	 OML 	 Life Insurance
+/wiki/Paddy_Power_Betfair	Paddy Power Betfair	 PPB 	 Travel & Leisure
+/wiki/Pearson_plc	Pearson plc	 PSON 	 Media
+/wiki/Persimmon_plc	Persimmon plc	 PSN 	 Household Goods & Home Construction
+/wiki/Prudential_plc	Prudential plc	 PRU 	 Life Insurance
+/wiki/Randgold_Resources	Randgold Resources	 RRS 	 Mining
+/wiki/Reckitt_Benckiser	Reckitt Benckiser	 RB. 	Household Goods & Home Construction
+/wiki/RELX_Group	RELX Group	 REL 	 Media
+/wiki/Rentokil_Initial	Rentokil Initial	 RTO 	 Support Services
+/wiki/Rio_Tinto_Group	Rio Tinto Group	 RIO 	 Mining
+/wiki/Rolls-Royce_Holdings	Rolls-Royce Holdings	 RR. 	 Aerospace & Defense
+/wiki/Royal_Bank_of_Scotland_Group	Royal Bank of Scotland Group	 RBS 	 Banks
+/wiki/Royal_Dutch_Shell	Royal Dutch Shell	 RDSA 	 Oil & Gas Producers
+/wiki/Royal_Mail	Royal Mail	 RMG 	 Industrial transportation
+/wiki/RSA_Insurance_Group	RSA Insurance Group	 RSA 	 Nonlife Insurance
+/wiki/Sage_Group	Sage Group	 SGE 	 Software & Computer Services
+/wiki/Sainsbury%27s	Sainsbury's	 SBRY 	 Food & Drug Retailers
+/wiki/Schroders	Schroders	 SDR 	 Financial Services
+/wiki/Scottish_Mortgage_Investment_Trust	Scottish Mortgage Investment Trust	 SMT 	 Equity Investment Instruments
+/wiki/Segro	Segro	 SGRO 	 Real Estate Investment Trusts
+/wiki/Severn_Trent	Severn Trent	 SVT 	 Gas-Water-Multiutilities
+/wiki/Shire_(pharmaceutical_company)	Shire (pharmaceutical company)	 SHP 	 Pharmaceuticals & Biotechnology
+/wiki/Sky_plc	Sky plc	 SKY 	 Media
+/wiki/Smith_%26_Nephew	Smith & Nephew	 SN. 	 Health Care Equipment & Services
+/wiki/DS_Smith	DS Smith	 SMDS 	 General Industrials
+/wiki/Smiths_Group	Smiths Group	 SMIN 	 General Industrials
+/wiki/Smurfit_Kappa	Smurfit Kappa	 SKG 	 General Industrials
+/wiki/SSE_plc	SSE plc	 SSE 	 Electricity
+/wiki/Standard_Chartered	Standard Chartered	 STAN 	 Banks
+/wiki/Standard_Life_Aberdeen	Standard Life Aberdeen	 SLA 	 Financial Services
+/wiki/St._James%27s_Place_plc	St. James's Place plc	 STJ 	 Life Insurance
+/wiki/Taylor_Wimpey	Taylor Wimpey	 TW. 	 Household Goods & Home Construction
+/wiki/Tesco	Tesco	 TSCO 	 Food & Drug Retailers
+/wiki/TUI_Group	TUI Group	 TUI 	 Travel & Leisure
+/wiki/Unilever	Unilever	 ULVR 	 Personal Goods
+/wiki/United_Utilities	United Utilities	 UU. 	 Gas-Water-Multiutilities
+/wiki/Vodafone	Vodafone	 VOD 	 Mobile Telecommunications
+/wiki/Whitbread	Whitbread	 WTB 	 Retail hospitality
+/wiki/WPP_plc	WPP plc	 WPP 	 Media
