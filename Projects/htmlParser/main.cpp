@@ -2,6 +2,7 @@
 #include <fstream>
 #include <conio.h>
 #include <vector>
+#include <map>
 #include <regex>
 #include <string>
 #include "parser.h"
@@ -137,8 +138,6 @@ void list_ngramms(parser& p)
 }
 
 
-
-
 void remove(parser& p, const char* tag)
 {
 	node *m;
@@ -161,7 +160,6 @@ void process_FTSE100()
 	p.parseFile("FTSE_100.htm");
 	p.buildParseTree();
 
-
 	node* n;
 	n = p.find("td");
 	do
@@ -178,8 +176,137 @@ void process_FTSE100()
 	} while (n);
 }
 
+void process_comp(char* filename)
+{
+	parser p;
+	p.parseFile(filename);
+	if (!p.isValidParse()) return;
+	p.buildParseTree();
+
+	node *n;
+	n = p.find("head");
+	if (n)
+	{
+		// Remove all children
+		while (n->nbChildren() > 0)
+		{
+			n->child(0)->erase();
+		}
+	}
+	n = p.find("div");
+	while (n)
+	{
+		if (n->attribute["id"] == "mw-navigation" ||
+			n->attribute["id"] == "footer" ||
+			n->attribute["id"] == "toc" ||
+			n->attribute["id"] == "siteSub" ||
+			n->attribute["id"] == "jump-to-nav" ||	
+			n->attribute["id"] == "mwe-popups-svg" ||
+			n->attribute["id"] == "contentSub" ||		
+			n->attribute["role"] == "navigation" ||
+			n->attribute["role"] == "note" ||
+			n->attribute["id"] == "catlinks"
+			|| n->attribute["class"] == "printfooter"
+			|| n->attribute["class"] == "thumbinner"			
+			)
+		{
+			p.remove(n);
+		} else n = n->succ();
+		n = p.find(n, "div");
+	};
+
+	n = p.find("SPAN");
+	while (n)
+	{
+		if (n->attribute["class"] == "mw-editsection"
+			)
+		{
+			p.remove(n);
+		}
+		else n = n->succ();
+		n = p.find(n, "SPAN");
+	};
+
+	n = p.find("OL");
+	while (n)
+	{
+		if (n->attribute["class"] == "references"
+			)
+		{
+			p.remove(n);
+		}
+		else n = n->succ();
+		n = p.find(n, "OL");
+	};
+
+
+	n = p.find("table");
+	while (n)
+	{
+		if (n->attribute["class"] == "infobox vcard")
+		{
+			p.remove(n);
+		}
+		else n = n->succ();
+		n = p.find(n, "table");
+	};
+
+	n = p.find("A");
+	while (n)
+	{
+		if (n->attribute["class"] == "image")
+		{
+			p.remove(n);
+		}
+		else n = n->succ();
+		n = p.find(n, "A");
+	};
+
+	n = p.find("UL");
+	while (n)
+	{
+		p.remove(n);
+		n = p.find(n, "UL");
+	};
+
+	n = p.find("CITE");
+	while (n)
+	{
+		p.remove(n);
+		n = p.find(n, "CITE");
+	};
+
+	n = p.find("SUP");
+	while (n)
+	{
+		p.remove(n);
+		n = p.find(n, "SUP");
+	};
+
+	n = p.find("IMG");
+	while (n)
+	{
+		p.remove(n);
+		n = p.find(n, "IMG");
+	};
+
+
+	ofstream out;
+	out.open("out.html");
+	p.list(0, true, out);
+	out.close();
+
+}
+
+
 void main()
 {
+	
+//	process_comp("3i.htm");
+	process_comp("Royal_Mail.htm");
+
+	return;
+
 	process_FTSE100();
 
 	parser p, p2;
@@ -227,4 +354,4 @@ void main()
 //_exit:
 	cout << "Press any key to exit.." << endl;
 	_getch();
-}
+} // void main()

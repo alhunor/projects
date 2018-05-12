@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -14,12 +15,45 @@ std::set<std::string> tagsWithoutEnd = { "BR", "HR", "IMG", "META", "LINK", "INP
 std::set<std::string> tagsWithOptionalEnd = { "P" };
 
 
+void parser::remove(node *& n)
+{
+	node* m = n;
+	n = n->succ();
+	m->erase();
+	delete m;
+}
+
+
 bool parser::parseString(const char* buff)
 {
 	in = new std::stringstream(buff, std::ios_base::in);
 	return (validParse = true);
 }
 
+bool parser::parseFile(const char fileName[])
+{
+	std::ifstream* ifs = new std::ifstream();
+	ifs->open(fileName);
+	in = ifs;
+
+	// check that file exists and return error message if not
+	if (!ifs->is_open())
+	{
+		return validParse = false; // mising or otherwise unavailable file
+	}
+
+	std::streambuf* sb = ifs->rdbuf();
+	unsigned char buff[3];
+	sb->sgetn((char*)buff, 3);
+	if (buff[0] == 239 && buff[1] == 187 && buff[2] == 191) // HEX EF, BB BF to signal Unicode UTF-8 encoding
+	{
+		return validParse = false; // Cannot handle unicode
+	}
+
+	ifs->seekg(0, ifs->beg);
+
+	return validParse = true;
+}
 
 
 bool isPrefix(const std::string& pref, const std::string& str)
@@ -35,7 +69,7 @@ bool isPrefix(const std::string& pref, const std::string& str)
 
 bool parser::getToken()
 {
-	_ASSERT(validParse);
+	 if (!validParse) return false;
 	if (hasTag)
 	{
 		hasTag = false;
@@ -46,7 +80,7 @@ again:
 	tag = "";
 	attribute = "";
 	text = "";
-	char c;
+	unsigned char c;
 	states state = BEGIN;
 	if (in->eof()) return false;
 
@@ -161,7 +195,10 @@ bool hasOptionalEnd(std::string& tag)
 
 bool parser::buildParseTree(node * n, std::string ctag)
 {
-	_ASSERT(validParse);
+	if (!validParse)
+	{
+		return false;
+	}
 
 	node* child;
 
@@ -247,4 +284,5 @@ node* parser::find(node* start, finder* funcObj)
 	}
 	return NULL;
 }
+
 

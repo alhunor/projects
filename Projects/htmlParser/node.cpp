@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -8,6 +9,12 @@
 
 
 std::string Empty = "";
+
+std::ostream& operator<<(std::ostream& io, const attribute& a)
+{
+	io << a.raw;
+	return io;
+}
 
 
 void node::erase() // completely erases this node and its subtree from the tree
@@ -28,10 +35,10 @@ void node::erase() // completely erases this node and its subtree from the tree
 	parent = NULL;
 	node * tmp = leftmost();
 	node * tmp2;
-	while (tmp)
+	while (tmp !=this)
 	{
 		tmp2 = tmp;
-		tmp = succ(tmp);
+		tmp = tmp->succ(this);
 		delete tmp2;
 	}
 }
@@ -144,3 +151,133 @@ bool node::list(int k, bool prettify, std::ostream& os)
 	return true;
 } // bool node::list(node* n, int k)
 
+
+bool isWhiteSpace(char c)
+{
+	return c == ' ' || c == '\t' || c == '\n' || c == 13;
+}
+
+bool isWAlphaNumeric(char c)
+{
+	return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+}
+
+bool stringToMap(const char* s, std::map<std::string, std::string>& mapy)
+{
+	enum { Outside, Var, Outside2, Eq, Outside3, Value } state;
+	state = Outside;
+	int len = strlen(s);
+	char c;
+
+	mapy.clear();
+	std::string VarName = Empty;
+	std::string VarValue = Empty;
+	for (int i = 0; i < len; ++i)
+	{
+		c = s[i];
+		if (isWAlphaNumeric(c))
+		{
+			switch (state)
+			{
+			case Outside:
+				state = Var;
+				VarName += c;
+				continue;
+			case Value:
+				VarValue += c;
+				continue;
+			case Var:
+				VarName += c;
+				continue;
+			default:
+				return false; // invalid string format
+			}
+		}
+		else if (isWhiteSpace(c))
+		{
+			switch (state)
+			{
+			case Outside:
+			case Outside2:
+			case Outside3:
+				// do nothing;
+				continue;
+			case Var:
+				state = Outside2;
+				continue;
+			case Eq:
+				state = Outside3;
+				continue;
+			case Value:
+				VarValue += c;
+				continue;
+			default:
+				return false; // invalid string format
+			}
+		}
+		else if (c == '\"')
+		{
+			switch (state)
+			{
+			case Outside3:
+			case Eq:
+				VarValue = Empty;
+				state = Value;
+				continue;
+			case Value:
+				state = Outside;
+				mapy[VarName] = VarValue;
+				VarName = Empty;
+				VarValue = Empty;
+				// do nothing;
+				continue;
+			default:
+				return false; // invalid string format
+			}
+		}
+		else if (c == '=')
+		{
+			if (state == Outside2 || state == Var)
+			{
+				state = Eq;
+			}
+			else if (state == Value)
+			{
+				VarValue += c;
+			}
+			else return false; // invalid string format
+		}
+		else // handle anything else
+		{
+			if (state == Value)
+			{
+				VarValue += c;
+				continue;
+			}
+			return false; // invalid string format
+		}
+	} // for (int i = 0; i < len; ++i)
+	if (state != Outside)
+	{
+		mapy.clear();
+		return false;
+	}
+	return true;
+} // bool stringToMap(char* s)
+
+
+
+const std::string& attribute::operator[] (const char* key )
+{
+	if (!hasmap)
+	{
+		stringToMap(raw.c_str(), attr);
+		hasmap = true;
+	}
+	std::map<std::string, std::string>::const_iterator it = attr.find(key);
+	if (it != attr.end())
+	{
+		return it->second;
+	}
+	return Empty;
+}

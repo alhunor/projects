@@ -1,8 +1,27 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 extern std::string Empty;
+
+
+class attribute
+{
+public:
+	attribute(std::string& _raw) : hasmap(false), raw(_raw) {}
+	const std::string& operator[] (const char* key);
+	bool operator!=(const std::string& s) const
+	{
+		return s != raw;
+	}
+
+protected:
+	bool hasmap;
+	std::string raw;
+	std::map<std::string, std::string> attr;
+	friend std::ostream& operator<<(std::ostream& io, const attribute& a);
+};
 
 
 
@@ -13,7 +32,8 @@ private:
 public:
 	node(std::string& _text) : node(_text, Empty, Empty) {  }
 	node(std::string& _tag, std::string& _attribute) : node(Empty, _tag, _attribute) { }
-	std::string tag, attribute, text;
+	std::string tag, text;
+	attribute attribute;
 	int nbChildren() const { 	return (int) children.size(); }
 	void attachChild(node* m); // removes node <m> from its parent and reattaches it as n's last child
 

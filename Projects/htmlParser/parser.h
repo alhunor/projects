@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <map>
 #include "node.h"
 
 typedef enum { BEGIN, TEXT, TAG, ATTRIBUTE, END } states;
@@ -37,14 +38,8 @@ class parser
 public:
 	parser() : root(Document), validParse(false), hasTag(false) { 	}
 
-	bool parseFile(const char fileName[])
-	{	
-		std::ifstream* ifs = new std::ifstream();
-		ifs->open(fileName);
-		in = ifs;
-		// XXX TODO check that file exists and return error message if not
-		return validParse = true;
-	}
+	bool parseFile(const char fileName[]);
+
 
 	bool parseString(const char* buff);
 
@@ -60,6 +55,7 @@ public:
 	bool getToken(); // string getToken()
 	node* getRoot() { return root.children[0];};
 
+	void remove(node *& n);
 
 	node* find(node* start, searchfunction func, int method);
 	node* find(node* start, finder* funcObj);
@@ -78,6 +74,8 @@ public:
 	{
 		getRoot()->list(k, prettify, os);
 	}
+
+	bool isValidParse() { return validParse; }
 
 private:
 	bool buildParseTree(node* root, std::string ctag);
