@@ -5,12 +5,32 @@
 #include <map>
 #include <regex>
 #include <string>
+#include <Windows.h>
+#include <psapi.h>
 #include "parser.h"
 
 #pragma warning ( disable : 4267)
 
 
 using namespace std;
+
+
+void reportMemoryUsage()
+{
+	PROCESS_MEMORY_COUNTERS psmemCounters;
+	BOOL ret = GetProcessMemoryInfo(GetCurrentProcess(), &psmemCounters, sizeof(psmemCounters));
+	if (ret)
+	{
+		cout << "PeakWorkingSetSize = " << psmemCounters.PeakWorkingSetSize << endl;
+		cout << "WorkingSetSize = " << psmemCounters.WorkingSetSize << endl;
+	}
+	else
+	{
+		cout << "GetProcessMemoryInfo has failed" << endl;
+	}
+} // void reportMemoryUsage()
+
+
 
 void preOrder(node* n, int level)
 {
@@ -219,7 +239,13 @@ void process_comp(char* filename)
 	while (n)
 	{
 		if (n->attribute["class"] == "mw-editsection"
+			|| n->attribute["id"] == "See_also"
+			|| n->attribute["id"] == "References"
+			|| n->attribute["id"] == "Bibliography"
+			|| n->attribute["id"] == "External_links"
+			|| n->attribute["id"] == "Notes"
 			)
+
 		{
 			p.remove(n);
 		}
@@ -243,11 +269,21 @@ void process_comp(char* filename)
 	n = p.find("table");
 	while (n)
 	{
-		if (n->attribute["class"] == "infobox vcard")
+		if (n->attribute["class"] == "infobox vcard"
+			|| n->attribute["class"] == "infobox"
+			|| n->attribute["class"] == "vertical-navbox nowraplinks vcard"
+			|| n->attribute["class"] == "mbox-small plainlinks sistersitebox"
+			)
 		{
 			p.remove(n);
-		}
-		else n = n->succ();
+		} else if (n->attribute["class"] == "wikitable") // strip floating tables - assuming style is present only for floating ones
+		{
+			if (n->attribute["style"] != Empty)
+			{
+				p.remove(n);
+			}
+			n = n->succ();
+		} else n = n->succ();
 		n = p.find(n, "table");
 	};
 
@@ -295,19 +331,29 @@ void process_comp(char* filename)
 	out.open("out.html");
 	p.list(0, true, out);
 	out.close();
-
+	reportMemoryUsage();
 }
+
+
 
 
 void main()
 {
-	
+	reportMemoryUsage();
+
 //	process_comp("3i.htm");
-	process_comp("Royal_Mail.htm");
+//	process_comp("Royal_Mail.htm");
+//	process_comp("FTSE100wiki/Barratt_Developments.htm");
+	process_comp("FTSE100wiki/BP.htm");
+//	process_comp("FTSE100wiki/Morrisons.htm");
+//	process_comp("FTSE100wiki/Vodafone.htm");
+//	process_comp("FTSE100wiki/Royal_Dutch_Shell.htm");
+//	process_comp("FTSE100wiki/Shire.htm");
+
 
 	return;
 
-	process_FTSE100();
+	//process_FTSE100();
 
 	parser p, p2;
 	//p.open("gog.html");
@@ -348,6 +394,9 @@ void main()
 
 	ofstream out;
 	out.open("out.thml");
+
+	p.removeEmptyTags(); // removes all tags that have no text in them
+
 	p.list(0, true, out);
 	out.close();
 

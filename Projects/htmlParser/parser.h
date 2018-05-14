@@ -29,17 +29,71 @@ protected:
 };
 
 
+template <class KeyType = std::string>
+class biMap
+{
+public:
+	biMap() : counter(0) {}
+	void clear()
+	{
+		keyToValue.clear();
+		valueToKey.clear()
+		counter = 0;
+	}
+
+	int insert(KeyType k) // insert a new key
+	{
+		std::map<KeyType, int>::const_iterator it = keyToValue.find(k);
+		if (it != keyToValue.end()) // key is not in the map
+		{
+			return it->second;
+		};
+		keyToValue[k] = counter;
+		valueToKey[counter] = k;
+		return counter++;
+	};
+
+	KeyType value(int v) // returns key associated to value
+	{
+		std::map<int, KeyType>::const_iterator it = valueToKey.find(v);
+		if (it != valueToKey.end())
+		{
+			return it->second;
+		}
+		throw ("Invalid key.");
+	};
+
+	int key(KeyType k) //  return value associated to key
+	{
+		std::map<KeyType, int>::const_iterator it = keyToValue.find(k);
+		if (it != keyToValue.end())
+		{
+			return it->second;
+		}
+		throw ("Invalid key.");
+	};
 
 
+protected:
+	std::map<KeyType, int> keyToValue;
+	std::map<int, KeyType> valueToKey;
+	int counter; // number of unique elements
+};
 
 
 class parser
 {
 public:
-	parser() : root(Document), validParse(false), hasTag(false) { 	}
+	parser() : root(Document), validParse(false), hasTag(false) 
+	{
+		init();
+	}
+
+	void init();
 
 	bool parseFile(const char fileName[]);
 
+	bool removeEmptyTags(); // removes all tags that have no text in them
 
 	bool parseString(const char* buff);
 
@@ -84,4 +138,5 @@ private:
 	bool validParse;
 	bool hasTag;
 	node root;
+	class biMap<std::string> bm;
 };

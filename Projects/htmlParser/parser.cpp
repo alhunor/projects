@@ -24,6 +24,22 @@ void parser::remove(node *& n)
 }
 
 
+void parser::init()
+{
+	std::set<std::string>::const_iterator it;
+	for (it = tagsWithoutEnd.begin(); it != tagsWithoutEnd.end(); ++it)
+	{
+		bm.insert(*it);
+	}
+	for (it = tagsWithOptionalEnd.begin(); it != tagsWithOptionalEnd.end(); ++it)
+	{
+		bm.insert(*it);
+	}
+	bm.insert(Document);
+}
+
+
+
 bool parser::parseString(const char* buff)
 {
 	in = new std::stringstream(buff, std::ios_base::in);
@@ -286,3 +302,16 @@ node* parser::find(node* start, finder* funcObj)
 }
 
 
+bool parser::removeEmptyTags() // removes all tags that have no text in them
+{
+	if (!validParse) return false;
+	node* n = getRoot()->leftmost();
+	while (n)
+	{
+		//cout << n->text << endl;
+		n = n->succ();
+	}
+
+
+	return true;
+}
