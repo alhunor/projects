@@ -11,10 +11,17 @@
 
 std::string Document = "Document";
 
-std::set<std::string> tagsWithoutEnd = { "BR", "HR", "IMG", "META", "LINK", "INPUT", "WBR", "PARAM" };
-std::set<std::string> tagsWithOptionalEnd = { "P" };
+std::set<int> tagsWithoutEndSet;
+std::set<int> tagsWithOptionalEndSet;
 
+/*
+tag = bm.value(_tag);
+if (tag < 0) // not found
+{
+	tag = bm.insert(_tag);
+}*/
 
+// removes n and its subtree. Then sets it to its successor
 void parser::remove(node *& n)
 {
 	node* m = n;
@@ -26,16 +33,25 @@ void parser::remove(node *& n)
 
 void parser::init()
 {
+	std::set<std::string> tagsWithoutEnd = { "BR", "HR", "IMG", "META", "LINK", "INPUT", "WBR", "PARAM" };
+	std::set<std::string> tagsWithOptionalEnd = { "P" };
+
+	bm.insert(Document);
+	EmptyTag = bm.insert(Empty);
+
 	std::set<std::string>::const_iterator it;
+	int tag;
 	for (it = tagsWithoutEnd.begin(); it != tagsWithoutEnd.end(); ++it)
 	{
-		bm.insert(*it);
+		tag = bm.insert(*it);
+		tagsWithoutEndSet.insert(tag);
+
 	}
 	for (it = tagsWithOptionalEnd.begin(); it != tagsWithOptionalEnd.end(); ++it)
 	{
-		bm.insert(*it);
+		tag = bm.insert(*it);
+		tagsWithOptionalEndSet.insert(tag);
 	}
-	bm.insert(Document);
 }
 
 
@@ -55,7 +71,7 @@ bool parser::parseFile(const char fileName[])
 	// check that file exists and return error message if not
 	if (!ifs->is_open())
 	{
-		return validParse = false; // mising or otherwise unavailable file
+		return (validParse = false); // mising or otherwise unavailable file
 	}
 
 	std::streambuf* sb = ifs->rdbuf();
@@ -63,12 +79,12 @@ bool parser::parseFile(const char fileName[])
 	sb->sgetn((char*)buff, 3);
 	if (buff[0] == 239 && buff[1] == 187 && buff[2] == 191) // HEX EF, BB BF to signal Unicode UTF-8 encoding
 	{
-		return validParse = false; // Cannot handle unicode
+		return (validParse = false); // Cannot handle unicode
 	}
 
 	ifs->seekg(0, ifs->beg);
 
-	return validParse = true;
+	return (validParse = true);
 }
 
 
@@ -151,14 +167,14 @@ again:
 			break;
 		default:
 			throw "Error.";
-			return validParse = false;
+			return (validParse = false);
 		}
 	} while (state != END);
 	if (c == '<') in->unget();
 	if (tag != "" && text != "")
 	{
 		throw "TAG and token are exclusive";
-		return validParse = false;
+		return (validParse = false);
 	}
 // Special hendling of scripts, we want to avoid building  a Javascript parser - exclude all data between <script>...</script>
 	if (tag == "SCRIPT")
@@ -197,19 +213,19 @@ bool isWhiteChars(std::string& s)
 }
 
 
-bool isWithoutEnd(std::string& tag)
+bool isWithoutEnd(int tag)
 {
-	return tagsWithoutEnd.find(tag) != tagsWithoutEnd.end();
+	return tagsWithoutEndSet.find(tag) != tagsWithoutEndSet.end();
 }
 
-bool hasOptionalEnd(std::string& tag)
+bool hasOptionalEnd(int tag)
 {
-	return tagsWithOptionalEnd.find(tag) != tagsWithOptionalEnd.end();
+	return tagsWithOptionalEndSet.find(tag) != tagsWithOptionalEndSet.end();
 }
 
 
 
-bool parser::buildParseTree(node * n, std::string ctag)
+bool parser::buildParseTree(node * n, int ctag)
 {
 	if (!validParse)
 	{
@@ -218,7 +234,7 @@ bool parser::buildParseTree(node * n, std::string ctag)
 
 	node* child;
 
-	std::string ltag;
+	//std::string ltag;
 	while (getToken())
 	{
 		if (text == "\n") continue;
@@ -226,39 +242,43 @@ bool parser::buildParseTree(node * n, std::string ctag)
 		{
 			continue;
 		}
+
+		int tagValue; 
 		if (tag[0] == '/')
 		{
-			if (ctag == tag.substr(1, tag.length() - 1))
+			tagValue = bm.insert(tag.substr(1, tag.npos));
+			if (ctag == tagValue)
 			{
 				return true;
-			}
-			else
+			} else 
 			{
 				if (hasOptionalEnd(ctag))
 				{
 					return hasTag = true;
-				}
-				else
+				} else
 				{
 					std::cout << "Parsing error, not a valid HTML tree."<<ctag<<"  "<<tag<< std::endl;
 					return false;
 				}
-			}
+			} 
+		} else
+		{
+			tagValue = bm.insert(tag); 
 		}
 
 		if (tag != "")
 		{
-			if (hasOptionalEnd(tag) && hasOptionalEnd(ctag))
+			if (hasOptionalEnd(tagValue) && hasOptionalEnd(ctag))
 			{
 				return hasTag = true;
 			}
-			child = new node(tag, attribute);
+			child = new node(tagValue, attribute);
 			child->parent = n;
 			child->nr = n->children.size();
 			n->children.push_back(child);
-			if (! isWithoutEnd(tag) )
+			if (! isWithoutEnd(tagValue) )
 			{
-				if (!buildParseTree(child, tag)) return false;
+				if (!buildParseTree(child, tagValue)) return false;
 			}
 			//++pos;
 		} else if (! isWhiteChars(text))
@@ -275,7 +295,7 @@ bool parser::buildParseTree(node * n, std::string ctag)
 
 
 
-node* parser::find(node* start, searchfunction func, int method)
+node* parser::find(node* start, searchfunction func)
 {
 	node* n = start;
 	while (n)
@@ -288,7 +308,7 @@ node* parser::find(node* start, searchfunction func, int method)
 }
 
 
-node* parser::find(node* start, finder* funcObj)
+node* parser::find(node* start, const finder* funcObj)
 {
 	if (!funcObj) return NULL;
 	node* n = start;
@@ -309,9 +329,12 @@ bool parser::removeEmptyTags() // removes all tags that have no text in them
 	while (n)
 	{
 		//cout << n->text << endl;
-		n = n->succ();
+		if (n->text == Empty && n->nbChildren()==0 && // a tag with no children
+			tagsWithoutEndSet.find(n->tag) == tagsWithoutEndSet.end() // that is not a lone tag
+			&& tagsWithOptionalEndSet.find(n->tag) == tagsWithOptionalEndSet.end()) // that is not a lone tag
+		{
+			remove(n);
+		} else n = n->succ();
 	}
-
-
 	return true;
 }

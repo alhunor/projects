@@ -8,7 +8,11 @@
 #pragma warning ( disable : 4267)
 
 
+
+
 std::string Empty = "";
+int EmptyTag;  // = bm.value(Empty)
+
 
 std::ostream& operator<<(std::ostream& io, const attribute& a)
 {
@@ -121,7 +125,7 @@ std::string strip(const std::string& s, const char* premask = " \n\t\r", const c
 } // string strip(const string& s, const char* premask = " \n\t\r", const char* postmask = " \n\t\r")
 
 
-bool node::list(int k, bool prettify, std::ostream& os)
+bool node::list(int k, bool prettify, biMap<std::string>& bm, std::ostream& os)
 {
 	if (text != Empty)
 	{
@@ -130,7 +134,7 @@ bool node::list(int k, bool prettify, std::ostream& os)
 		if (prettify) os << std::endl;
 		return true;
 	}
-	os << nspaces(k, prettify) << "<" << tag;
+	os << nspaces(k, prettify) << "<" << bm.value(tag);
 	if (attribute != Empty)
 	{
 		os << " " << attribute;
@@ -139,12 +143,12 @@ bool node::list(int k, bool prettify, std::ostream& os)
 	if (nbChildren() > 0 && prettify) os << std::endl;
 	for (int i = 0; i < nbChildren(); ++i)
 	{
-		child(i)->list(k + 1, prettify, os);
+		child(i)->list(k + 1, prettify, bm, os);
 	}
 	if (!isWithoutEnd(tag))
 	{
 		if (nbChildren() > 0) os << nspaces(k, prettify);
-		os << "</" << tag << ">";
+		os << "</" << bm.value(tag) << ">";
 	}
 
 	if (prettify) os << std::endl;

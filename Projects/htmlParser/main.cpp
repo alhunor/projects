@@ -31,17 +31,18 @@ void reportMemoryUsage()
 } // void reportMemoryUsage()
 
 
-
+/*
 void preOrder(node* n, int level)
 {
 	if (!n) return;
-	cout << nspaces(level, true) << ((n->tag == "") ? "text" : n->tag) << endl;
-	cout << ((n->tag == "") ? "text" : n->tag) << endl;
+	cout << nspaces(level, true) << ((n->tag == EmptyTag) ? "text" : bm.key(n->tag)) << endl;
+	cout << ((n->tag == EmptyTag) ? "text" : n->tag) << endl;
 	for (int i = 0; i < n->nbChildren(); ++i)
 	{
 		preOrder(n->child(i), level + 1);
 	}
 }
+*/
 
 bool is_valid_email(node* n)
 {
@@ -112,19 +113,19 @@ bool is_valid_email2(node* n)
 void list_email_adresses(parser& p)
 {
 	node * n = p.getRoot()->leftmost();
-	while (n = p.find(n, is_valid_email2, 0))
+	while (n = p.find(n, is_valid_email2))
 	{
 		cout << n->text << endl;
 		n = n->succ();
 	}
 }
 
-
+/*
 bool is_href(node* n)
 {
-	if (n->tag != "A") return false;
+	int v = bm.key("A");
+	if (n->tag != v) return false;
 	return true;
-
 }
 
 void list_links(parser& p)
@@ -137,6 +138,7 @@ void list_links(parser& p)
 		n = n->succ();
 	}
 }
+
 
 
 void list_ngramms(parser& p)
@@ -156,17 +158,16 @@ void list_ngramms(parser& p)
 		n = n->succ();
 	}
 }
+*/
 
 
-void remove(parser& p, const char* tag)
+void remove(parser& p,  int tag)
 {
 	node *m;
 	node * n = p.getRoot()->leftmost();
 	//finder f("H2");
 	while (n = p.find(n, tag))
 	{
-		n->list(0, false);
-		cout << endl;
 		m = n;
 		n = n->succ();
 		m->erase();
@@ -181,16 +182,17 @@ void process_FTSE100()
 	p.buildParseTree();
 
 	node* n;
+
 	n = p.find("td");
 	do
 	{
-		n = p.find(n, "td");
+		n = p.findNext(n);
 		cout << n->child(0)->attribute << " , ";
 		n = n->succ();
-		n = p.find(n, "td");
+		n = p.findNext(n);
 		cout << n->child(0)->text << " , ";
 		n = n->succ();
-		n = p.find(n, "td");
+		n = p.findNext(n);
 		cout << n->child(0)->text << endl;
 		n = n->succ();
 	} while (n);
@@ -204,6 +206,7 @@ void process_comp(char* filename)
 	p.buildParseTree();
 
 	node *n;
+
 	n = p.find("head");
 	if (n)
 	{
@@ -213,6 +216,7 @@ void process_comp(char* filename)
 			n->child(0)->erase();
 		}
 	}
+	
 	n = p.find("div");
 	while (n)
 	{
@@ -232,7 +236,7 @@ void process_comp(char* filename)
 		{
 			p.remove(n);
 		} else n = n->succ();
-		n = p.find(n, "div");
+		n = p.findNext(n);
 	};
 
 	n = p.find("SPAN");
@@ -250,7 +254,7 @@ void process_comp(char* filename)
 			p.remove(n);
 		}
 		else n = n->succ();
-		n = p.find(n, "SPAN");
+		n = p.findNext(n);
 	};
 
 	n = p.find("OL");
@@ -262,7 +266,7 @@ void process_comp(char* filename)
 			p.remove(n);
 		}
 		else n = n->succ();
-		n = p.find(n, "OL");
+		n = p.findNext(n);
 	};
 
 
@@ -273,18 +277,12 @@ void process_comp(char* filename)
 			|| n->attribute["class"] == "infobox"
 			|| n->attribute["class"] == "vertical-navbox nowraplinks vcard"
 			|| n->attribute["class"] == "mbox-small plainlinks sistersitebox"
+			|| n->attribute["class"] == "wikitable"
 			)
 		{
 			p.remove(n);
-		} else if (n->attribute["class"] == "wikitable") // strip floating tables - assuming style is present only for floating ones
-		{
-			if (n->attribute["style"] != Empty)
-			{
-				p.remove(n);
-			}
-			n = n->succ();
 		} else n = n->succ();
-		n = p.find(n, "table");
+		n = p.findNext(n);
 	};
 
 	n = p.find("A");
@@ -295,43 +293,36 @@ void process_comp(char* filename)
 			p.remove(n);
 		}
 		else n = n->succ();
-		n = p.find(n, "A");
+		n = p.findNext(n);
 	};
 
-	n = p.find("UL");
+
+/*	n = p.find("Script");
 	while (n)
 	{
 		p.remove(n);
-		n = p.find(n, "UL");
-	};
+		n = p.findNext(n);
+	};*/
 
-	n = p.find("CITE");
+	// remove all unwanted tags
+	findMany fm(p.bm, { "IMG", "SuP", "cite", "UL"});
+	n = p.find(fm);
 	while (n)
 	{
 		p.remove(n);
-		n = p.find(n, "CITE");
+		n = p.findNext(n);
 	};
 
-	n = p.find("SUP");
-	while (n)
-	{
-		p.remove(n);
-		n = p.find(n, "SUP");
-	};
+	reportMemoryUsage();
 
-	n = p.find("IMG");
-	while (n)
-	{
-		p.remove(n);
-		n = p.find(n, "IMG");
-	};
+	p.removeEmptyTags();
 
+	reportMemoryUsage();
 
 	ofstream out;
 	out.open("out.html");
 	p.list(0, true, out);
 	out.close();
-	reportMemoryUsage();
 }
 
 
@@ -350,7 +341,6 @@ void main()
 //	process_comp("FTSE100wiki/Royal_Dutch_Shell.htm");
 //	process_comp("FTSE100wiki/Shire.htm");
 
-
 	return;
 
 	//process_FTSE100();
@@ -358,11 +348,18 @@ void main()
 	parser p, p2;
 	//p.open("gog.html");
 	//p.open("rr.html");
-	p2.parseFile("example2.html");
-	p.parseString("<html> <head> </head> <body> </body> </html>"); 
 
+	p2.parseFile("example2.html");
+	p2.buildParseTree();
+	p2.removeEmptyTags();
+	p2.list(0, true);
+
+
+	p.parseString("<html> <head> </head> <body> </body> </html>"); 
 	bool b = p.buildParseTree();
-	b = p2.buildParseTree();
+
+
+
 	//preOrder(&p.root, 0);
 	//list_email_adresses(p);
 //	list_links(p);
