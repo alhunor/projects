@@ -1,4 +1,6 @@
+#define WIN32_LEAN_AND_MEAN
 #include "mystuff/FileSystems.h"
+#include "mystuff/streams.h"
 #include "ImageProcessing.h"
 #include "myError.h"
 #include <WinDef.h>

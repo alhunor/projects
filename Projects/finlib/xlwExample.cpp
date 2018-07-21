@@ -53,8 +53,6 @@ extern "C" {
         EXCEL_BEGIN;
 
 		parameter(xlArray);
-        return XlfOper(0.0);
-
 
 		MyArray vec = xlArray.AsArray();
 		
@@ -119,44 +117,6 @@ extern "C" {
         EXCEL_END_12;
     }
 
- /*   LPXLFOPER EXCEL_EXPORT xlStats(XlfOper xlTargetRange)
-	{
-        EXCEL_BEGIN;
-
-        // Temporary variables.
-        double averageTmp = 0.0;
-        double varianceTmp = 0.0;
-
-        // XlfExcel::Coerce method (internally called) will return to Excel
-        // if one of the cells was invalidated and needs to be recalculated.
-        // Excel will calculate this cell and call our function again.
-        // Thus we first copy all the data to avoid partially computing the
-        // average for no reason since one of the cells might be uncalculated.
-        std::vector<double> temp = xlTargetRange.AsDoubleVector(XlfOperImpl::RowMajor);
-
-        // All cells are copied. We do the actual work.
-        size_t popSize = temp.size();
-        for (size_t i = 0; i < popSize; ++i)
-        {
-            // sums the values.
-            averageTmp += temp[i];
-            // sums the squared values.
-            varianceTmp += temp[i] * temp[i];
-        }
-        // Initialization of the resultArray.
-        double resultArray[2];
-        // compute average.
-        double& average = resultArray[0];
-        average = averageTmp / popSize;
-        // compute variance
-        double& variance = resultArray[1];
-        variance = varianceTmp / popSize - average * average;
-        // Create the XlfOper returned with the resultArray containing the values.
-        return XlfOper(1, 2, resultArray);
-
-        EXCEL_END;
-    }
-*/
 
     /*! 
      * Demonstrates how to detect that the function is called by
@@ -264,16 +224,6 @@ namespace
         "xlConcat12", "Concat12", "Concatenate two strings",
         "xlw Example", Concat12Args, 2, false, false, "Q");
 
-    // Register the function Stats.
-
-    XLRegistration::Arg StatsArgs[] = {
-        { "Population", "Target range containing the population", "XLF_OPER" }
-    };
-
-    XLRegistration::XLFunctionRegistrationHelper registerStats(
-        "xlStats", "Stats", "Return a 1x2 range containing "
-        "the average and the variance of a numeric population",
-        "xlw Example", StatsArgs, 1);
 
     // Register the function IsInWiz.
 

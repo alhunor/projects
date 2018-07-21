@@ -1,4 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
+#define WIN32_LEAN_AND_MEAN
+
 #include <time.h>
 #include <iostream>
 #include <fstream>
@@ -7,6 +9,7 @@
 #include <string.h>
 
 #include "myStuff/filesystems.h"
+#include "myStuff/streams.h"
 
 
 #include <iostream>

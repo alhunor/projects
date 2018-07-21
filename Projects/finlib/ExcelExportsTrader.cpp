@@ -98,7 +98,10 @@ xlw::XlfOper listTextFile(TextFile& tf, int minPos, int maxPos, int step)
 
 
 
+// Data series database https://datamarket.com/data/list/?q=cat:ecc%20provider:tsdl
 
+//https://www.worldtradingdata.com/documentation
+//https://iextrading.com/apps/stocks/
 
 
 extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper Arg)
@@ -148,7 +151,10 @@ extern "C" LPXLFOPER __declspec(dllexport) xlTimeSeries(XlfOper Command, XlfOper
 
 	if (_stricmp(command, "openCSVFile")==0)
 	{
-		//char* filename = "F:\\Projects\\finlib\\ZAZA.csv";
+//		Format of the file must be: 
+//			First line is a header with column napes Date, Open, High, Low, Close, Volume -- ignored
+//			Each of the following lines contains a sextuple (DOHLCV)
+
 		char* filename = Arg.AsString();
 
 		Descriptor d;
