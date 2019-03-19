@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="solved">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="progress">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="solved2">
+      <UniqueIdentifier>{18a0dc12-d2b2-48bb-95b8-370523fbf9d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="uva00325.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva00644.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva10800.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11697.cpp">
+      <Filter>progress</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11559.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva00573.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva10114.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11507.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva00489.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva00893.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11947.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva01124.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva10550.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11044.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11364.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11547.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12250.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12289.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12372.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12403.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12577.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva00621.cpp">
+      <Filter>solved</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11332.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva10963.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11679.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11764.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva11942.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12015.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12157.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12468.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12503.cpp">
+      <Filter>solved2</Filter>
+    </ClCompile>
+    <ClCompile Include="uva12554.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="uva00325.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00325.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00644.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00644.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10800.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10800.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10800b.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11697.in">
+      <Filter>progress</Filter>
+    </None>
+    <None Include="uva11697.out">
+      <Filter>progress</Filter>
+    </None>
+    <None Include="uva11559.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11559.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00573.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00573.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10114.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10114.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11507.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11507.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00489.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00489.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00893.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00893.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00893b.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11947.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11947.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva01124.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva01124.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10550.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva10550.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11044.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11044.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11364.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11364.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11547.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11547.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12250.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12250.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12289.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12289.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12372.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12372.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12403.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12403.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12577.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva12577.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00621.in">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva00621.out">
+      <Filter>solved</Filter>
+    </None>
+    <None Include="uva11332.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11332.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva10963.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva10963.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11679.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11679.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11764.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11764.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11942.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva11942.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12015.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12015.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12157.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12157.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12468.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12468.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12503.in">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12503.out">
+      <Filter>solved2</Filter>
+    </None>
+    <None Include="uva12554.in">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="uva12554.out">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
